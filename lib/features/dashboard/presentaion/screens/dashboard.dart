@@ -6,7 +6,7 @@ import 'package:project_structure/core/common/widgets/custom_text.dart';
 import 'package:project_structure/core/common/widgets/empty_card.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';
-import 'package:project_structure/features/home/controllers/home_controller.dart';
+import 'package:project_structure/features/dashboard/controllers/home_controller.dart';
 import 'package:project_structure/features/notification/presentation/screen/notification_screen.dart';
 import 'package:project_structure/features/profile/presentation/screens/profile_screen.dart';
 import 'package:project_structure/features/profile/controller/profile_controller.dart';

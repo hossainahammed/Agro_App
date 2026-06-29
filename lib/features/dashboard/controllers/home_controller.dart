@@ -4,7 +4,7 @@ import 'package:project_structure/core/services/auth_service.dart';
 import 'package:project_structure/core/services/network_caller.dart';
 import 'package:project_structure/core/utils/constants/app_urls.dart';
 import 'package:project_structure/core/utils/logging/logger.dart';
-import 'package:project_structure/features/home/model/home_feature_model.dart';
+import 'package:project_structure/features/dashboard/model/home_feature_model.dart';
 
 class HomeController extends GetxController {
   // final RxBool isBibleLoading = false.obs;

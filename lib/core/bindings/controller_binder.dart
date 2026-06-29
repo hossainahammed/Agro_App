@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../features/home/controllers/home_controller.dart';
+import '../../features/dashboard/controllers/home_controller.dart';
 import '../../features/nav_bar/controllers/nav_bar_controller.dart';
 import '../../features/profile/controller/profile_controller.dart';
 

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:project_structure/features/authentication/presentation/screens/email_verify_screen.dart';
-import 'package:project_structure/features/home/presentaion/screens/home_screen.dart';
+import 'package:project_structure/features/dashboard/presentaion/screens/dashboard.dart';
 import '../features/authentication/presentation/screens/login_screen.dart';
 import '../features/authentication/presentation/screens/sing_up_screen.dart';
 
