@@ -4,11 +4,11 @@ class AppColors {
   AppColors._();
 
   // Brand Colors
-  static const Color primary = Color(0xFF1F6B6A);
-  static const Color secondary = Color(0x522DD4BF);
+  static const Color primary = Color(0xFF2D7A3A);
+  static const Color secondary = Color(0xFF16659D);
   static const Color backgroundColor = Color(0xFFDCE8DF);
-  static const Color textPrimary = Color(0xFF1F5F5E);
-  static const Color textSecondary = Color(0xFF6F7F7C);
+  static const Color textPrimary = Color(0xFF191919);
+  static const Color textSecondary = Color(0xFF636F85);
   static const Color hintColor = Color(0xFF9BB3AE);
   static const Color borderColor = Color(0xFFB7CBC5);
   static const Color containerColor = Color(0xFFFFFFFF);
@@ -28,7 +28,7 @@ class AppColors {
   static const Gradient verseGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0xFF3E8F88), Color(0xFF2F6E69)],
+    colors: [Color(0xFF1A5C26), Color(0xFF3D9E4A)],
   );
   static const Gradient mindsetAlignGradient = LinearGradient(
     begin: Alignment.topCenter,
@@ -40,9 +40,9 @@ class AppColors {
   static const Color success = Color(0xFF16A34A);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
-  static const Color warning = Color(0xFFFFA726);
-  static const Color error = Color(0xFFDD3333);
-  static const Color info = Color(0xFF29B6F6);
+  static const Color warning = Color(0xFFF7A422);
+  static const Color error = Color(0xFFFF4D4F);
+  static const Color info = Color(0xFF2196F3);
 
   static String toWebHex(Color color) {
     final value = color.toARGB32() & 0xFFFFFF;
