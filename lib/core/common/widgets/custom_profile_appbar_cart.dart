@@ -6,7 +6,7 @@ import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'custom_text.dart';
-import 'universal_Image.dart';
+import 'universal_image.dart';
 
 class CustomProfileAppbarCart extends StatelessWidget
     implements PreferredSizeWidget {

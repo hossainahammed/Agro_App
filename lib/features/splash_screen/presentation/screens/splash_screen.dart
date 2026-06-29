@@ -61,11 +61,11 @@ class SplashScreen extends StatelessWidget {
               width: 130.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(0.5),
+                color: AppColors.white.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(2.h),
               ),
               child: LinearProgressIndicator(
-                backgroundColor: AppColors.white.withOpacity(0.3),
+                backgroundColor: AppColors.white.withValues(alpha: 0.3),
                 valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
               ),
             ),

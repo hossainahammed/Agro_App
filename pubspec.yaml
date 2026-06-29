@@ -100,7 +100,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/logos/
-    - assets/will_be_delete/
   fonts:
     - family: Montserrat
       fonts:

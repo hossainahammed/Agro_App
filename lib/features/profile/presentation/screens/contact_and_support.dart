@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:project_structure/core/common/widgets/custom_appbar_widget.dart';
 import 'package:project_structure/core/common/widgets/custom_button.dart';
 import 'package:project_structure/core/common/widgets/custom_dropdown.dart';

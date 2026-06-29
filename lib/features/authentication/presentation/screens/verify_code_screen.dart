@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:project_structure/core/common/widgets/custom_back_button.dart';
 import 'package:project_structure/core/common/widgets/loader.dart';
-import 'package:project_structure/core/common/widgets/universal_Image.dart';
+import 'package:project_structure/core/common/widgets/universal_image.dart';
 import 'package:project_structure/core/utils/constants/enums.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';
 import 'package:project_structure/features/authentication/presentation/widgets/sign_up_confirmation_dialog.dart';
@@ -125,7 +125,7 @@ class VerifyCodeScreen extends StatelessWidget {
                               //   verifyType: verifyType,
                               // );
 
-                              if (verifyType == VerifyType.SIGNUP.name) {
+                              if (verifyType == VerifyType.signup.name) {
                                 Future.delayed(const Duration(milliseconds: 800), () {
                                   showSignupConfirmationDialog(
                                     image: IconPath.success,
@@ -138,7 +138,7 @@ class VerifyCodeScreen extends StatelessWidget {
                                   );
                                 });
                               }
-                              else if (verifyType == VerifyType.FORGET.name) {
+                              else if (verifyType == VerifyType.forget.name) {
                                 Get.off(() => ResetPasswordScreen(token: "testing token"));
                               }
                             },

@@ -59,7 +59,7 @@ class HelpAndFaqScreen extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: 24.h),
                   child: FaqSection(title: entry.key, items: entry.value),
                 );
-              }).toList(),
+              }),
             ],
           ),
         );

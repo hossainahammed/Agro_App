@@ -2,16 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
-
-import '../../../core/common/widgets/app_toast.dart';
-
-import '../../../core/common/widgets/loading_widgets.dart';
 import 'package:project_structure/core/services/auth_service.dart';
 import '../../../core/services/network_caller.dart';
 import '../../../core/utils/constants/app_urls.dart';
@@ -34,11 +27,6 @@ class ProfileController extends GetxController {
   // Image picker instance
   final ImagePicker _picker = ImagePicker();
 
-  @override
-  void onInit() {
-    super.onInit();
-    //getProfileData(showLoader: true);
-  }
 
   /// Method to pick an image from gallery or camera
   Future<void> pickImage(ImageSource source) async {
@@ -177,38 +165,38 @@ class ProfileController extends GetxController {
   }
 
   /// delete account
-  Future<void> deleteAccount() async {
-    try {
-      LoadingWidget();
-      final response = await NetworkCaller().deleteRequest(
-        AppUrls.deleteUserProfile,
-        token: 'Bearer ${AuthService.token}',
-      );
-      if (response.isSuccess) {
-        HideLoadingWidget();
-        AppToasts.successToast(message: 'Your account deleted successfully.');
-        //Get.offAll(()=>LoginScreen());
-      } else {
-        HideLoadingWidget();
-        AppToasts.errorToast(
-          message: response.responseData['message'],
-          toastGravity: ToastGravity.TOP,
-        );
-        AppLoggerHelper.error(
-          'Failed to delete account: ${response.statusCode}',
-        );
-      }
-    } catch (e) {
-      HideLoadingWidget();
-      AppToasts.errorToast(
-        message: e.toString(),
-        toastGravity: ToastGravity.TOP,
-      );
-      AppLoggerHelper.error(e.toString());
-    } finally {
-      HideLoadingWidget();
-    }
-  }
+  // Future<void> deleteAccount() async {
+  //   try {
+  //     LoadingWidget();
+  //     final response = await NetworkCaller().deleteRequest(
+  //       AppUrls.deleteUserProfile,
+  //       token: 'Bearer ${AuthService.token}',
+  //     );
+  //     if (response.isSuccess) {
+  //       HideLoadingWidget();
+  //       AppToasts.successToast(message: 'Your account deleted successfully.');
+  //       //Get.offAll(()=>LoginScreen());
+  //     } else {
+  //       HideLoadingWidget();
+  //       AppToasts.errorToast(
+  //         message: response.responseData['message'],
+  //         toastGravity: ToastGravity.TOP,
+  //       );
+  //       AppLoggerHelper.error(
+  //         'Failed to delete account: ${response.statusCode}',
+  //       );
+  //     }
+  //   } catch (e) {
+  //     HideLoadingWidget();
+  //     AppToasts.errorToast(
+  //       message: e.toString(),
+  //       toastGravity: ToastGravity.TOP,
+  //     );
+  //     AppLoggerHelper.error(e.toString());
+  //   } finally {
+  //     HideLoadingWidget();
+  //   }
+  // }
 
   ///
   @override

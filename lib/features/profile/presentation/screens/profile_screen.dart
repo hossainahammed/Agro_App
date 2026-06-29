@@ -21,7 +21,7 @@ import 'package:project_structure/features/profile/presentation/widgets/support_
 import '../../controller/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

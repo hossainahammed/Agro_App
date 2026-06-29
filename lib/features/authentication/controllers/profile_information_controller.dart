@@ -111,7 +111,7 @@ class ProfileInformationController extends GetxController {
       );
 
       AppLoggerHelper.debug(
-        "Body data : ${body} \n Token : ${AuthService.token}",
+        "Body data : $body \n Token : ${AuthService.token}",
       );
       if (response.isSuccess) {
         if (getBack == false) {

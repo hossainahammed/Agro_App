@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_structure/core/common/widgets/custom_text_box.dart';
 import 'package:project_structure/core/common/widgets/loader.dart';
-import 'package:project_structure/core/common/widgets/universal_Image.dart';
+import 'package:project_structure/core/common/widgets/universal_image.dart';
 import 'package:project_structure/features/authentication/presentation/screens/sing_up_screen.dart';
 import 'package:project_structure/features/authentication/presentation/widgets/social_card_widget.dart';
 import 'package:project_structure/features/nav_bar/presentation/screens/nav_bar.dart';

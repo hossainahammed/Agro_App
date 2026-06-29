@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
-
-import '../../../core/common/widgets/app_toast.dart';
-
-import '../../../core/common/widgets/loading_widgets.dart';
 import 'package:project_structure/core/services/auth_service.dart';
 import '../../../core/services/network_caller.dart';
 import '../../../core/utils/constants/app_urls.dart';
 import '../../../core/utils/logging/logger.dart';
-import '../../../routes/app_routes.dart';
 
 class ChangePasswordController extends GetxController {
   final TextEditingController currentPasswordController =

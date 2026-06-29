@@ -32,7 +32,7 @@ class NotificationScreens extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: 16,
-                itemBuilder: (_, __) {
+                itemBuilder: (_, _) {
                   return Shimmer.fromColors(
                     baseColor: AppColors.containerSoft,
                     highlightColor: AppColors.textPrimary,

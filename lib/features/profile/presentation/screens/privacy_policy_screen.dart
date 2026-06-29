@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:project_structure/core/common/widgets/container_shimmer.dart';
 import 'package:project_structure/core/common/widgets/custom_appbar_widget.dart';
 import 'package:project_structure/core/common/widgets/custom_container.dart';

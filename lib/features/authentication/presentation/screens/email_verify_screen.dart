@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:project_structure/core/common/widgets/custom_back_button.dart';
 import 'package:project_structure/core/common/widgets/custom_text_box.dart';
 import 'package:project_structure/core/common/widgets/loader.dart';
-import 'package:project_structure/core/common/widgets/universal_Image.dart';
+import 'package:project_structure/core/common/widgets/universal_image.dart';
 import 'package:project_structure/core/utils/constants/enums.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';
 import 'package:project_structure/features/authentication/presentation/screens/verify_code_screen.dart';

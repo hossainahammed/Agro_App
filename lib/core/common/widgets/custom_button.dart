@@ -126,7 +126,7 @@ class CustomButton extends StatelessWidget {
                         ),
                       ),
 
-                    if (child != null) child!,
+                    ?child,
 
                     if (suffixIcon != null) ...[
                       const SizedBox(width: 8),

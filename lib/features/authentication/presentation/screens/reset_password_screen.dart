@@ -7,7 +7,7 @@ import 'package:project_structure/core/common/widgets/loader.dart';
 import 'package:project_structure/features/authentication/presentation/widgets/sign_up_confirmation_dialog.dart';
 import 'package:project_structure/features/authentication/presentation/widgets/title_text.dart';
 import '../../../../core/common/widgets/custom_button.dart';
-import '../../../../core/common/widgets/universal_Image.dart'
+import '../../../../core/common/widgets/universal_image.dart'
     show UniversalImage;
 import '../../../../core/utils/constants/app_colors.dart';
 import '../../../../core/utils/constants/app_sizer.dart';

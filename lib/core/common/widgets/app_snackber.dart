@@ -19,7 +19,7 @@ class AppSnackBar {
   static TextStyle get _messageStyle => GoogleFonts.outfit(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: AppColors.white.withOpacity(0.9),
+    color: AppColors.white.withValues(alpha: 0.9),
   );
 
   /// Success SnackBar

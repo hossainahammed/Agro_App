@@ -55,8 +55,6 @@ class CustomTextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController effectiveController =
-        controller ?? TextEditingController();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
