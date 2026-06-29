@@ -201,7 +201,7 @@ class SignUpScreen extends StatelessWidget {
                               //     verifyType: VerifyType.SIGNUP.name,
                               //   );
                               // }
-                              Get.to(()=>VerifyCodeScreen(email: "example@mailto.plus", verifyType: VerifyType.SIGNUP.name));
+                              Get.to(()=>VerifyCodeScreen(email: "example@mailto.plus", verifyType: VerifyType.signup.name));
                             },
                           ),
                   ),

@@ -82,7 +82,7 @@ class OtpController extends GetxController {
       );
 
       if (response.isSuccess) {
-        if (verifyType == VerifyType.SIGNUP.name) {
+        if (verifyType == VerifyType.signup.name) {
           Future.delayed(const Duration(milliseconds: 800), () {
             showSignupConfirmationDialog(
               image: IconPath.success,
@@ -95,7 +95,7 @@ class OtpController extends GetxController {
             );
           });
         }
-        else if (verifyType == VerifyType.FORGET.name) {
+        else if (verifyType == VerifyType.forget.name) {
           final accessToken = response.responseData?['data'] as String?;
           if (accessToken != null) {
             Get.off(() => ResetPasswordScreen(token: accessToken));

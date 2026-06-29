@@ -14,7 +14,7 @@ class OnboardingController extends GetxController {
 
   void nextPage() {
     if (isLastPage) {
-      // Navigate to the next screen (e.g., role selection screen)
+      // Navigate to the next role selection screen
       Get.offAll(LoginScreen());
     } else {
       pageController.nextPage(

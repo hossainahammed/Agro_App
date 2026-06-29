@@ -5,6 +5,7 @@ import '../features/authentication/presentation/screens/login_screen.dart';
 import '../features/authentication/presentation/screens/sing_up_screen.dart';
 
 import '../features/nav_bar/presentation/screens/nav_bar.dart';
+import '../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../features/profile/presentation/screens/change_password_screen.dart';
 import '../features/profile/presentation/screens/personal_information_screen.dart';
 import '../features/splash_screen/presentation/screens/splash_screen.dart';
@@ -12,6 +13,7 @@ import '../features/splash_screen/presentation/screens/splash_screen.dart';
 class AppRoute {
   // Auth Section
   static String init = "/";
+  static String onBoardingScreen = "/onBoardingScreen";
   static String loginScreen = "/loginScreen";
   static String signUpScreen = "/signUpScreen";
 
@@ -26,15 +28,11 @@ class AppRoute {
   static String navBar = "/navBar";
 
   static List<GetPage> routes = [
+    GetPage(name: init, page: () => const SplashScreen()),
+    GetPage(name: onBoardingScreen, page: () => const OnboardingScreen()),
     GetPage(name: loginScreen, page: () => LoginScreen()),
     GetPage(name: signUpScreen, page: () => SignUpScreen()),
-
-    GetPage(name: homeScreen, page: () => HomeScreen()),
-
-    // Added by Shahriar
-    GetPage(name: init, page: () => SplashScreen()),
-    GetPage(name: loginScreen, page: () => LoginScreen()),
-    GetPage(name: signUpScreen, page: () => SignUpScreen()),
+    GetPage(name: homeScreen, page: () => const HomeScreen()),
     GetPage(name: emailVerifyScreen, page: () => EmailVerifyScreen()),
     GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
     GetPage(

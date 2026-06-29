@@ -71,7 +71,7 @@ class EmailVerifyScreen extends StatelessWidget {
                           //       .trim(),
                           //   verifyType: VerifyType.FORGET.name,
                           // );
-                          Get.to(()=>VerifyCodeScreen(email: "example@mailto.plus", verifyType: VerifyType.FORGET.name));
+                          Get.to(()=>VerifyCodeScreen(email: "example@mailto.plus", verifyType: VerifyType.forget.name));
                         },
                       ),
               ),
