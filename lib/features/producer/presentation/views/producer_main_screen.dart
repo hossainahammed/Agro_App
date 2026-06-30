@@ -6,13 +6,15 @@ import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';
 import '../controllers/producer_main_controller.dart';
 import 'producer_dashboard_screen.dart';
+import 'product/product_list_screen.dart';
+import 'product/product_add_screen.dart';
 
 class ProducerMainScreen extends StatelessWidget {
   const ProducerMainScreen({super.key});
 
   static const List<Widget> _screens = [
     ProducerDashboardScreen(),
-    PlaceholderScreen(title: "Products", icon: Icons.inventory_2_outlined),
+    ProductListScreen(),
     PlaceholderScreen(title: "Add Product", icon: Icons.add_circle_outline_rounded),
     PlaceholderScreen(title: "Orders", icon: Icons.shopping_bag_outlined),
     PlaceholderScreen(title: "Profile", icon: Icons.person_outline_rounded),
@@ -65,7 +67,7 @@ class ProducerMainScreen extends StatelessWidget {
               final bool isSelected = controller.currentIndex.value == 2;
 
               return GestureDetector(
-                onTap: () => controller.changeIndex(2),
+                onTap: () => Get.to(() => const ProductAddScreen()),
                 child: Container(
                   width: 62.h,
                   height: 62.h,
