@@ -156,7 +156,7 @@ class ProducerDashboardScreen extends StatelessWidget {
               // Chat button
               _buildHeaderIconButton(
                 iconPath: IconPath.chat,
-                onTap: () {},
+                onTap: () => Get.toNamed(AppRoute.chatList),
                 hasBadge: true,
               ),
               SizedBox(width: 12.w),

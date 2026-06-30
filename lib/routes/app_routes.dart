@@ -7,6 +7,9 @@ import '../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../features/splash_screen/presentation/screens/splash_screen.dart';
 import '../features/notification/presentation/bindings/notification_binding.dart';
 import '../features/notification/presentation/views/notification_screen.dart';
+import '../features/chat/presentation/bindings/chat_binding.dart';
+import '../features/chat/presentation/views/chat_list_screen.dart';
+import '../features/chat/presentation/views/chat_detail_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -24,6 +27,8 @@ class AppRoute {
   static String verifyCodeScreen = "/verifyCodeScreen";
   static String forgotPasswordScreen = "/forgotPasswordScreen";
   static String notification = "/notification";
+  static String chatList = "/chatList";
+  static String chatDetail = "/chatDetail";
 
   static List<GetPage> routes = [
     GetPage(name: init, page: () => const SplashScreen()),
@@ -36,6 +41,15 @@ class AppRoute {
       name: notification,
       page: () => const NotificationScreen(),
       binding: NotificationBinding(),
+    ),
+    GetPage(
+      name: chatList,
+      page: () => const ChatListScreen(),
+      binding: ChatBinding(),
+    ),
+    GetPage(
+      name: chatDetail,
+      page: () => const ChatDetailScreen(),
     ),
   ];
 }
