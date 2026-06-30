@@ -12,6 +12,7 @@ class NotificationModel extends NotificationEntity {
     required super.status,
     required super.createdAt,
     super.payload,
+    super.actionLabel,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
@@ -41,6 +42,7 @@ class NotificationModel extends NotificationEntity {
       payload: json['payload'] != null
           ? NotificationPayloadModel.fromJson(json['payload'] as Map<String, dynamic>)
           : null,
+      actionLabel: json['action_label'] as String?,
     );
   }
 
@@ -53,6 +55,7 @@ class NotificationModel extends NotificationEntity {
       'status': status.toString().split('.').last,
       'created_at': createdAt.toIso8601String(),
       'payload': payload != null ? (payload as NotificationPayloadModel).toJson() : null,
+      'action_label': actionLabel,
     };
   }
 }

@@ -10,6 +10,7 @@ class NotificationEntity {
   final NotificationStatus status;
   final DateTime createdAt;
   final NotificationPayloadEntity? payload;
+  final String? actionLabel;
 
   const NotificationEntity({
     required this.id,
@@ -19,6 +20,7 @@ class NotificationEntity {
     required this.status,
     required this.createdAt,
     this.payload,
+    this.actionLabel,
   });
 
   NotificationEntity copyWith({
@@ -29,6 +31,7 @@ class NotificationEntity {
     NotificationStatus? status,
     DateTime? createdAt,
     NotificationPayloadEntity? payload,
+    String? actionLabel,
   }) {
     return NotificationEntity(
       id: id ?? this.id,
@@ -38,6 +41,7 @@ class NotificationEntity {
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       payload: payload ?? this.payload,
+      actionLabel: actionLabel ?? this.actionLabel,
     );
   }
 }

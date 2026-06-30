@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:project_structure/core/utils/constants/app_colors.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';
+import 'package:project_structure/routes/app_routes.dart';
+import 'package:project_structure/features/notification/presentation/controllers/notification_controller.dart';
 import '../../presentation/controllers/producer_dashboard_controller.dart';
 
 class ProducerDashboardScreen extends StatelessWidget {
@@ -160,11 +162,14 @@ class ProducerDashboardScreen extends StatelessWidget {
               SizedBox(width: 12.w),
               
               // Notification button
-              _buildHeaderIconButton(
-                iconPath: IconPath.notification,
-                onTap: () {},
-                hasBadge: false,
-              ),
+              Obx(() {
+                final notificationCtrl = Get.find<NotificationController>();
+                return _buildHeaderIconButton(
+                  iconPath: IconPath.notification,
+                  onTap: () => Get.toNamed(AppRoute.notification),
+                  hasBadge: notificationCtrl.unreadCount.value > 0,
+                );
+              }),
             ],
           ),
 

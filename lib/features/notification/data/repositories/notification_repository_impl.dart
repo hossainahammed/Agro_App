@@ -1,3 +1,4 @@
+import '../../../../core/enums/notification_type_enum.dart';
 import '../../domain/entities/notification_entity.dart';
 import '../../domain/repositories/notification_repository.dart';
 import '../datasources/notification_local_datasource.dart';
@@ -15,7 +16,6 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<List<NotificationEntity>> getAllNotifications() async {
     try {
-      // Future work: implement network check and local caching flow
       final remoteData = await remoteDatasource.getAllNotifications();
       if (remoteData.isNotEmpty) {
         await localDatasource.cacheNotifications(remoteData);
@@ -29,26 +29,22 @@ class NotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<int> getUnreadCount() async {
     final list = await getAllNotifications();
-    // Assuming status logic
     return list.where((item) => item.status.toString().contains('unread')).length;
   }
 
   @override
   Future<void> markAsRead(String id) async {
     await remoteDatasource.markAsRead(id);
-    // Future work: update status in local cache
   }
 
   @override
   Future<void> markAllAsRead() async {
     await remoteDatasource.markAllAsRead();
-    // Future work: update all statuses in local cache
   }
 
   @override
   Future<void> deleteNotification(String id) async {
     await remoteDatasource.deleteNotification(id);
-    // Future work: remove from local cache
   }
 
   @override
@@ -58,8 +54,29 @@ class NotificationRepositoryImpl implements NotificationRepository {
   }
 
   @override
-  Future<List<NotificationEntity>> getNotificationsByType(String role) async {
+  Future<List<NotificationEntity>> getNotificationsByType(String category) async {
     final all = await getAllNotifications();
-    return all.where((n) => n.payload?.role?.toUpperCase() == role.toUpperCase()).toList();
+    
+    switch (category.toLowerCase()) {
+      case 'orders':
+      case 'order':
+        return all.where((n) => 
+          n.type == NotificationType.orderPlaced || 
+          n.type == NotificationType.orderCancelled ||
+          n.type == NotificationType.reviewReceived
+        ).toList();
+      case 'payments':
+      case 'payment':
+        return all.where((n) => 
+          n.type == NotificationType.earningCredited
+        ).toList();
+      case 'delivery':
+        return all.where((n) => 
+          n.type == NotificationType.orderShipped || 
+          n.type == NotificationType.orderDelivered
+        ).toList();
+      default:
+        return all;
+    }
   }
 }
