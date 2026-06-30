@@ -7,6 +7,8 @@ import 'custom_text_field.dart';
 
 class CustomTextBox extends StatelessWidget {
   final String? title;
+  final String? subtitle;
+  final bool isRequired;
   final String hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -33,6 +35,8 @@ class CustomTextBox extends StatelessWidget {
   const CustomTextBox({
     super.key,
     this.title,
+    this.subtitle,
+    this.isRequired = false,
     required this.hintText,
     this.controller,
     this.validator,
@@ -60,12 +64,37 @@ class CustomTextBox extends StatelessWidget {
       children: [
         /// Title
         if (title != null && title!.isNotEmpty) ...[
-          CustomText(
-            text: title!,
-            fontSize: titleFontSize ?? 14.sp,
-            fontWeight: titleFontWeight ?? FontWeight.w600,
-            color: titleColor ?? AppColors.textPrimary,
+          RichText(
+            text: TextSpan(
+              style: TextStyle(
+                fontSize: titleFontSize ?? 16.sp,
+                fontWeight: titleFontWeight ?? FontWeight.w700,
+                color: titleColor ?? AppColors.textPrimary,
+                fontFamily: poppins ? 'Poppins' : 'Inter',
+              ),
+              children: [
+                TextSpan(text: title),
+                if (isRequired)
+                  TextSpan(
+                    text: ' *',
+                    style: TextStyle(
+                      color: AppColors.error,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              ],
+            ),
           ),
+          if (subtitle != null && subtitle!.isNotEmpty) ...[
+            SizedBox(height: 4.h),
+            CustomText(
+              text: subtitle!,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+              color: AppColors.textSecondary,
+              poppins: poppins,
+            ),
+          ],
           SizedBox(height: 8.h),
         ],
 
@@ -80,7 +109,9 @@ class CustomTextBox extends StatelessWidget {
           suffixIcon: suffixIcon,
           poppins: poppins,
           readonly: readOnly,
-          radius: 12,
+          radius: 16,
+          containerColor: AppColors.containerSoft,
+          borderColor: AppColors.containerBorder,
           characterShow: characterShow,
           maxLength: maxLength,
           counterStyle: counterStyle,

@@ -3,6 +3,7 @@ import 'package:project_structure/features/authentication/presentation/screens/e
 import 'package:project_structure/features/dashboard/presentaion/screens/dashboard.dart';
 import '../features/authentication/presentation/screens/login_screen.dart';
 import '../features/authentication/presentation/screens/sing_up_screen.dart';
+import 'package:project_structure/features/authentication/presentation/screens/forgot_password_screen.dart';
 
 import '../features/nav_bar/presentation/screens/nav_bar.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
@@ -24,6 +25,7 @@ class AppRoute {
   static String personalInformationScreen = "/verifyCodeScreen";
   static String resetPasswordScreen = "/resetPasswordScreen";
   static String verifyCodeScreen = "/verifyCodeScreen";
+  static String forgotPasswordScreen = "/forgotPasswordScreen";
 
   static String navBar = "/navBar";
 
@@ -35,6 +37,7 @@ class AppRoute {
     GetPage(name: homeScreen, page: () => const HomeScreen()),
     GetPage(name: emailVerifyScreen, page: () => EmailVerifyScreen()),
     GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
+    GetPage(name: forgotPasswordScreen, page: () => ForgotPasswordScreen()),
     GetPage(
       name: personalInformationScreen,
       page: () => PersonalInformationScreen(),

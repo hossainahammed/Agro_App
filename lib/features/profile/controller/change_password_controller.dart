@@ -33,10 +33,7 @@ class ChangePasswordController extends GetxController {
 
   final RxBool isChangePasswordLoading = false.obs;
   Future<void> changePassword() async {
-    if (currentPasswordController.text.isEmpty) {
-      AppSnackBar.error('Current Password is Required');
-      return;
-    }
+    // Note: Omit validation for currentPasswordController since it's removed from the redesigned UI mockup
 
     if (newPasswordController.text.isEmpty) {
       AppSnackBar.error('Please Enter New Password');

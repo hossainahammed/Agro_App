@@ -7,6 +7,7 @@ class CustomBackButton extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? color;
+  final Color? iconColor;
   final VoidCallback? onTap;
 
   const CustomBackButton({
@@ -15,6 +16,7 @@ class CustomBackButton extends StatelessWidget {
     this.width,
     this.onTap,
     this.color,
+    this.iconColor,
   });
 
   @override
@@ -32,7 +34,7 @@ class CustomBackButton extends StatelessWidget {
             padding: EdgeInsets.all(12.h),
             child: Icon(
               Icons.arrow_back,
-              color: AppColors.primary,
+              color: iconColor ?? AppColors.primary,
               size: 20.sp,
             ),
           ),

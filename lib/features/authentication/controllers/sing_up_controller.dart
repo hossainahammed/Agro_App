@@ -9,7 +9,8 @@ import '../../../core/utils/logging/logger.dart';
 import '../presentation/screens/verify_code_screen.dart';
 
 class SignUpController extends GetxController {
-  final TextEditingController nameTEController = TextEditingController();
+  final TextEditingController firstNameTEController = TextEditingController();
+  final TextEditingController lastNameTEController = TextEditingController();
   final TextEditingController emailTEController = TextEditingController();
   final TextEditingController passwordTEController = TextEditingController();
   final TextEditingController confirmPasswordTEController =
@@ -34,9 +35,15 @@ class SignUpController extends GetxController {
     required String email,
     required String verifyType,
   }) async {
-    // Name validation
-    if (nameTEController.text.trim().isEmpty) {
-      AppSnackBar.error('Please enter your name.');
+    // First Name validation
+    if (firstNameTEController.text.trim().isEmpty) {
+      AppSnackBar.error('Please enter your first name.');
+      return;
+    }
+
+    // Last Name validation
+    if (lastNameTEController.text.trim().isEmpty) {
+      AppSnackBar.error('Please enter your last name.');
       return;
     }
 
@@ -65,17 +72,13 @@ class SignUpController extends GetxController {
       return;
     }
 
-    // Agree checkbox validation (FIXED)
-    if (!isAgree.value) {
-      AppSnackBar.error("Please accept terms and conditions.");
-      return;
-    }
+    // Agree checkbox validation bypassed since it's removed from the redesigned UI
 
     isLoading.value = true;
 
     try {
       final Map<String, dynamic> requestBody = {
-        "name": nameTEController.text.trim(),
+        "name": "${firstNameTEController.text.trim()} ${lastNameTEController.text.trim()}",
         "email": emailTEController.text.trim(),
         "password": passwordTEController.text.trim(),
       };
