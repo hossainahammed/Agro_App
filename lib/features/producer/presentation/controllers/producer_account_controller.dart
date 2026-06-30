@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';
 import 'package:project_structure/features/authentication/presentation/widgets/sign_up_confirmation_dialog.dart';
-import 'package:project_structure/features/nav_bar/presentation/screens/nav_bar.dart';
 
 class ProducerAccountController extends GetxController {
   // Navigation
@@ -199,7 +198,7 @@ class ProducerAccountController extends GetxController {
       subTitle: 'Your producer account has been successfully created.',
       butonText: 'Go Dashboard',
       onTap: () {
-        Get.offAll(() => const NavBar());
+        Get.offAll(() => const ());
       },
     );
   }

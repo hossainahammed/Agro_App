@@ -5,7 +5,6 @@ import 'package:project_structure/core/services/auth_service.dart';
 import 'package:project_structure/core/services/network_caller.dart';
 import 'package:project_structure/core/utils/constants/app_urls.dart';
 import 'package:project_structure/core/utils/logging/logger.dart';
-import 'package:project_structure/features/nav_bar/presentation/screens/nav_bar.dart';
 import 'package:project_structure/features/profile/controller/profile_controller.dart';
 
 class ProfileInformationController extends GetxController {
@@ -115,7 +114,7 @@ class ProfileInformationController extends GetxController {
       );
       if (response.isSuccess) {
         if (getBack == false) {
-          Get.offAll(() => NavBar());
+          Get.offAll(() => ());
         } else if (getBack == true) {
           Get.back();
         }
