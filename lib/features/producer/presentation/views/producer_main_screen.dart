@@ -8,6 +8,7 @@ import '../controllers/producer_main_controller.dart';
 import 'producer_dashboard_screen.dart';
 import 'product/product_list_screen.dart';
 import 'product/product_add_screen.dart';
+import 'orders/producer_order_list_screen.dart';
 
 class ProducerMainScreen extends StatelessWidget {
   const ProducerMainScreen({super.key});
@@ -16,7 +17,7 @@ class ProducerMainScreen extends StatelessWidget {
     ProducerDashboardScreen(),
     ProductListScreen(),
     PlaceholderScreen(title: "Add Product", icon: Icons.add_circle_outline_rounded),
-    PlaceholderScreen(title: "Orders", icon: Icons.shopping_bag_outlined),
+    ProducerOrderListScreen(),
     PlaceholderScreen(title: "Profile", icon: Icons.person_outline_rounded),
   ];
 

@@ -77,7 +77,7 @@ class ProducerDashboardController extends GetxController {
         status: "Out of Stock",
         rating: 4.9,
         sold: 210,
-        imageUrl: "https://images.unsplash.com/photo-1588252396160-c978008432a1?w=400",
+        imageUrl: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400",
       ),
       DashboardListingModel(
         title: "Cassava Flour",

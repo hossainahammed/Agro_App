@@ -57,7 +57,7 @@ class ProductListController extends GetxController {
         unit: 'kg',
         stock: 0,
         status: 'Out of Stock',
-        imageUrl: 'https://images.unsplash.com/photo-1588252396160-c978008432a1?w=400',
+        imageUrl: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400',
         sold: 210,
         rating: 4.9,
         ratingCount: 48,
