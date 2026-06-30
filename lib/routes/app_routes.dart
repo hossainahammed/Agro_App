@@ -10,6 +10,13 @@ import '../features/notification/presentation/views/notification_screen.dart';
 import '../features/chat/presentation/bindings/chat_binding.dart';
 import '../features/chat/presentation/views/chat_list_screen.dart';
 import '../features/chat/presentation/views/chat_detail_screen.dart';
+import '../features/producer/presentation/views/profile/producer_edit_profile_screen.dart';
+import '../features/producer/presentation/views/profile/my_wallet_screen.dart';
+import '../features/producer/presentation/views/profile/payout_methods_screen.dart';
+import '../features/producer/presentation/views/profile/producer_settings_screen.dart';
+import '../features/producer/presentation/views/profile/producer_change_password_screen.dart';
+import '../features/producer/presentation/views/profile/producer_help_support_screen.dart';
+import '../features/producer/presentation/views/profile/producer_terms_privacy_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -29,6 +36,13 @@ class AppRoute {
   static String notification = "/notification";
   static String chatList = "/chatList";
   static String chatDetail = "/chatDetail";
+  static String editProfile = "/editProfile";
+  static String myWallet = "/myWallet";
+  static String payoutMethods = "/payoutMethods";
+  static String settings = "/settings";
+  static String changePassword = "/changePassword";
+  static String helpSupport = "/helpSupport";
+  static String termsPrivacy = "/termsPrivacy";
 
   static List<GetPage> routes = [
     GetPage(name: init, page: () => const SplashScreen()),
@@ -50,6 +64,34 @@ class AppRoute {
     GetPage(
       name: chatDetail,
       page: () => const ChatDetailScreen(),
+    ),
+    GetPage(
+      name: editProfile,
+      page: () => const ProducerEditProfileScreen(),
+    ),
+    GetPage(
+      name: myWallet,
+      page: () => const MyWalletScreen(),
+    ),
+    GetPage(
+      name: payoutMethods,
+      page: () => const PayoutMethodsScreen(),
+    ),
+    GetPage(
+      name: settings,
+      page: () => const ProducerSettingsScreen(),
+    ),
+    GetPage(
+      name: changePassword,
+      page: () => const ProducerChangePasswordScreen(),
+    ),
+    GetPage(
+      name: helpSupport,
+      page: () => const ProducerHelpSupportScreen(),
+    ),
+    GetPage(
+      name: termsPrivacy,
+      page: () => const ProducerTermsPrivacyScreen(),
     ),
   ];
 }
