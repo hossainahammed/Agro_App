@@ -6,6 +6,7 @@ import 'package:project_structure/core/services/network_caller.dart';
 import 'package:project_structure/core/utils/constants/app_urls.dart';
 import 'package:project_structure/core/utils/logging/logger.dart';
 import 'package:project_structure/features/profile/controller/profile_controller.dart';
+import 'package:project_structure/features/producer/presentation/views/producer_main_screen.dart';
 
 class ProfileInformationController extends GetxController {
   final ageController = TextEditingController();
@@ -114,7 +115,7 @@ class ProfileInformationController extends GetxController {
       );
       if (response.isSuccess) {
         if (getBack == false) {
-          Get.offAll(() => ());
+          Get.offAll(() => const ProducerMainScreen());
         } else if (getBack == true) {
           Get.back();
         }

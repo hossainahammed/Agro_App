@@ -5,6 +5,7 @@ import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import 'package:project_structure/core/services/auth_service.dart';
 import 'package:project_structure/core/services/network_caller.dart';
 import 'package:project_structure/core/utils/constants/app_urls.dart';
+import 'package:project_structure/features/producer/presentation/views/producer_main_screen.dart';
 
 class LoginController extends GetxController {
   final emailController = TextEditingController();
@@ -61,7 +62,7 @@ class LoginController extends GetxController {
           await AuthService.saveUID(userID);
           await AuthService.saveRememberMe(rememberMe.value);
           //Get.offAll(()=>InformationScreen());
-          Get.offAll(() => ());
+          Get.offAll(() => const ProducerMainScreen());
           // AppSnackBar.success( 'Login successful!');
         } else {
           AppSnackBar.error('Access token not found');

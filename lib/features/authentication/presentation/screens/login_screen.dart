@@ -4,6 +4,7 @@ import 'package:project_structure/core/common/widgets/custom_back_button.dart';
 import 'package:project_structure/core/common/widgets/custom_text_box.dart';
 import 'package:project_structure/core/common/widgets/loader.dart';
 import 'package:project_structure/features/authentication/presentation/screens/sing_up_screen.dart';
+import 'package:project_structure/features/producer/presentation/views/producer_main_screen.dart';
 import '../../../../core/common/widgets/custom_button.dart';
 import '../../../../core/common/widgets/custom_text.dart';
 import 'package:get/get.dart';
@@ -200,7 +201,7 @@ class LoginScreen extends StatelessWidget {
                                 // if (_formKey.currentState!.validate()) {
                                 //   controller.signIn();
                                 // }
-                                Get.to(() => ());
+                                Get.to(() => const ProducerMainScreen());
                               },
                             ),
                     ),
