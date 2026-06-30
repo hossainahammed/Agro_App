@@ -5,7 +5,6 @@ import 'package:project_structure/core/services/auth_service.dart';
 import 'package:project_structure/core/services/network_caller.dart';
 import 'package:project_structure/core/utils/constants/app_urls.dart';
 import 'package:project_structure/core/utils/logging/logger.dart';
-import 'package:project_structure/features/profile/controller/profile_controller.dart';
 import 'package:project_structure/features/producer/presentation/views/producer_main_screen.dart';
 
 class ProfileInformationController extends GetxController {
@@ -29,28 +28,28 @@ class ProfileInformationController extends GetxController {
 
   final List<String> goalItems = ["Weight Loss", "Maintain", "Weight Gain"];
 
-  @override
-  void onInit() {
-    super.onInit();
-    _loadExistingProfileData();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   _loadExistingProfileData();
+  // }
 
-  void _loadExistingProfileData() {
-    if (Get.isRegistered<ProfileController>()) {
-      final profileController = Get.find<ProfileController>();
-      final data = profileController.profileDataModel.value?.data;
-      if (data != null) {
-        ageController.text = data.age?.toString() ?? "";
-        heightController.text = data.height?.toString() ?? "";
-        weightController.text = data.weight?.toString() ?? "";
-        selectedGender.value = data.gender ?? "";
-        selectedActivityLevel.value = _reverseMapActivityLevel(
-          data.activityLevel,
-        );
-        selectedGoal.value = _reverseMapGoal(data.goal);
-      }
-    }
-  }
+  // void _loadExistingProfileData() {
+  //   if (Get.isRegistered<ProfileController>()) {
+  //     final profileController = Get.find<ProfileController>();
+  //     final data = profileController.profileDataModel.value?.data;
+  //     if (data != null) {
+  //       ageController.text = data.age?.toString() ?? "";
+  //       heightController.text = data.height?.toString() ?? "";
+  //       weightController.text = data.weight?.toString() ?? "";
+  //       selectedGender.value = data.gender ?? "";
+  //       selectedActivityLevel.value = _reverseMapActivityLevel(
+  //         data.activityLevel,
+  //       );
+  //       selectedGoal.value = _reverseMapGoal(data.goal);
+  //     }
+  //   }
+  // }
 
   String _reverseMapActivityLevel(String? level) {
     if (level == null) return "";

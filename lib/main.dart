@@ -29,9 +29,9 @@ void main() async {
   }
   await AuthService.init();
   try {
-    final notificationService = PushNotificationService();
-    await notificationService.initialize();
-    await notificationService.setupIOSNotifications();
+    // final notificationService = PushNotificationService();
+    // await notificationService.initialize();
+    // await notificationService.setupIOSNotifications();
   } catch (e) {
     debugPrint("PushNotificationService initialization failed: $e");
   }
