@@ -66,6 +66,7 @@ class CustomButton extends StatelessWidget {
       color: AppColors.white.withAlpha(0),
       borderRadius: effectiveBorderRadius,
       elevation: elevation ?? 0,
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         borderRadius: effectiveBorderRadius,

@@ -7,12 +7,10 @@ import 'package:project_structure/core/common/widgets/loader.dart';
 import 'package:project_structure/core/utils/constants/app_colors.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/core/utils/constants/enums.dart';
-import 'package:project_structure/core/utils/constants/icon_path.dart';
 import 'package:project_structure/core/common/widgets/custom_button.dart';
 import 'package:project_structure/core/common/widgets/custom_text.dart';
-import 'package:project_structure/features/authentication/presentation/widgets/sign_up_confirmation_dialog.dart';
+import 'package:project_structure/features/role_selection/screen/role_selection_screen.dart';
 import '../../controllers/verify_controller.dart';
-import 'login_screen.dart';
 import 'reset_password_screen.dart';
 
 class EmailVerifyScreen extends StatelessWidget {
@@ -271,19 +269,11 @@ class EmailVerifyScreen extends StatelessWidget {
                               );
                               */
                               
-                              if (resolvedVerifyType == VerifyType.signup.name) {
-                                Future.delayed(const Duration(milliseconds: 800), () {
-                                  showSignupConfirmationDialog(
-                                    image: IconPath.success,
-                                    title: 'Success',
-                                    subTitle: 'Your account is successfully created.',
-                                    butonText: 'Go Login',
-                                    onTap: () {
-                                      Get.offAll(() => LoginScreen());
-                                    },
-                                  );
-                                });
-                              } else if (resolvedVerifyType == VerifyType.forget.name) {
+                            if (resolvedVerifyType == VerifyType.signup.name) {
+                              Future.delayed(const Duration(milliseconds: 800), () {
+                                Get.offAll(() => const RoleSelectionScreen());
+                              });
+                            } else if (resolvedVerifyType == VerifyType.forget.name) {
                                 Get.off(() => ResetPasswordScreen(token: "testing token"));
                               }
                             },

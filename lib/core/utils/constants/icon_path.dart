@@ -17,4 +17,10 @@ class IconPath {
   static const String onboarding1 = '$_basePath/onboarding1.png';
   static const String onboarding2 = '$_basePath/onboarding2.png';
   static const String onboarding3 = '$_basePath/onboarding3.png';
+
+  // Role Selection Icons
+  static const String buyer = '$_basePath/buyer.png';
+  static const String deliveryPerson = '$_basePath/delivery_person.png';
+  static const String producer = '$_basePath/producer.png';
 }
+

@@ -1,32 +1,22 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:project_structure/core/services/auth_service.dart';
-import '../../../core/common/widgets/app_snackber.dart';
-import '../../../routes/app_routes.dart';
+import 'package:project_structure/core/common/widgets/app_snackber.dart';
+import '../../producer/presentation/views/account_creation/producer_account_creation_screen.dart';
 
 class RoleSelectionController extends GetxController {
-  var selectedRole = ''.obs;
+  // Available roles: 'producer', 'buyer', 'delivery'
+  final RxString selectedRole = 'producer'.obs;
 
   void selectRole(String role) {
     selectedRole.value = role;
-    AuthService.saveRole(role);
   }
 
-  bool isSelected(String role) {
-    return selectedRole.value == role;
-  }
-
-  void proceedToSignup() {
-    if (selectedRole.value.isNotEmpty) {
-      if (kDebugMode) {
-        print("Proceeding to SignUp with role: ${selectedRole.value}");
-      }
-      Get.toNamed(
-        AppRoute.signUpScreen,
-        arguments: {"role": selectedRole.value},
-      );
+  void handleContinue() {
+    if (selectedRole.value == 'producer') {
+      Get.to(() => const ProducerAccountCreationScreen());
     } else {
-      AppSnackBar.error("Please select a role before proceeding.");
+      AppSnackBar.error(
+        'Onboarding for ${selectedRole.value == "delivery" ? "Delivery Person" : "Buyer"} is coming soon!',
+      );
     }
   }
 }
