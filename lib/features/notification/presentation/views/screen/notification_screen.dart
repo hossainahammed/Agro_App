@@ -1,1 +1,0 @@
-// Main notification list screen

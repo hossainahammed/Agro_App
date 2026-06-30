@@ -4,9 +4,9 @@ import '../features/authentication/presentation/screens/login_screen.dart';
 import '../features/authentication/presentation/screens/sing_up_screen.dart';
 import 'package:project_structure/features/authentication/presentation/screens/forgot_password_screen.dart';
 import '../features/onboarding/presentation/screens/onboarding_screen.dart';
-import '../features/profile/presentation/screens/change_password_screen.dart';
-import '../features/profile/presentation/screens/personal_information_screen.dart';
 import '../features/splash_screen/presentation/screens/splash_screen.dart';
+import '../features/notification/presentation/bindings/notification_binding.dart';
+import '../features/notification/presentation/views/notification_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -23,6 +23,7 @@ class AppRoute {
   static String resetPasswordScreen = "/resetPasswordScreen";
   static String verifyCodeScreen = "/verifyCodeScreen";
   static String forgotPasswordScreen = "/forgotPasswordScreen";
+  static String notification = "/notification";
 
   static List<GetPage> routes = [
     GetPage(name: init, page: () => const SplashScreen()),
@@ -30,11 +31,12 @@ class AppRoute {
     GetPage(name: loginScreen, page: () => LoginScreen()),
     GetPage(name: signUpScreen, page: () => SignUpScreen()),
     GetPage(name: emailVerifyScreen, page: () => EmailVerifyScreen()),
-    GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
     GetPage(name: forgotPasswordScreen, page: () => ForgotPasswordScreen()),
     GetPage(
-      name: personalInformationScreen,
-      page: () => PersonalInformationScreen(),
+      name: notification,
+      page: () => const NotificationScreen(),
+      binding: NotificationBinding(),
     ),
   ];
 }
+

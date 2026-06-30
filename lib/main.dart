@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 import 'app.dart';
 import 'package:project_structure/core/services/auth_service.dart';
-import 'core/services/notification_services.dart';
+import 'core/services/notification_service.dart';
 
 import 'core/utils/logging/loggerformain.dart';
 
@@ -29,11 +29,10 @@ void main() async {
   }
   await AuthService.init();
   try {
-    // final notificationService = PushNotificationService();
-    // await notificationService.initialize();
-    // await notificationService.setupIOSNotifications();
+    final notificationService = NotificationService();
+    await notificationService.initialize();
   } catch (e) {
-    debugPrint("PushNotificationService initialization failed: $e");
+    debugPrint("NotificationService initialization failed: $e");
   }
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   Logger.init(kReleaseMode ? LogMode.live : LogMode.debug);
