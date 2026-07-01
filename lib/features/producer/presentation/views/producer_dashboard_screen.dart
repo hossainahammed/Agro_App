@@ -7,7 +7,11 @@ import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';
 import 'package:project_structure/routes/app_routes.dart';
 import 'package:project_structure/features/notification/presentation/controllers/notification_controller.dart';
+import 'package:project_structure/features/producer/data/models/product_model.dart';
+import 'package:project_structure/features/producer/presentation/controllers/product_list_controller.dart';
+import 'package:project_structure/features/producer/presentation/views/product/product_detail_screen.dart';
 import '../../presentation/controllers/producer_dashboard_controller.dart';
+import '../controllers/producer_main_controller.dart';
 
 class ProducerDashboardScreen extends StatelessWidget {
   const ProducerDashboardScreen({super.key});
@@ -50,10 +54,8 @@ class ProducerDashboardScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           // Handle See All navigation (switch to Tab 1 / Products tab)
-                          final mainController = Get.find<dynamic>(); // Find ProducerMainController dynamically
-                          if (mainController != null) {
-                            mainController.changeIndex(1);
-                          }
+                          final mainController = Get.find<ProducerMainController>(); // Find ProducerMainController
+                          mainController.changeIndex(1);
                         },
                         child: Row(
                           children: [
@@ -456,125 +458,155 @@ class ProducerDashboardScreen extends StatelessWidget {
       statusColor = AppColors.error;
     }
 
-    return Container(
-      padding: EdgeInsets.all(12.h),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: AppColors.containerBorder),
-      ),
-      child: Row(
-        children: [
-          // Crop Image
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12.r),
-            child: CachedNetworkImage(
-              imageUrl: listing.imageUrl,
-              height: 72.h,
-              width: 72.h,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(color: AppColors.containerSoft),
-              errorWidget: (context, url, error) => const Icon(Icons.broken_image),
+    return GestureDetector(
+      onTap: () {
+        final productController = Get.put(ProductListController());
+        ProductModel? matchingProduct;
+        for (var p in productController.products) {
+          if (p.title.toLowerCase().contains(listing.title.toLowerCase()) ||
+              listing.title.toLowerCase().contains(p.title.toLowerCase())) {
+            matchingProduct = p;
+            break;
+          }
+        }
+        final product = matchingProduct ?? ProductModel(
+          id: 'mock_${listing.title}',
+          title: listing.title,
+          category: listing.category,
+          price: listing.price,
+          unit: listing.unit.replaceAll(RegExp(r'[/\s]+'), ''), // e.g. "/ crate" -> "crate"
+          stock: listing.stock,
+          status: listing.status == 'Out of Stock' ? 'Out of Stock' : 'Active',
+          imageUrl: listing.imageUrl,
+          sold: listing.sold,
+          rating: listing.rating,
+          ratingCount: 24,
+          description: 'Premium quality ${listing.title} harvested fresh from our farms. Firm, clean, and packed with care to ensure high quality on delivery.',
+          location: 'Adeyemi Green Farms, Nigeria',
+          listedDate: 'June 2, 2026',
+        );
+        Get.to(() => ProductDetailScreen(product: product));
+      },
+      child: Container(
+        padding: EdgeInsets.all(12.h),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(color: AppColors.containerBorder),
+        ),
+        child: Row(
+          children: [
+            // Crop Image
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12.r),
+              child: CachedNetworkImage(
+                imageUrl: listing.imageUrl,
+                height: 72.h,
+                width: 72.h,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(color: AppColors.containerSoft),
+                errorWidget: (context, url, error) => const Icon(Icons.broken_image),
+              ),
             ),
-          ),
-          
-          SizedBox(width: 12.w),
+            
+            SizedBox(width: 12.w),
 
-          // Middle content
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            // Middle content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    listing.title,
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    listing.category,
+                    style: GoogleFonts.inter(
+                      fontSize: 12.sp,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  
+                  // Stock Dot and Status Text
+                  Row(
+                    children: [
+                      Container(
+                        width: 6.h,
+                        height: 6.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: statusColor,
+                        ),
+                      ),
+                      SizedBox(width: 6.w),
+                      Text(
+                        listing.status == 'Out of Stock' 
+                            ? 'Out of Stock' 
+                            : '${listing.status} (${listing.stock} left)',
+                        style: GoogleFonts.inter(
+                          fontSize: 12.sp,
+                          color: statusColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            // Right Price & Social Info
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  listing.title,
+                  "₦${listing.price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ${listing.unit}",
                   style: GoogleFonts.inter(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
+                    color: AppColors.primary,
                   ),
                 ),
-                SizedBox(height: 2.h),
-                Text(
-                  listing.category,
-                  style: GoogleFonts.inter(
-                    fontSize: 12.sp,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                SizedBox(height: 6.h),
                 
-                // Stock Dot and Status Text
+                SizedBox(height: 24.h),
+
                 Row(
                   children: [
-                    Container(
-                      width: 6.h,
-                      height: 6.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: statusColor,
-                      ),
+                    Icon(
+                      Icons.star_rounded,
+                      color: Colors.amber,
+                      size: 14.sp,
                     ),
-                    SizedBox(width: 6.w),
+                    SizedBox(width: 2.w),
                     Text(
-                      listing.status == 'Out of Stock' 
-                          ? 'Out of Stock' 
-                          : '${listing.status} (${listing.stock} left)',
+                      "${listing.rating}",
                       style: GoogleFonts.inter(
                         fontSize: 12.sp,
-                        color: statusColor,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      " · ${listing.sold} sold",
+                      style: GoogleFonts.inter(
+                        fontSize: 12.sp,
+                        color: AppColors.textSecondary,
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-          ),
-
-          // Right Price & Social Info
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "₦${listing.price.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} ${listing.unit}",
-                style: GoogleFonts.inter(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
-                ),
-              ),
-              
-              SizedBox(height: 24.h),
-
-              Row(
-                children: [
-                  Icon(
-                    Icons.star_rounded,
-                    color: Colors.amber,
-                    size: 14.sp,
-                  ),
-                  SizedBox(width: 2.w),
-                  Text(
-                    "${listing.rating}",
-                    style: GoogleFonts.inter(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  Text(
-                    " · ${listing.sold} sold",
-                    style: GoogleFonts.inter(
-                      fontSize: 12.sp,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

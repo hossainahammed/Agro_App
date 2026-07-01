@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../data/models/product_model.dart';
 
 class ProductListController extends GetxController {
   final RxString searchQuery = ''.obs;
   final RxString selectedFilter = 'All'.obs;
+  final RxString selectedSortOption = 'Newest'.obs;
   final RxList<ProductModel> products = <ProductModel>[].obs;
 
   // Filter options constant
@@ -116,9 +118,9 @@ class ProductListController extends GetxController {
     ]);
   }
 
-  // Filtered list based on both filter chip selection and search query
+  // Filtered and sorted list based on filter chip selection, search query, and sort options
   List<ProductModel> get filteredProducts {
-    return products.where((product) {
+    final list = products.where((product) {
       // 1. Filter by Status
       if (selectedFilter.value == 'Active' && !product.isActive) {
         return false;
@@ -137,7 +139,39 @@ class ProductListController extends GetxController {
 
       return true;
     }).toList();
+
+    // Apply Sorting
+    switch (selectedSortOption.value) {
+      case 'Price: Low–High':
+        list.sort((a, b) => a.price.compareTo(b.price));
+        break;
+      case 'Price: High–Low':
+        list.sort((a, b) => b.price.compareTo(a.price));
+        break;
+      case 'Qty: Low–High':
+        list.sort((a, b) => a.stock.compareTo(b.stock));
+        break;
+      case 'Newest':
+      default:
+        list.sort((a, b) => _parseDate(b.listedDate).compareTo(_parseDate(a.listedDate)));
+        break;
+    }
+
+    return list;
   }
+
+  DateTime _parseDate(String dateStr) {
+    try {
+      return DateFormat('MMMM d, yyyy').parse(dateStr);
+    } catch (_) {
+      return DateTime.fromMillisecondsSinceEpoch(0);
+    }
+  }
+
+  void updateSortOption(String option) {
+    selectedSortOption.value = option;
+  }
+
 
   void updateSearchQuery(String query) {
     searchQuery.value = query;

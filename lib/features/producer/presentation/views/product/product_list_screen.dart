@@ -135,21 +135,81 @@ class ProductListScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // Filter slider button (tune icon)
-                  Container(
-                    width: 44.h,
-                    height: 44.h,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.black.withAlpha(30),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.tune_rounded,
+                  // Filter slider button (tune icon with sorting options)
+                  Obx(() {
+                    return PopupMenuButton<String>(
+                      initialValue: controller.selectedSortOption.value,
+                      onSelected: (String value) {
+                        controller.updateSortOption(value);
+                      },
+                      offset: Offset(0, 50.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
                       color: AppColors.white,
-                      size: 22.sp,
-                    ),
-                  ),
+                      elevation: 4,
+                      itemBuilder: (BuildContext context) {
+                        final options = [
+                          'Newest',
+                          'Price: Low–High',
+                          'Price: High–Low',
+                          'Qty: Low–High',
+                        ];
+                        return options.map((option) {
+                          final isSelected = controller.selectedSortOption.value == option;
+                          return PopupMenuItem<String>(
+                            value: option,
+                            padding: EdgeInsets.zero,
+                            child: Container(
+                              width: 180.w,
+                              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                              margin: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                              decoration: BoxDecoration(
+                                color: isSelected ? AppColors.primary.withAlpha(15) : Colors.transparent,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    option,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 14.sp,
+                                      fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                                      color: isSelected ? AppColors.primary : AppColors.textPrimary,
+                                    ),
+                                  ),
+                                  if (isSelected)
+                                    Container(
+                                      width: 8.h,
+                                      height: 8.h,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList();
+                      },
+                      child: Container(
+                        width: 44.h,
+                        height: 44.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: AppColors.black.withAlpha(30),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.tune_rounded,
+                          color: AppColors.white,
+                          size: 22.sp,
+                        ),
+                      ),
+                    );
+                  }),
                 ],
               ),
 
