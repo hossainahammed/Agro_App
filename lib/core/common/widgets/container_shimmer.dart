@@ -74,7 +74,7 @@ class _ShimmerState extends State<_Shimmer>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (_, __) {
+      builder: (_, _) {
         final t = _controller.value;
 
         return ShaderMask(

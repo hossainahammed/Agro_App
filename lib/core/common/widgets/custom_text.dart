@@ -16,6 +16,7 @@ class CustomText extends StatelessWidget {
   final Color? decorationColor;
   final FontStyle? fontStyle; // 👈 NEW
   final bool poppins;
+  final double? letterSpacing;
 
   const CustomText({
     super.key,
@@ -31,6 +32,7 @@ class CustomText extends StatelessWidget {
     this.decorationColor,
     this.fontStyle, // 👈 NEW
     this.poppins = false,
+    this.letterSpacing,
   });
 
   @override
@@ -44,6 +46,7 @@ class CustomText extends StatelessWidget {
             color: color ?? AppColors.textPrimary,
             fontWeight: fontWeight ?? FontWeight.w400,
             fontStyle: fontStyle, // 👈 HERE
+            letterSpacing: letterSpacing,
           )
         : GoogleFonts.inter(
             decoration: decoration,
@@ -53,6 +56,7 @@ class CustomText extends StatelessWidget {
             color: color ?? AppColors.textPrimary,
             fontWeight: fontWeight ?? FontWeight.w400,
             fontStyle: fontStyle, // 👈 HERE
+            letterSpacing: letterSpacing,
           );
 
     return Text(

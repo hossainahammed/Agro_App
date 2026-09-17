@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import 'package:project_structure/core/utils/constants/enums.dart';
-import 'package:project_structure/core/utils/constants/icon_path.dart';
-import 'package:project_structure/features/authentication/presentation/screens/login_screen.dart';
 import 'package:project_structure/features/authentication/presentation/screens/reset_password_screen.dart';
+import 'package:project_structure/features/role_selection/screen/role_selection_screen.dart';
 import '../../../core/common/widgets/app_toast.dart';
 import '../../../core/services/network_caller.dart';
 import '../../../core/utils/constants/app_urls.dart';
 import '../../../core/utils/logging/logger.dart';
-import '../presentation/widgets/sign_up_confirmation_dialog.dart';
 
 class OtpController extends GetxController {
   final otpTEController = TextEditingController();
@@ -82,20 +80,12 @@ class OtpController extends GetxController {
       );
 
       if (response.isSuccess) {
-        if (verifyType == VerifyType.SIGNUP.name) {
+        if (verifyType == VerifyType.signup.name) {
           Future.delayed(const Duration(milliseconds: 800), () {
-            showSignupConfirmationDialog(
-              image: IconPath.success,
-              title: 'Success',
-              subTitle: 'Your account is successfully created.',
-              butonText: 'Go Login',
-              onTap: () {
-                Get.offAll(() => LoginScreen());
-              },
-            );
+            Get.offAll(() => const RoleSelectionScreen());
           });
         }
-        else if (verifyType == VerifyType.FORGET.name) {
+        else if (verifyType == VerifyType.forget.name) {
           final accessToken = response.responseData?['data'] as String?;
           if (accessToken != null) {
             Get.off(() => ResetPasswordScreen(token: accessToken));

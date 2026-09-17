@@ -41,7 +41,7 @@ class CustomButton extends StatelessWidget {
     this.borderColor,
     this.customTextStyle,
     this.width,
-    this.height = 48,
+    this.height = 56,
     this.isUpperCase = false,
     this.elevation,
     this.enableShadow = false,
@@ -52,7 +52,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BorderRadius effectiveBorderRadius =
-        borderRadius ?? BorderRadius.circular(8.h);
+        borderRadius ?? BorderRadius.circular(28.h);
 
     final bool hasGradient = backgroundColor is Gradient;
 
@@ -60,10 +60,13 @@ class CustomButton extends StatelessWidget {
         ? (textColor ?? Theme.of(context).primaryColor)
         : (textColor ?? AppColors.white);
 
+    final Widget? localChild = child;
+
     return Material(
       color: AppColors.white.withAlpha(0),
       borderRadius: effectiveBorderRadius,
       elevation: elevation ?? 0,
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         borderRadius: effectiveBorderRadius,
@@ -113,20 +116,22 @@ class CustomButton extends StatelessWidget {
                       const SizedBox(width: 8),
                     ],
 
-                    if (child == null)
+                    if (localChild == null)
                       Flexible(
                         child: CustomText(
                           text: isUpperCase ? text.toUpperCase() : text,
-                          fontSize: customTextStyle?.fontSize ?? 14.sp,
+                          fontSize: customTextStyle?.fontSize ?? 16.sp,
                           fontWeight:
                               customTextStyle?.fontWeight ?? FontWeight.w600,
                           color: effectiveTextColor,
                           textAlign: TextAlign.center,
                           poppins: poppins,
+                          letterSpacing: customTextStyle?.letterSpacing ?? 0.5,
                         ),
                       ),
 
-                    if (child != null) child!,
+                    // ignore: use_null_aware_elements
+                    if (localChild != null) localChild,
 
                     if (suffixIcon != null) ...[
                       const SizedBox(width: 8),

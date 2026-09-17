@@ -44,11 +44,11 @@ class AppLoader extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppColors.white.withOpacity(0.9),
+              color: AppColors.white.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.black.withOpacity(0.1),
+                  color: AppColors.black.withValues(alpha: 0.1),
                   blurRadius: 10,
                   spreadRadius: 2,
                 ),

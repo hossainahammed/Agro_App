@@ -17,10 +17,6 @@ class ResetPasswordController extends GetxController {
   final RxBool isPasswordVisible = true.obs;
   final RxBool isComPasswordVisible = true.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;

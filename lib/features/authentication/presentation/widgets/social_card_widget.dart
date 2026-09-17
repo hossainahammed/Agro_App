@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:project_structure/core/common/widgets/universal_Image.dart';
+import 'package:project_structure/core/common/widgets/universal_image.dart';
 import 'package:project_structure/core/utils/constants/app_colors.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/core/utils/constants/icon_path.dart';

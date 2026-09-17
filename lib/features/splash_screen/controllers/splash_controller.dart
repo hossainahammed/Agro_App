@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:project_structure/core/utils/logging/logger.dart';
 import 'package:project_structure/features/authentication/presentation/screens/login_screen.dart';
-import 'package:project_structure/features/nav_bar/presentation/screens/nav_bar.dart';
 import 'package:project_structure/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:project_structure/features/producer/presentation/views/producer_main_screen.dart';
 import 'dart:async';
 import 'package:project_structure/core/services/auth_service.dart';
 
@@ -26,7 +26,7 @@ class SplashController extends GetxController {
         userId != null &&
         userId.isNotEmpty &&
         rememberMe == true) {
-      Get.offAll(() => NavBar());
+      Get.offAll(() => const ProducerMainScreen());
       return;
     }
 

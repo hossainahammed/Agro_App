@@ -1,17 +1,27 @@
 import 'package:get/get.dart';
 import 'package:project_structure/features/authentication/presentation/screens/email_verify_screen.dart';
-import 'package:project_structure/features/home/presentaion/screens/home_screen.dart';
 import '../features/authentication/presentation/screens/login_screen.dart';
 import '../features/authentication/presentation/screens/sing_up_screen.dart';
-
-import '../features/nav_bar/presentation/screens/nav_bar.dart';
-import '../features/profile/presentation/screens/change_password_screen.dart';
-import '../features/profile/presentation/screens/personal_information_screen.dart';
+import 'package:project_structure/features/authentication/presentation/screens/forgot_password_screen.dart';
+import '../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../features/splash_screen/presentation/screens/splash_screen.dart';
+import '../features/notification/presentation/bindings/notification_binding.dart';
+import '../features/notification/presentation/views/notification_screen.dart';
+import '../features/chat/presentation/bindings/chat_binding.dart';
+import '../features/chat/presentation/views/chat_list_screen.dart';
+import '../features/chat/presentation/views/chat_detail_screen.dart';
+import '../features/producer/presentation/views/profile/producer_edit_profile_screen.dart';
+import '../features/producer/presentation/views/profile/my_wallet_screen.dart';
+import '../features/producer/presentation/views/profile/payout_methods_screen.dart';
+import '../features/producer/presentation/views/profile/producer_settings_screen.dart';
+import '../features/producer/presentation/views/profile/producer_change_password_screen.dart';
+import '../features/producer/presentation/views/profile/producer_help_support_screen.dart';
+import '../features/producer/presentation/views/profile/producer_terms_privacy_screen.dart';
 
 class AppRoute {
   // Auth Section
   static String init = "/";
+  static String onBoardingScreen = "/onBoardingScreen";
   static String loginScreen = "/loginScreen";
   static String signUpScreen = "/signUpScreen";
 
@@ -22,25 +32,67 @@ class AppRoute {
   static String personalInformationScreen = "/verifyCodeScreen";
   static String resetPasswordScreen = "/resetPasswordScreen";
   static String verifyCodeScreen = "/verifyCodeScreen";
-
-  static String navBar = "/navBar";
+  static String forgotPasswordScreen = "/forgotPasswordScreen";
+  static String notification = "/notification";
+  static String chatList = "/chatList";
+  static String chatDetail = "/chatDetail";
+  static String editProfile = "/editProfile";
+  static String myWallet = "/myWallet";
+  static String payoutMethods = "/payoutMethods";
+  static String settings = "/settings";
+  static String changePassword = "/changePassword";
+  static String helpSupport = "/helpSupport";
+  static String termsPrivacy = "/termsPrivacy";
 
   static List<GetPage> routes = [
-    GetPage(name: loginScreen, page: () => LoginScreen()),
-    GetPage(name: signUpScreen, page: () => SignUpScreen()),
-
-    GetPage(name: homeScreen, page: () => HomeScreen()),
-
-    // Added by Shahriar
-    GetPage(name: init, page: () => SplashScreen()),
+    GetPage(name: init, page: () => const SplashScreen()),
+    GetPage(name: onBoardingScreen, page: () => const OnboardingScreen()),
     GetPage(name: loginScreen, page: () => LoginScreen()),
     GetPage(name: signUpScreen, page: () => SignUpScreen()),
     GetPage(name: emailVerifyScreen, page: () => EmailVerifyScreen()),
-    GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
+    GetPage(name: forgotPasswordScreen, page: () => ForgotPasswordScreen()),
     GetPage(
-      name: personalInformationScreen,
-      page: () => PersonalInformationScreen(),
+      name: notification,
+      page: () => const NotificationScreen(),
+      binding: NotificationBinding(),
     ),
-    GetPage(name: navBar, page: () => NavBar()),
+    GetPage(
+      name: chatList,
+      page: () => const ChatListScreen(),
+      binding: ChatBinding(),
+    ),
+    GetPage(
+      name: chatDetail,
+      page: () => const ChatDetailScreen(),
+    ),
+    GetPage(
+      name: editProfile,
+      page: () => const ProducerEditProfileScreen(),
+    ),
+    GetPage(
+      name: myWallet,
+      page: () => const MyWalletScreen(),
+    ),
+    GetPage(
+      name: payoutMethods,
+      page: () => const PayoutMethodsScreen(),
+    ),
+    GetPage(
+      name: settings,
+      page: () => const ProducerSettingsScreen(),
+    ),
+    GetPage(
+      name: changePassword,
+      page: () => const ProducerChangePasswordScreen(),
+    ),
+    GetPage(
+      name: helpSupport,
+      page: () => const ProducerHelpSupportScreen(),
+    ),
+    GetPage(
+      name: termsPrivacy,
+      page: () => const ProducerTermsPrivacyScreen(),
+    ),
   ];
 }
+

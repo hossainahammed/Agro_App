@@ -61,7 +61,7 @@ class CustomDatePicker extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       child: CustomText(
                         text: 'Cancel',
-                        color: textColor.withOpacity(0.9),
+                        color: textColor.withValues(alpha: 0.9),
                       ),
                       onPressed: () => Navigator.pop(context),
                     ),
@@ -71,7 +71,7 @@ class CustomDatePicker extends StatelessWidget {
             ),
 
             // Divider
-            Container(height: 0.5, color: textColor.withOpacity(0.3)),
+            Container(height: 0.5, color: textColor.withValues(alpha: 0.3)),
 
             // Date Picker
             Expanded(
@@ -83,7 +83,7 @@ class CustomDatePicker extends StatelessWidget {
                       fontSize: 22,
                     ),
                     pickerTextStyle: TextStyle(
-                      color: textColor.withOpacity(0.7),
+                      color: textColor.withValues(alpha: 0.7),
                     ),
                   ),
                   primaryColor: textColor,

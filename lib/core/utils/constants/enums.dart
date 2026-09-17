@@ -13,6 +13,6 @@ enum PaymentMethods {
   paytm,
 }
 
-enum VerifyType { SIGNUP, FORGET }
+enum VerifyType { signup, forget }
 
-enum TimeLine { MORNING, AFTERNOON, EVENING }
+enum TimeLine { morning, afternoon, evening }

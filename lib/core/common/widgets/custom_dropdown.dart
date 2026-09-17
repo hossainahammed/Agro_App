@@ -19,6 +19,7 @@ class CustomDropdownField extends StatelessWidget {
   final bool poppins;
   final Color textColor;
   final Color hintColor;
+  final Color? fillColor;
 
   const CustomDropdownField({
     super.key,
@@ -27,7 +28,7 @@ class CustomDropdownField extends StatelessWidget {
     this.withAsterisk = false,
     required this.items,
     required this.selectedValue,
-    this.borderColor = AppColors.white,
+    this.borderColor,
     required this.onChanged,
     this.height = 48,
     this.borderRadius = 6,
@@ -36,6 +37,7 @@ class CustomDropdownField extends StatelessWidget {
     this.poppins = false,
     this.textColor = AppColors.textPrimary,
     this.hintColor = AppColors.hintColor,
+    this.fillColor,
   });
 
   @override
@@ -71,50 +73,56 @@ class CustomDropdownField extends StatelessWidget {
           ),
           const SizedBox(height: 6),
         ],
-        Container(
-          height: height,
-          padding: padding ?? const EdgeInsets.only(left: 16),
-          decoration: BoxDecoration(
-            color: AppColors.containerColor,
-            borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(color: borderColor ?? AppColors.textSecondary),
+        PopupMenuButton<String>(
+          padding: EdgeInsets.zero,
+          onSelected: onChanged,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              /// Selected value / hint
-              Expanded(
-                child: Text(
-                  selectedValue.isEmpty ? hintText : selectedValue,
-                  style: effectiveTextStyle.copyWith(
-                    color: selectedValue.isEmpty
-                        ? hintColor
-                        : effectiveTextStyle.color,
+          color: AppColors.white,
+          itemBuilder: (context) {
+            return items.map((item) {
+              return PopupMenuItem<String>(
+                value: item,
+                child: Text(item, style: effectiveTextStyle),
+              );
+            }).toList();
+          },
+          offset: Offset(0, height + 4),
+          child: Container(
+            height: height,
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: fillColor ?? AppColors.containerColor,
+              borderRadius: BorderRadius.circular(borderRadius),
+              border: Border.all(
+                color: borderColor ?? AppColors.containerBorder,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// Selected value / hint
+                Expanded(
+                  child: Text(
+                    selectedValue.isEmpty ? hintText : selectedValue,
+                    style: effectiveTextStyle.copyWith(
+                      color: selectedValue.isEmpty
+                          ? hintColor
+                          : effectiveTextStyle.color,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
 
-              /// Dropdown
-              PopupMenuButton<String>(
-                padding: EdgeInsets.zero,
-                onSelected: onChanged,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                /// Dropdown Icon
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  color: AppColors.textSecondary,
+                  size: 24,
                 ),
-                color: AppColors.white,
-                itemBuilder: (context) {
-                  return items.map((item) {
-                    return PopupMenuItem<String>(
-                      value: item,
-                      child: Text(item, style: effectiveTextStyle),
-                    );
-                  }).toList();
-                },
-                offset: const Offset(0, 40),
-                icon: const Icon(Icons.keyboard_arrow_down),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],

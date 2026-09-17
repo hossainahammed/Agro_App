@@ -48,7 +48,7 @@ class UniversalImage extends StatelessWidget {
         width: width,
         fit: fit,
         color: color,
-        errorBuilder: (_, __, ___) => _buildNetworkImage(defaultPlaceholder),
+        errorBuilder: (_, _, _) => _buildNetworkImage(defaultPlaceholder),
       );
     } else {
       imageWidget = _buildNetworkImage(defaultPlaceholder);
@@ -85,8 +85,8 @@ class UniversalImage extends StatelessWidget {
       height: height,
       width: width,
       fit: fit,
-      placeholder: (_, __) => _defaultLoadingPlaceholder(),
-      errorWidget: (_, __, ___) => Image.network(
+      placeholder: (_, _) => _defaultLoadingPlaceholder(),
+      errorWidget: (_, _, _) => Image.network(
         defaultPlaceholder,
         height: height,
         width: width,

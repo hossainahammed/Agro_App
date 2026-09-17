@@ -10,14 +10,13 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:project_structure/features/nav_bar/presentation/screens/nav_bar.dart';
 import '../../../core/common/widgets/app_snackber.dart';
+import 'package:project_structure/features/producer/presentation/views/producer_main_screen.dart';
 import 'package:project_structure/core/services/auth_service.dart';
 import '../../../core/services/network_caller.dart';
 import '../../../core/utils/constants/app_urls.dart';
 import '../../../core/utils/logging/logger.dart';
 import '../../../core/utils/validators/app_validator.dart';
-import '../../../routes/app_routes.dart';
 
 class SocialAuthController extends GetxController {
   String fcmToken = "";
@@ -135,7 +134,7 @@ class SocialAuthController extends GetxController {
           await AuthService.saveRole(roles);
           await AuthService.saveUID(userID);
           await AuthService.saveRememberMe(true);
-          Get.offAll(() => NavBar());
+          Get.offAll(() => const ProducerMainScreen());
           AppSnackBar.success('Login successful!');
         }
       } else {
@@ -398,7 +397,7 @@ class SocialAuthController extends GetxController {
           await AuthService.saveRole(roles);
           await AuthService.saveUID(userID);
           await AuthService.saveRememberMe(true);
-          Get.offAll(() => NavBar());
+          Get.offAll(() => const ProducerMainScreen());
           AppSnackBar.success('Login successful!');
         }
       } else {
@@ -480,7 +479,7 @@ class SocialAuthController extends GetxController {
       isGuestLoading.value = true;
       await AuthService.setGuestMode(true);
       log('Continuing as guest');
-      Get.offAllNamed(AppRoute.navBar);
+      Get.offAll(() => const ProducerMainScreen());
     } catch (e) {
       AppLoggerHelper.error('Error continuing as guest: $e');
       AppSnackBar.error("Failed to continue as guest");

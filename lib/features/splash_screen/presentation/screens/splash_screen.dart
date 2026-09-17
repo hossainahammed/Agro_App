@@ -1,75 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:project_structure/core/common/widgets/custom_text.dart';
-import 'package:project_structure/core/utils/constants/icon_path.dart';
-import '../../../../core/utils/constants/app_colors.dart';
-import '../../../../core/utils/constants/app_sizer.dart';
-import '../../controllers/splash_controller.dart';
+import 'package:project_structure/core/common/widgets/loading_widgets.dart';
+import 'package:project_structure/core/localization/app_texts.dart';
+import 'package:project_structure/core/utils/constants/app_colors.dart';
+import 'package:project_structure/core/utils/constants/logo_path.dart';
+import 'package:project_structure/features/onboarding/presentation/screens/onboarding_screen.dart';
 
-class SplashScreen extends StatelessWidget {
-  SplashScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
-  final SplashController controller = Get.put(SplashController());
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToNextScreen();
+  }
+
+  void _navigateToNextScreen() {
+    Future.delayed(const Duration(seconds: 3), () {
+      Get.offAll(() => const OnboardingScreen());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.primary,
       body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Spacer(),
+            const Spacer(flex: 3),
+            // Circular Logo Wrapper
             Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Image.asset(
-                          IconPath.logo,
-                          width: 227.w,
-                          height: 152.h,
-                        ),
-                      ),
-                      SizedBox(width: 24.w),
-                      // Text
-                      CustomText(
-                        text: "Mind, Body & Spirit",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24.sp,
-                        color: AppColors.textPrimary,
-                      ),
-                      Gap(8.h),
-                      CustomText(
-                        text: "Align Your Wellness Journey",
-                        fontWeight: FontWeight.normal,
-                        fontSize: 16.sp,
-                        color: AppColors.textSecondary,
-                      ),
-                    ],
-                  ),
-                ],
+              child: Image.asset(
+                LogoPath.appLogo,
+                fit: BoxFit.contain,
               ),
             ),
-            const Spacer(),
-
-            Container(
-              width: 130.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(2.h),
-              ),
-              child: LinearProgressIndicator(
-                backgroundColor: AppColors.white.withOpacity(0.3),
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+            const SizedBox(height: 24),
+            // Tagline
+            const Text(
+              AppText.appTagline,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.white,
+                letterSpacing: 0.5,
               ),
             ),
-            SizedBox(height: 20.h),
+            const Spacer(flex: 3),
+            // Loading Dotted Indicator
+            const LoadingWidget(size: 40),
+            const SizedBox(height: 48),
           ],
         ),
       ),

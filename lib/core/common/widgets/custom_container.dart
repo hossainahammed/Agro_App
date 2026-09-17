@@ -27,7 +27,7 @@ class CustomContainer extends StatelessWidget {
       margin: margin ?? EdgeInsets.symmetric(vertical: 10.h),
       padding: padding ?? EdgeInsets.all(20.h),
       decoration: BoxDecoration(
-        color: gradient == null ? (color ?? null) : null,
+        color: gradient == null ? (color) : null,
         gradient: gradient ?? (color == null ? AppColors.verseGradient : null),
         borderRadius: BorderRadius.circular(16.h),
 

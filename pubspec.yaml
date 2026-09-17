@@ -72,6 +72,7 @@ dependencies:
   rename_app: ^1.6.6
   saver_gallery: ^4.1.0
   device_info_plus: ^12.3.0
+  go_router: ^17.3.0
 
 dev_dependencies:
   flutter_test:
@@ -100,7 +101,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/logos/
-    - assets/will_be_delete/
   fonts:
     - family: Montserrat
       fonts:
