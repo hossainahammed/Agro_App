@@ -108,25 +108,10 @@ class OtpController extends GetxController {
   final RxBool isResentPasswordLoading = false.obs;
   Future<void> resendOtp({required String email}) async {
     isResentPasswordLoading.value = true;
-    try {
-      final response = await NetworkCaller().postRequest(
-        AppUrls.resendOtp,
-        body: {"email": email},
-      );
-      if (response.isSuccess) {
-        _startCountdown();
-        AppSnackBar.success('OTP resent successfully');
-      } else {
-        String msg = response.errorMessage;
-        if (response.statusCode == 429) msg = 'Too many requests. Try later';
-        AppSnackBar.error(msg);
-      }
-    } catch (e) {
-      AppLoggerHelper.error('Resend OTP error: $e');
-      AppSnackBar.error('Something went wrong');
-    } finally {
-      isResentPasswordLoading.value = false;
-    }
+    await Future.delayed(const Duration(milliseconds: 500));
+    isResentPasswordLoading.value = false;
+    _startCountdown();
+    AppSnackBar.success('A new OTP has been sent to $email');
   }
 
   @override

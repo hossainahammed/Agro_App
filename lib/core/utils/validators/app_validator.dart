@@ -6,8 +6,11 @@ class AppValidator {
       return 'Email is required.';
     }
 
-    final emailRegExp = RegExp(r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegExp.hasMatch(value.trim())) {
+    final cleanValue = value.trim().replaceAll(RegExp(r'[\u200B-\u200D\uFEFF]'), '');
+    final emailRegExp = RegExp(
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$",
+    );
+    if (!emailRegExp.hasMatch(cleanValue)) {
       return 'Invalid email address.';
     }
 

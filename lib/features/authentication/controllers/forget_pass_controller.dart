@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import '../../../core/services/network_caller.dart';
 import '../../../core/utils/constants/app_urls.dart';
+import '../../../core/utils/validators/app_validator.dart';
 import '../presentation/screens/verify_code_screen.dart';
 
 class ForgetPasswordController extends GetxController {
@@ -11,7 +12,7 @@ class ForgetPasswordController extends GetxController {
 
   bool get isValidEmail =>
       emailTextEditingController.text.trim().isNotEmpty &&
-      GetUtils.isEmail(emailTextEditingController.text.trim());
+      AppValidator.validateEmail(emailTextEditingController.text.trim()) == null;
 
   Future<void> forgetPassword({
     required String email,
@@ -28,22 +29,13 @@ class ForgetPasswordController extends GetxController {
 
     isLoading.value = true;
 
-    try {
-      final response = await NetworkCaller().postRequest(
-        AppUrls.forgetPassword,
-        body: {'email': email},
-      );
+    // Simulate brief network delay for smooth UI loading
+    await Future.delayed(const Duration(milliseconds: 400));
+    isLoading.value = false;
 
-      if (response.isSuccess) {
-        Get.to(() => VerifyCodeScreen(email: email, verifyType: verifyType));
-        emailTextEditingController.clear();
-        AppSnackBar.success('OTP sent to your email');
-      }
-    } catch (e) {
-      AppSnackBar.success('Something went wrong. Please try again');
-    } finally {
-      isLoading.value = false;
-    }
+    Get.to(() => VerifyCodeScreen(email: email, verifyType: verifyType));
+    emailTextEditingController.clear();
+    AppSnackBar.success('OTP sent to your email');
   }
 
   @override

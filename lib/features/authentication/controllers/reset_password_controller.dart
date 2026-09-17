@@ -79,4 +79,51 @@ class ResetPasswordController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  /// Save Changes (Mock / Offline flow)
+  Future<void> submitChanges() async {
+    final newPass = passwordTEController.text.trim();
+    final confirmPass = confirmPasswordTEController.text.trim();
+
+    if (newPass.isEmpty) {
+      AppSnackBar.error('Please enter new password.');
+      return;
+    }
+    if (newPass.length < 6) {
+      AppSnackBar.error('Password must be at least 6 characters.');
+      return;
+    }
+    if (confirmPass.isEmpty) {
+      AppSnackBar.error('Please confirm your password.');
+      return;
+    }
+    if (newPass != confirmPass) {
+      AppSnackBar.error('Passwords do not match.');
+      return;
+    }
+
+    isLoading.value = true;
+    await Future.delayed(const Duration(milliseconds: 500));
+    isLoading.value = false;
+
+    passwordTEController.clear();
+    confirmPasswordTEController.clear();
+
+    showSignupConfirmationDialog(
+      image: IconPath.success,
+      title: "Success",
+      subTitle: "You’re Back on Track  Your password has been updated",
+      butonText: "Go Login",
+      onTap: () {
+        Get.offAll(() => LoginScreen());
+      },
+    );
+  }
+
+  @override
+  void onClose() {
+    passwordTEController.dispose();
+    confirmPasswordTEController.dispose();
+    super.onClose();
+  }
 }

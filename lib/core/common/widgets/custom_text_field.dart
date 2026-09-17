@@ -29,6 +29,7 @@ class CustomTextField extends StatefulWidget {
   final String? suffixText;
   final TextStyle? suffixTextStyle;
   final String? Function(String?)? validator;
+  final AutovalidateMode? autovalidateMode;
 
   /// NEW
   final bool poppins;
@@ -62,6 +63,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixText,
     this.suffixTextStyle,
     this.validator,
+    this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.fillColor = AppColors.white,
     this.poppins = false,
 
@@ -155,6 +157,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             inputFormatters: widget.inputFormatters,
             style: textStyle,
             validator: widget.validator,
+            autovalidateMode: widget.autovalidateMode,
             decoration:
                 widget.decoration ??
                 InputDecoration(
