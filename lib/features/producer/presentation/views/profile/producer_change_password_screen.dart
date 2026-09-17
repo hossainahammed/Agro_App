@@ -172,7 +172,10 @@ class ProducerChangePasswordScreen extends StatelessWidget {
                 fontSize: 14.sp,
               ),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16.w,
+                vertical: 12.h,
+              ),
             ),
           ),
         ),

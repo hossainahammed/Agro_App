@@ -218,7 +218,7 @@ class ResetPasswordScreen extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 28.h),
+              SizedBox(height: 90.h),
 
               // 2. Save Changes Button
               Obx(

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_structure/core/common/widgets/custom_back_button.dart';
-import 'package:project_structure/core/common/widgets/custom_button.dart';
-import 'package:project_structure/core/common/widgets/custom_text.dart';
 import 'package:project_structure/core/utils/constants/app_colors.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
-import 'package:project_structure/core/utils/constants/icon_path.dart';
+import 'package:project_structure/core/utils/constants/image_path.dart';
 import 'package:project_structure/features/authentication/presentation/screens/login_screen.dart';
 import '../controller/role_selection_controller.dart';
 
@@ -18,18 +15,51 @@ class RoleSelectionScreen extends StatelessWidget {
     final RoleSelectionController controller = Get.put(RoleSelectionController());
 
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: const Color(0xFFEFF5F0), // Soft mint-green background from mockup
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20.h),
-              
-              // Back Button
-              const CustomBackButton(),
-              
+              SizedBox(height: 12.h),
+
+              // Top Back Button (Circular white container with drop shadow)
+              GestureDetector(
+                onTap: () => Get.back(),
+                child: Container(
+                  width: 44.h,
+                  height: 44.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.06),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: AppColors.textPrimary,
+                      size: 20.sp,
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 14.h),
+
+              // Thin horizontal accent divider under top bar
+              Divider(
+                color: Colors.white.withValues(alpha: 0.9),
+                thickness: 1.5,
+                height: 1.5,
+              ),
+
               SizedBox(height: 40.h),
 
               // Title and Subtitle
@@ -39,9 +69,10 @@ class RoleSelectionScreen extends StatelessWidget {
                     Text(
                       "Hey! Who are you?",
                       style: GoogleFonts.inter(
-                        fontSize: 28.sp,
+                        fontSize: 26.sp,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
+                        letterSpacing: -0.5,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -51,7 +82,7 @@ class RoleSelectionScreen extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        color: AppColors.textSecondary,
+                        color: const Color(0xFF6B7E74),
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -59,70 +90,84 @@ class RoleSelectionScreen extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 40.h),
+              SizedBox(height: 36.h),
 
               // Roles List
-              Expanded(
-                child: Obx(() {
-                  final String currentRole = controller.selectedRole.value;
+              Obx(() {
+                final String currentRole = controller.selectedRole.value;
 
-                  return ListView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      // Producer Role Option
-                      _buildRoleCard(
-                        roleKey: 'producer',
-                        iconPath: IconPath.producer,
-                        title: 'Producer',
-                        description: 'I sell my agricultural crops',
-                        isSelected: currentRole == 'producer',
-                        onTap: () => controller.selectRole('producer'),
-                      ),
-                      SizedBox(height: 16.h),
+                return Column(
+                  children: [
+                    // 1. Producer Role Option
+                    _buildRoleCard(
+                      imagePath: ImagePath.producerRole,
+                      title: 'Producer',
+                      description: 'I sell my agricultural crops',
+                      isSelected: currentRole == 'producer',
+                      onTap: () => controller.selectRole('producer'),
+                    ),
+                    SizedBox(height: 16.h),
 
-                      // Buyer Role Option
-                      _buildRoleCard(
-                        roleKey: 'buyer',
-                        iconPath: IconPath.buyer,
-                        title: 'Buyer',
-                        description: 'Restaurant, hotel, supermarket...',
-                        isSelected: currentRole == 'buyer',
-                        onTap: () => controller.selectRole('buyer'),
-                      ),
-                      SizedBox(height: 16.h),
+                    // 2. Buyer Role Option
+                    _buildRoleCard(
+                      imagePath: ImagePath.buyerRole,
+                      title: 'Buyer',
+                      description: 'Restaurant, hotel, supermarket...',
+                      isSelected: currentRole == 'buyer',
+                      onTap: () => controller.selectRole('buyer'),
+                    ),
+                    SizedBox(height: 16.h),
 
-                      // Delivery Person Role Option
-                      _buildRoleCard(
-                        roleKey: 'delivery',
-                        iconPath: IconPath.deliveryPerson,
-                        title: 'Delivery person',
-                        description: 'I deliver orders',
-                        isSelected: currentRole == 'delivery',
-                        onTap: () => controller.selectRole('delivery'),
-                      ),
-                    ],
-                  );
-                }),
-              ),
+                    // 3. Delivery Person Role Option
+                    _buildRoleCard(
+                      imagePath: ImagePath.deliveryRole,
+                      title: 'Delivery person',
+                      description: 'I deliver orders',
+                      isSelected: currentRole == 'delivery',
+                      onTap: () => controller.selectRole('delivery'),
+                    ),
+                  ],
+                );
+              }),
 
-              // Continue Button
-              CustomButton(
-                text: 'Continue',
-                onTap: controller.handleContinue,
-                backgroundColor: AppColors.primary,
+              SizedBox(height: 36.h),
+
+              // Continue Button (Pill shaped forest green button)
+              SizedBox(
+                width: double.infinity,
+                height: 54.h,
+                child: ElevatedButton(
+                  onPressed: controller.handleContinue,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF236830), // Forest green matching mockup
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(28.r),
+                    ),
+                  ),
+                  child: Text(
+                    "Continue",
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
 
               SizedBox(height: 24.h),
 
-              // Footer (Already have an account? Log in)
+              // Footer: Already have an account? Log in
               Center(
                 child: GestureDetector(
                   onTap: () => Get.offAll(() => LoginScreen()),
                   child: RichText(
                     text: TextSpan(
                       style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        color: AppColors.textSecondary,
+                        fontSize: 13.sp,
+                        color: const Color(0xFF6B7E74),
                         fontWeight: FontWeight.w500,
                       ),
                       children: [
@@ -130,7 +175,7 @@ class RoleSelectionScreen extends StatelessWidget {
                         TextSpan(
                           text: "Log in",
                           style: GoogleFonts.inter(
-                            color: AppColors.primary,
+                            color: const Color(0xFF236830),
                             fontWeight: FontWeight.w700,
                             decoration: TextDecoration.underline,
                           ),
@@ -140,8 +185,8 @@ class RoleSelectionScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
-              SizedBox(height: 20.h),
+
+              SizedBox(height: 24.h),
             ],
           ),
         ),
@@ -150,8 +195,7 @@ class RoleSelectionScreen extends StatelessWidget {
   }
 
   Widget _buildRoleCard({
-    required String roleKey,
-    required String iconPath,
+    required String imagePath,
     required String title,
     required String description,
     required bool isSelected,
@@ -159,95 +203,84 @@ class RoleSelectionScreen extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
+        duration: const Duration(milliseconds: 220),
         curve: Curves.easeInOut,
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : AppColors.containerSoft,
+          color: isSelected ? const Color(0xFF236830) : Colors.white.withValues(alpha: 0.65),
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.containerBorder,
-            width: 1.5.w,
+            color: isSelected ? const Color(0xFF236830) : const Color(0xFFE4EDE6),
+            width: 1.0,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primary.withAlpha(51),
+                    color: const Color(0xFF236830).withValues(alpha: 0.22),
                     blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  )
+                    offset: const Offset(0, 4),
+                  ),
                 ]
               : [],
         ),
         child: Row(
           children: [
-            // Left Icon in background circle/container
-            Container(
+            // Left Illustration Asset directly placed without background box
+            Image.asset(
+              imagePath,
               width: 48.h,
               height: 48.h,
-              padding: EdgeInsets.all(8.h),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? AppColors.white.withAlpha(38)
-                    : AppColors.white,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              child: Image.asset(
-                iconPath,
-                fit: BoxFit.contain,
-              ),
+              fit: BoxFit.contain,
             ),
-            SizedBox(width: 16.w),
+            SizedBox(width: 14.w),
 
             // Title & Description
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomText(
-                    text: title,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: isSelected ? AppColors.white : AppColors.textPrimary,
+                  Text(
+                    title,
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
+                      color: isSelected ? Colors.white : AppColors.textPrimary,
+                    ),
                   ),
                   SizedBox(height: 4.h),
-                  CustomText(
-                    text: description,
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w400,
-                    color: isSelected
-                        ? AppColors.white.withAlpha(217)
-                        : AppColors.textSecondary,
+                  Text(
+                    description,
+                    style: GoogleFonts.inter(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w400,
+                      color: isSelected
+                          ? Colors.white.withValues(alpha: 0.88)
+                          : const Color(0xFF6B7E74),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),
             ),
 
-            // Radio Button indicator
-            Container(
-              width: 24.h,
-              height: 24.h,
+            // Radio Button Indicator
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 22.h,
+              height: 22.h,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? AppColors.white : AppColors.borderColor,
-                  width: 2.w,
-                ),
-                color: isSelected ? AppColors.white : Colors.transparent,
-              ),
-              child: isSelected
-                  ? Center(
-                      child: Container(
-                        width: 10.h,
-                        height: 10.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppColors.primary,
-                        ),
+                color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.5),
+                border: isSelected
+                    ? null
+                    : Border.all(
+                        color: const Color(0xFFDEE9E0),
+                        width: 1.8.w,
                       ),
-                    )
-                  : null,
+              ),
             ),
           ],
         ),

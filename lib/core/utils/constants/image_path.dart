@@ -7,4 +7,7 @@ class ImagePath {
   static const String onb4 = '$_basePath/onboarding_4.png';
 
   static const String rolePng = '$_basePath/role.png';
+  static const String producerRole = '$_basePath/producer.png';
+  static const String buyerRole = '$_basePath/buyer.png';
+  static const String deliveryRole = '$_basePath/delivery_boy.png';
 }

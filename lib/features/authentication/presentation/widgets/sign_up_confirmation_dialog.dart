@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:project_structure/core/common/widgets/universal_image.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 
 import '../../../../core/common/widgets/custom_button.dart';

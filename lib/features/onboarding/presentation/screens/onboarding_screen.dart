@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:project_structure/core/localization/app_texts.dart';
 import 'package:project_structure/core/utils/constants/app_colors.dart';
 import 'package:project_structure/core/utils/constants/image_path.dart';
-import 'package:project_structure/routes/app_routes.dart';
 import 'package:project_structure/core/common/widgets/custom_button.dart';
+import 'package:project_structure/features/role_selection/screen/role_selection_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -150,7 +150,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     CustomButton(
                       onTap: () {
                         if (_currentPage == _onboardingData.length - 1) {
-                          Get.offAllNamed(AppRoute.loginScreen);
+                          Get.offAll(() => const RoleSelectionScreen());
                         } else {
                           _pageController.nextPage(
                             duration: const Duration(milliseconds: 300),
