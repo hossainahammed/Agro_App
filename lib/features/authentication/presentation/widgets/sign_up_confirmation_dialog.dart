@@ -23,13 +23,38 @@ void showSignupConfirmationDialog({
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            UniversalImage(
-              imagePath: image,
-              height: 100.h,
-              width: 132.w,
-              fit: BoxFit.cover,
+            SizedBox(
+              height: 90.h,
+              width: 90.h,
+              child: Image.asset(
+                image,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: 90.h,
+                  height: 90.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.12),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Container(
+                      width: 64.h,
+                      height: 64.h,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.check_rounded,
+                        color: Colors.white,
+                        size: 38.sp,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-            Gap(24.h),
+            Gap(20.h),
             CustomText(
               textAlign: TextAlign.center,
               text: title,
