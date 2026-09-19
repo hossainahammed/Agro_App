@@ -12,13 +12,16 @@ import 'package:project_structure/features/producer/presentation/controllers/pro
 import 'package:project_structure/features/producer/presentation/views/product/product_detail_screen.dart';
 import '../../presentation/controllers/producer_dashboard_controller.dart';
 import '../controllers/producer_main_controller.dart';
+import 'widgets/sales_revenue_section.dart';
 
 class ProducerDashboardScreen extends StatelessWidget {
   const ProducerDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ProducerDashboardController controller = Get.put(ProducerDashboardController());
+    final ProducerDashboardController controller = Get.put(
+      ProducerDashboardController(),
+    );
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -36,10 +39,15 @@ class ProducerDashboardScreen extends StatelessWidget {
                 children: [
                   // 2. Asymmetrical Statistics Grid
                   _buildStatsGrid(controller),
-                  
+
                   SizedBox(height: 24.h),
 
-                  // 3. Recent Listings Header
+                  // 3. Sales Revenue Section
+                  SalesRevenueSection(controller: controller),
+
+                  SizedBox(height: 24.h),
+
+                  // 4. Recent Listings Header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -54,7 +62,10 @@ class ProducerDashboardScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           // Handle See All navigation (switch to Tab 1 / Products tab)
-                          final mainController = Get.find<ProducerMainController>(); // Find ProducerMainController
+                          final mainController =
+                              Get.find<
+                                ProducerMainController
+                              >(); // Find ProducerMainController
                           mainController.changeIndex(1);
                         },
                         child: Row(
@@ -82,10 +93,12 @@ class ProducerDashboardScreen extends StatelessWidget {
                   // 4. Listings List
                   Obx(() {
                     return ListView.separated(
+                      padding: EdgeInsets.symmetric(vertical: 15.h),
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: controller.recentListings.length,
-                      separatorBuilder: (context, index) => SizedBox(height: 12.h),
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 12.h),
                       itemBuilder: (context, index) {
                         final listing = controller.recentListings[index];
                         return _buildListingCard(listing);
@@ -120,95 +133,104 @@ class ProducerDashboardScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-            children: [
-              // User Avatar
-              Obx(() => CircleAvatar(
-                    radius: 26.r,
-                    backgroundImage: CachedNetworkImageProvider(controller.avatarUrl.value),
-                    backgroundColor: AppColors.white.withAlpha(50),
-                  )),
-              SizedBox(width: 12.w),
-              
-              // Welcome Text & Name
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // User Avatar
+                  Obx(
+                    () => CircleAvatar(
+                      radius: 26.r,
+                      backgroundImage: CachedNetworkImageProvider(
+                        controller.avatarUrl.value,
+                      ),
+                      backgroundColor: AppColors.white.withAlpha(50),
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+
+                  // Welcome Text & Name
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Welcome Back",
+                          style: GoogleFonts.inter(
+                            fontSize: 14.sp,
+                            color: AppColors.white.withAlpha(200),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                        Obx(
+                          () => Text(
+                            controller.producerName.value,
+                            style: GoogleFonts.inter(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Chat button
+                  _buildHeaderIconButton(
+                    iconPath: IconPath.chat,
+                    onTap: () => Get.toNamed(AppRoute.chatList),
+                    hasBadge: true,
+                  ),
+                  SizedBox(width: 12.w),
+
+                  // Notification button
+                  Obx(() {
+                    final notificationCtrl = Get.find<NotificationController>();
+                    return _buildHeaderIconButton(
+                      iconPath: IconPath.notification,
+                      onTap: () => Get.toNamed(AppRoute.notification),
+                      hasBadge: notificationCtrl.unreadCount.value > 0,
+                    );
+                  }),
+                ],
+              ),
+
+              SizedBox(height: 16.h),
+
+              // Farm name pill
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: AppColors.white.withAlpha(25),
+                  borderRadius: BorderRadius.circular(20.r),
+                  border: Border.all(color: AppColors.white.withAlpha(38)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      "Welcome Back",
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        color: AppColors.white.withAlpha(200),
-                        fontWeight: FontWeight.w500,
+                    Container(
+                      width: 8.h,
+                      height: 8.h,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors
+                            .success, // Use success color for active state
                       ),
                     ),
-                    SizedBox(height: 4.h),
-                    Obx(() => Text(
-                          controller.producerName.value,
-                          style: GoogleFonts.inter(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.white,
-                          ),
-                        )),
+                    SizedBox(width: 8.w),
+                    Obx(
+                      () => Text(
+                        controller.farmName.value,
+                        style: GoogleFonts.inter(
+                          color: AppColors.white,
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-
-              // Chat button
-              _buildHeaderIconButton(
-                iconPath: IconPath.chat,
-                onTap: () => Get.toNamed(AppRoute.chatList),
-                hasBadge: true,
-              ),
-              SizedBox(width: 12.w),
-              
-              // Notification button
-              Obx(() {
-                final notificationCtrl = Get.find<NotificationController>();
-                return _buildHeaderIconButton(
-                  iconPath: IconPath.notification,
-                  onTap: () => Get.toNamed(AppRoute.notification),
-                  hasBadge: notificationCtrl.unreadCount.value > 0,
-                );
-              }),
             ],
-          ),
-
-          SizedBox(height: 16.h),
-
-          // Farm name pill
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: AppColors.white.withAlpha(25),
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(color: AppColors.white.withAlpha(38)),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 8.h,
-                  height: 8.h,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: AppColors.success, // Use success color for active state
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                Obx(() => Text(
-                      controller.farmName.value,
-                      style: GoogleFonts.inter(
-                        color: AppColors.white,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    )),
-              ],
-            ),
-          ),
-        ],
           ),
         ),
       ),
@@ -230,7 +252,9 @@ class ProducerDashboardScreen extends StatelessWidget {
             height: 44.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppColors.black.withAlpha(40), // Darker overlay badge style background
+              color: AppColors.black.withAlpha(
+                40,
+              ), // Darker overlay badge style background
               shape: BoxShape.circle,
             ),
             child: Image.asset(
@@ -293,12 +317,15 @@ class ProducerDashboardScreen extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.r),
                   child: CachedNetworkImage(
-                    imageUrl: "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=400",
+                    imageUrl:
+                        "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?w=400",
                     height: 80.h,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(color: AppColors.white.withAlpha(20)),
-                    errorWidget: (context, url, error) => const Icon(Icons.broken_image),
+                    placeholder: (context, url) =>
+                        Container(color: AppColors.white.withAlpha(20)),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.broken_image),
                   ),
                 ),
 
@@ -315,14 +342,16 @@ class ProducerDashboardScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 2.h),
-                    Obx(() => Text(
-                          "${controller.activeListings.value}",
-                          style: GoogleFonts.inter(
-                            fontSize: 28.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.white,
-                          ),
-                        )),
+                    Obx(
+                      () => Text(
+                        "${controller.activeListings.value}",
+                        style: GoogleFonts.inter(
+                          fontSize: 28.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -377,14 +406,16 @@ class ProducerDashboardScreen extends StatelessWidget {
                             color: AppColors.white.withAlpha(200),
                           ),
                         ),
-                        Obx(() => Text(
-                              "${controller.pendingOrders.value}",
-                              style: GoogleFonts.inter(
-                                fontSize: 22.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.white,
-                              ),
-                            )),
+                        Obx(
+                          () => Text(
+                            "${controller.pendingOrders.value}",
+                            style: GoogleFonts.inter(
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -430,14 +461,16 @@ class ProducerDashboardScreen extends StatelessWidget {
                             color: AppColors.textSecondary,
                           ),
                         ),
-                        Obx(() => Text(
-                              "₦${controller.monthlyRevenue.value.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
-                              style: GoogleFonts.inter(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textPrimary,
-                              ),
-                            )),
+                        Obx(
+                          () => Text(
+                            "₦${controller.monthlyRevenue.value.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')}",
+                            style: GoogleFonts.inter(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -469,22 +502,30 @@ class ProducerDashboardScreen extends StatelessWidget {
             break;
           }
         }
-        final product = matchingProduct ?? ProductModel(
-          id: 'mock_${listing.title}',
-          title: listing.title,
-          category: listing.category,
-          price: listing.price,
-          unit: listing.unit.replaceAll(RegExp(r'[/\s]+'), ''), // e.g. "/ crate" -> "crate"
-          stock: listing.stock,
-          status: listing.status == 'Out of Stock' ? 'Out of Stock' : 'Active',
-          imageUrl: listing.imageUrl,
-          sold: listing.sold,
-          rating: listing.rating,
-          ratingCount: 24,
-          description: 'Premium quality ${listing.title} harvested fresh from our farms. Firm, clean, and packed with care to ensure high quality on delivery.',
-          location: 'Adeyemi Green Farms, Nigeria',
-          listedDate: 'June 2, 2026',
-        );
+        final product =
+            matchingProduct ??
+            ProductModel(
+              id: 'mock_${listing.title}',
+              title: listing.title,
+              category: listing.category,
+              price: listing.price,
+              unit: listing.unit.replaceAll(
+                RegExp(r'[/\s]+'),
+                '',
+              ), // e.g. "/ crate" -> "crate"
+              stock: listing.stock,
+              status: listing.status == 'Out of Stock'
+                  ? 'Out of Stock'
+                  : 'Active',
+              imageUrl: listing.imageUrl,
+              sold: listing.sold,
+              rating: listing.rating,
+              ratingCount: 24,
+              description:
+                  'Premium quality ${listing.title} harvested fresh from our farms. Firm, clean, and packed with care to ensure high quality on delivery.',
+              location: 'Adeyemi Green Farms, Nigeria',
+              listedDate: 'June 2, 2026',
+            );
         Get.to(() => ProductDetailScreen(product: product));
       },
       child: Container(
@@ -504,11 +545,13 @@ class ProducerDashboardScreen extends StatelessWidget {
                 height: 72.h,
                 width: 72.h,
                 fit: BoxFit.cover,
-                placeholder: (context, url) => Container(color: AppColors.containerSoft),
-                errorWidget: (context, url, error) => const Icon(Icons.broken_image),
+                placeholder: (context, url) =>
+                    Container(color: AppColors.containerSoft),
+                errorWidget: (context, url, error) =>
+                    const Icon(Icons.broken_image),
               ),
             ),
-            
+
             SizedBox(width: 12.w),
 
             // Middle content
@@ -533,7 +576,7 @@ class ProducerDashboardScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 6.h),
-                  
+
                   // Stock Dot and Status Text
                   Row(
                     children: [
@@ -547,8 +590,8 @@ class ProducerDashboardScreen extends StatelessWidget {
                       ),
                       SizedBox(width: 6.w),
                       Text(
-                        listing.status == 'Out of Stock' 
-                            ? 'Out of Stock' 
+                        listing.status == 'Out of Stock'
+                            ? 'Out of Stock'
                             : '${listing.status} (${listing.stock} left)',
                         style: GoogleFonts.inter(
                           fontSize: 12.sp,
@@ -575,16 +618,12 @@ class ProducerDashboardScreen extends StatelessWidget {
                     color: AppColors.primary,
                   ),
                 ),
-                
+
                 SizedBox(height: 24.h),
 
                 Row(
                   children: [
-                    Icon(
-                      Icons.star_rounded,
-                      color: Colors.amber,
-                      size: 14.sp,
-                    ),
+                    Icon(Icons.star_rounded, color: Colors.amber, size: 14.sp),
                     SizedBox(width: 2.w),
                     Text(
                       "${listing.rating}",
