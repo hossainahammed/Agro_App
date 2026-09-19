@@ -7,6 +7,7 @@ import 'package:project_structure/core/utils/constants/app_colors.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import '../../../data/models/order_model.dart';
 import '../../controllers/producer_order_controller.dart';
+import 'producer_track_delivery_screen.dart';
 
 class ProducerOrderDetailScreen extends StatelessWidget {
   final String orderId;
@@ -15,16 +16,21 @@ class ProducerOrderDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProducerOrderController controller = Get.find<ProducerOrderController>();
+    final ProducerOrderController controller =
+        Get.find<ProducerOrderController>();
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: Obx(() {
-        final order = controller.orders.firstWhereOrNull((o) => o.id == orderId);
+        final order = controller.orders.firstWhereOrNull(
+          (o) => o.id == orderId,
+        );
         if (order == null) {
           return Scaffold(
             appBar: AppBar(title: const Text("Order Not Found")),
-            body: const Center(child: Text("The requested order details could not be found.")),
+            body: const Center(
+              child: Text("The requested order details could not be found."),
+            ),
           );
         }
 
@@ -61,8 +67,10 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                     ],
                     SizedBox(height: 16.h),
 
-                    // Assigned Driver Card (If driver information exists and status is In Progress, Ready for Pickup or Completed)
-                    if (order.driverName != null && order.status != 'Cancelled') ...[
+                    // Assigned Driver Card (Only shown when order has been marked as Ready for Pickup or Completed)
+                    if (order.driverName != null &&
+                        (order.status == 'Ready for Pickup' ||
+                            order.status == 'Completed')) ...[
                       _buildDriverCard(order),
                       SizedBox(height: 16.h),
                     ],
@@ -128,9 +136,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 20.h),
-      decoration: const BoxDecoration(
-        color: AppColors.primary,
-      ),
+      decoration: const BoxDecoration(color: AppColors.primary),
       child: SafeArea(
         bottom: false,
         child: Padding(
@@ -196,11 +202,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      pillIcon,
-                      color: AppColors.white,
-                      size: 14.sp,
-                    ),
+                    Icon(pillIcon, color: AppColors.white, size: 14.sp),
                     SizedBox(width: 6.w),
                     Text(
                       pillText,
@@ -224,14 +226,18 @@ class ProducerOrderDetailScreen extends StatelessWidget {
     // True if status is past or equal to the stage
     final bool isPlacedChecked = true;
     final bool isConfirmedChecked = order.status != 'New';
-    final bool isReadyChecked = order.status == 'Ready for Pickup' || order.status == 'Completed';
-    final bool isPickedChecked = order.status == 'Completed'; // Under completed we mock picked up & delivered checked
+    final bool isReadyChecked =
+        order.status == 'Ready for Pickup' || order.status == 'Completed';
+    final bool isPickedChecked =
+        order.status ==
+        'Completed'; // Under completed we mock picked up & delivered checked
     final bool isDeliveredChecked = order.status == 'Completed';
 
     // Badge flags
     final bool showConfirmedBadge = order.status == 'In Progress';
     final bool showReadyBadge = order.status == 'Ready for Pickup';
-    final bool showPickedBadge = false; // We can keep it simple or set badge if needed
+    final bool showPickedBadge =
+        false; // We can keep it simple or set badge if needed
 
     return Container(
       width: double.infinity,
@@ -318,10 +324,14 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                 width: 22.h,
                 height: 22.h,
                 decoration: BoxDecoration(
-                  color: isChecked ? AppColors.success.withAlpha(20) : Colors.transparent,
+                  color: isChecked
+                      ? AppColors.success.withAlpha(20)
+                      : Colors.transparent,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: isChecked ? AppColors.success : AppColors.borderColor,
+                    color: isChecked
+                        ? AppColors.success
+                        : AppColors.borderColor,
                     width: 2.w,
                   ),
                 ),
@@ -337,7 +347,9 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     width: 2.w,
-                    color: isNextChecked ? AppColors.success : AppColors.borderColor,
+                    color: isNextChecked
+                        ? AppColors.success
+                        : AppColors.borderColor,
                   ),
                 ),
             ],
@@ -357,14 +369,21 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                         title,
                         style: GoogleFonts.inter(
                           fontSize: 14.sp,
-                          fontWeight: isChecked ? FontWeight.bold : FontWeight.w500,
-                          color: isChecked ? AppColors.textPrimary : AppColors.textSecondary,
+                          fontWeight: isChecked
+                              ? FontWeight.bold
+                              : FontWeight.w500,
+                          color: isChecked
+                              ? AppColors.textPrimary
+                              : AppColors.textSecondary,
                         ),
                       ),
                       if (showNowBadge) ...[
                         SizedBox(width: 8.w),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 6.w,
+                            vertical: 2.h,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.success,
                             borderRadius: BorderRadius.circular(4.r),
@@ -459,7 +478,10 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 2.h,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFE2EFED),
                         borderRadius: BorderRadius.circular(4.r),
@@ -497,21 +519,18 @@ class ProducerOrderDetailScreen extends StatelessWidget {
           SizedBox(height: 12.h),
 
           // Detail Rows
-          _buildInfoRow(
-            icon: Icons.phone_outlined,
-            text: order.phone,
-          ),
+          _buildInfoRow(icon: Icons.phone_outlined, text: order.phone),
           SizedBox(height: 12.h),
-          _buildInfoRow(
-            icon: Icons.location_on_outlined,
-            text: order.address,
-          ),
+          _buildInfoRow(icon: Icons.location_on_outlined, text: order.address),
         ],
       ),
     );
   }
 
-  Widget _buildCircleIconButton({required IconData icon, required VoidCallback onTap}) {
+  Widget _buildCircleIconButton({
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -520,11 +539,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
           color: Color(0xFFE5EFEA),
           shape: BoxShape.circle,
         ),
-        child: Icon(
-          icon,
-          color: AppColors.primary,
-          size: 18.sp,
-        ),
+        child: Icon(icon, color: AppColors.primary, size: 18.sp),
       ),
     );
   }
@@ -539,11 +554,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
             color: Color(0xFFEEF6F2),
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            icon,
-            color: AppColors.primary,
-            size: 16.sp,
-          ),
+          child: Icon(icon, color: AppColors.primary, size: 16.sp),
         ),
         SizedBox(width: 12.w),
         Expanded(
@@ -622,7 +633,10 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 2.h,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFE2EFE7),
                             borderRadius: BorderRadius.circular(4.r),
@@ -658,18 +672,24 @@ class ProducerOrderDetailScreen extends StatelessWidget {
   }
 
   Widget _buildSummaryCard(OrderModel order) {
-    final String formattedSubtotal = order.totalPrice.toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
-    final String formattedDelivery = order.deliveryFee.toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
-    final String formattedTotal = (order.totalPrice + order.deliveryFee).toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
+    final String formattedSubtotal = order.totalPrice
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]},',
+        );
+    final String formattedDelivery = order.deliveryFee
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]},',
+        );
+    final String formattedTotal = (order.totalPrice + order.deliveryFee)
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]},',
+        );
 
     return Container(
       width: double.infinity,
@@ -754,18 +774,24 @@ class ProducerOrderDetailScreen extends StatelessWidget {
       subtotal += item.totalPrice;
     }
 
-    final String formattedSubtotal = subtotal.toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
-    final String formattedDelivery = order.deliveryFee.toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
-    final String formattedTotal = (subtotal + order.deliveryFee).toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (Match m) => '${m[1]},',
-    );
+    final String formattedSubtotal = subtotal
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]},',
+        );
+    final String formattedDelivery = order.deliveryFee
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]},',
+        );
+    final String formattedTotal = (subtotal + order.deliveryFee)
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (Match m) => '${m[1]},',
+        );
 
     return Container(
       width: double.infinity,
@@ -921,7 +947,9 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: order.driverImageUrl ?? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
+                      imageUrl:
+                          order.driverImageUrl ??
+                          'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150',
                       height: 44.h,
                       width: 44.h,
                       fit: BoxFit.cover,
@@ -1030,7 +1058,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
           // Track Delivery Button
           GestureDetector(
             onTap: () {
-              Get.snackbar("Track", "Opening live tracking map...");
+              Get.to(() => ProducerTrackDeliveryScreen(order: order));
             },
             child: Container(
               height: 48.h,
