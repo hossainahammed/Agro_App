@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
+import '../../delivery/presentation/views/account_creation/delivery_account_creation_screen.dart';
 import '../../producer/presentation/views/account_creation/producer_account_creation_screen.dart';
 
 class RoleSelectionController extends GetxController {
@@ -13,9 +14,11 @@ class RoleSelectionController extends GetxController {
   void handleContinue() {
     if (selectedRole.value == 'producer') {
       Get.to(() => const ProducerAccountCreationScreen());
+    } else if (selectedRole.value == 'delivery') {
+      Get.to(() => const DeliveryAccountCreationScreen());
     } else {
       AppSnackBar.error(
-        'Onboarding for ${selectedRole.value == "delivery" ? "Delivery Person" : "Buyer"} is coming soon!',
+        'Onboarding for Buyer is coming soon!',
       );
     }
   }

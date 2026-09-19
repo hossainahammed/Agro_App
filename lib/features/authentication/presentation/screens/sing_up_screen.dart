@@ -164,7 +164,7 @@ class SignUpScreen extends StatelessWidget {
                       controller: controller.emailTEController,
                       title: "Email Address",
                       isRequired: true,
-                      hintText: "your@email.com",
+                      hintText: "you@example.com",
                       validator: (value) => AppValidator.validateEmail(value),
                     ),
                     SizedBox(height: 20.h),

@@ -18,6 +18,8 @@ import '../features/producer/presentation/views/profile/producer_change_password
 import '../features/producer/presentation/views/profile/producer_help_support_screen.dart';
 import '../features/producer/presentation/views/profile/producer_terms_privacy_screen.dart';
 import '../features/producer/presentation/views/orders/producer_delivered_order_screen.dart';
+import '../features/delivery/presentation/views/account_creation/delivery_account_creation_screen.dart';
+import '../features/delivery/presentation/views/account_creation/delivery_phone_verify_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -25,6 +27,8 @@ class AppRoute {
   static String onBoardingScreen = "/onBoardingScreen";
   static String loginScreen = "/loginScreen";
   static String signUpScreen = "/signUpScreen";
+  static String deliveryAccountCreation = "/deliveryAccountCreation";
+  static String deliveryPhoneVerify = "/deliveryPhoneVerify";
 
   static String homeScreen = "/homeScreen";
 
@@ -98,6 +102,14 @@ class AppRoute {
     GetPage(
       name: deliveredOrderDetail,
       page: () => const ProducerDeliveredOrderDetailScreen(),
+    ),
+    GetPage(
+      name: deliveryAccountCreation,
+      page: () => const DeliveryAccountCreationScreen(),
+    ),
+    GetPage(
+      name: deliveryPhoneVerify,
+      page: () => const DeliveryPhoneVerifyScreen(),
     ),
   ];
 }
