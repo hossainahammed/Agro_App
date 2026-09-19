@@ -534,7 +534,7 @@ class ProductListScreen extends StatelessWidget {
               title: "Edit Listing",
               onTap: () {
                 Get.back();
-                Get.snackbar("Info", "Edit product functionality coming soon");
+                Get.snackbar("Info", "Edit product functionality coming soon", snackPosition: SnackPosition.TOP);
               },
             ),
             _buildActionItem(
@@ -557,7 +557,7 @@ class ProductListScreen extends StatelessWidget {
                 Get.snackbar(
                   "Success",
                   "${product.title} has been deleted",
-                  snackPosition: SnackPosition.BOTTOM,
+                  snackPosition: SnackPosition.TOP,
                   backgroundColor: AppColors.error.withAlpha(20),
                   colorText: AppColors.error,
                 );

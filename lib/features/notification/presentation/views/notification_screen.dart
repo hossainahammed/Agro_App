@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/enums/notification_status_enum.dart';
+import '../../../../core/enums/notification_type_enum.dart';
 import '../../../../core/utils/constants/app_colors.dart';
+import '../../../producer/presentation/views/orders/producer_delivered_order_screen.dart';
 import '../controllers/notification_controller.dart';
 import 'widgets/notification_empty_widget.dart';
 import 'widgets/notification_filter_tab_widget.dart';
@@ -114,7 +116,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     children: [
                       // Highlight Delivery Card at top (Dismissible)
                       Obx(() {
-                        if (showHighlightCard.value && controller.selectedFilter.value == 'All') {
+                        final filter = controller.selectedFilter.value;
+                        if (showHighlightCard.value &&
+                            (filter == 'All' || filter == 'Delivery')) {
                           return _buildHighlightCard();
                         }
                         return const SizedBox.shrink();
@@ -128,6 +132,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             notification: notification,
                             onTap: () {
                               controller.markNotificationAsRead(notification.id);
+                              if (notification.type == NotificationType.orderDelivered ||
+                                  notification.payload?.referenceId == 'AGC-2830' ||
+                                  notification.payload?.referenceId == 'AGC-2810') {
+                                Get.to(() => ProducerDeliveredOrderDetailScreen(
+                                  orderId: notification.payload?.referenceId != null
+                                      ? "#${notification.payload!.referenceId}"
+                                      : "#AGC-2830",
+                                ));
+                              }
                             },
                             onDelete: () {
                               controller.deleteSingleNotification(notification.id);
@@ -145,6 +158,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             notification: notification,
                             onTap: () {
                               controller.markNotificationAsRead(notification.id);
+                              if (notification.type == NotificationType.orderDelivered ||
+                                  notification.payload?.referenceId == 'AGC-2830' ||
+                                  notification.payload?.referenceId == 'AGC-2810') {
+                                Get.to(() => ProducerDeliveredOrderDetailScreen(
+                                  orderId: notification.payload?.referenceId != null
+                                      ? "#${notification.payload!.referenceId}"
+                                      : "#AGC-2810",
+                                ));
+                              }
                             },
                             onDelete: () {
                               controller.deleteSingleNotification(notification.id);
@@ -211,153 +233,164 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Widget _buildHighlightCard() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: const Color(0xFFEDF7EE), // soft green
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFC6E8C7),
-          width: 1,
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => const ProducerDeliveredOrderDetailScreen(orderId: "#AGC-2830"));
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFFEDF7EE), // soft green
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFFC6E8C7),
+            width: 1,
+          ),
         ),
-      ),
-      child: Stack(
-        children: [
-          // Top indicator line
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            child: Container(
-              height: 4,
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
+        child: Stack(
+          children: [
+            // Top-left indicator bar
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: 95,
+                height: 4,
+                decoration: const BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    bottomRight: Radius.circular(4),
+                  ),
                 ),
               ),
             ),
-          ),
-          // Content
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Icon leading
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.inventory_2_outlined, // box icon
-                    color: Colors.white,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                // Text details
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'AGROCONNECT',
-                            style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              const Icon(Icons.access_time, size: 12, color: AppColors.textSecondary),
-                              const SizedBox(width: 4),
-                              Text(
-                                'Just now',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: AppColors.textSecondary.withValues(alpha: 0.8),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      const Text(
-                        'Order Delivered!',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Your order #AGC-2830 has arrived',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: AppColors.textSecondary,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Handle View Order
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        ),
-                        child: const Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              'View order',
-                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(Icons.chevron_right, size: 14),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                // Close button
-                GestureDetector(
-                  onTap: () => showHighlightCard.value = false,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
+            // Content
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Icon leading (rounded rectangle)
+                  Container(
+                    width: 44,
+                    height: 44,
                     decoration: BoxDecoration(
-                      color: Colors.grey.withValues(alpha: 0.15),
-                      shape: BoxShape.circle,
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(
-                      Icons.close,
-                      size: 14,
-                      color: AppColors.textPrimary,
+                      Icons.inventory_2_outlined, // box icon
+                      color: Colors.white,
+                      size: 22,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 12),
+                  // Text details
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'AGROCONNECT',
+                              style: TextStyle(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textSecondary,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.access_time, size: 12, color: AppColors.textSecondary),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Just now',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: AppColors.textSecondary.withValues(alpha: 0.8),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Order Delivered!',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          'Your order #AGC-2830 has arrived',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => const ProducerDeliveredOrderDetailScreen(orderId: "#AGC-2830"));
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'View order',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(width: 4),
+                                Icon(Icons.chevron_right, size: 16, color: Colors.white),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  // Close button
+                  GestureDetector(
+                    onTap: () => showHighlightCard.value = false,
+                    behavior: HitTestBehavior.opaque,
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withValues(alpha: 0.20),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                        size: 14,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

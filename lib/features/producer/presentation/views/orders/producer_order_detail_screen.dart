@@ -1158,7 +1158,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                       Get.snackbar(
                         "Copied",
                         "Order ID copied to clipboard",
-                        snackPosition: SnackPosition.BOTTOM,
+                        snackPosition: SnackPosition.TOP,
                         backgroundColor: AppColors.primary.withAlpha(20),
                         colorText: AppColors.primary,
                       );
@@ -1315,7 +1315,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                   Get.snackbar(
                     "Declined",
                     "Order ${order.id} has been declined.",
-                    snackPosition: SnackPosition.BOTTOM,
+                    snackPosition: SnackPosition.TOP,
                     backgroundColor: AppColors.error.withAlpha(20),
                     colorText: AppColors.error,
                   );
@@ -1348,7 +1348,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
                   Get.snackbar(
                     "Success",
                     "Order ${order.id} has been accepted!",
-                    snackPosition: SnackPosition.BOTTOM,
+                    snackPosition: SnackPosition.TOP,
                     backgroundColor: AppColors.success.withAlpha(20),
                     colorText: AppColors.success,
                   );
@@ -1384,7 +1384,7 @@ class ProducerOrderDetailScreen extends StatelessWidget {
             Get.snackbar(
               "Success",
               "Order ${order.id} marked as Ready for Pickup!",
-              snackPosition: SnackPosition.BOTTOM,
+              snackPosition: SnackPosition.TOP,
               backgroundColor: AppColors.success.withAlpha(20),
               colorText: AppColors.success,
             );

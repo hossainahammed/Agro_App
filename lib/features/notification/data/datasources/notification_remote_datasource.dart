@@ -46,6 +46,16 @@ class NotificationRemoteDatasourceImpl implements NotificationRemoteDatasource {
       payload: const NotificationPayloadModel(role: 'PRODUCER', referenceId: 'AGC-2830'),
     ),
     NotificationModel(
+      id: 'earlier-delivered',
+      title: 'Order Delivered',
+      body: 'Order #AGC-2810 (Cassava Flour × 20 bags) was successfully delivered to Ngozi Adaeze in Port...',
+      type: NotificationType.orderDelivered,
+      status: NotificationStatus.read,
+      createdAt: DateTime.now().subtract(const Duration(days: 2, hours: 5)), // Jun 17 · 3:48 PM
+      actionLabel: 'View Details',
+      payload: const NotificationPayloadModel(role: 'PRODUCER', referenceId: 'AGC-2810'),
+    ),
+    NotificationModel(
       id: '4',
       title: 'New Review on Your Product',
       body: 'Chukwudi Eze rated Fresh Roma Tomatoes\n★★★★★ — "Excellent quality, very fresh!"',

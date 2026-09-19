@@ -748,7 +748,7 @@ class _ProducerTrackDeliveryScreenState
                   Get.snackbar(
                     "Calling",
                     "Calling $driverName (${order.driverPhone ?? '+234 812 340 9021'})...",
-                    snackPosition: SnackPosition.BOTTOM,
+                    snackPosition: SnackPosition.TOP,
                     backgroundColor: AppColors.primary.withAlpha(20),
                     colorText: AppColors.primary,
                   );
@@ -761,7 +761,7 @@ class _ProducerTrackDeliveryScreenState
                   Get.snackbar(
                     "Chat",
                     "Opening chat with driver $driverName...",
-                    snackPosition: SnackPosition.BOTTOM,
+                    snackPosition: SnackPosition.TOP,
                     backgroundColor: AppColors.primary.withAlpha(20),
                     colorText: AppColors.primary,
                   );
@@ -858,7 +858,7 @@ class _ProducerTrackDeliveryScreenState
                           Get.snackbar(
                             "Copied",
                             "Order ID copied",
-                            snackPosition: SnackPosition.BOTTOM,
+                            snackPosition: SnackPosition.TOP,
                             backgroundColor: AppColors.primary.withAlpha(20),
                             colorText: AppColors.primary,
                           );

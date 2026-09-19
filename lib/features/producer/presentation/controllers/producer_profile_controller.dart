@@ -76,7 +76,7 @@ class ProducerProfileController extends GetxController {
     Get.snackbar(
       'Profile Updated',
       'Your profile changes have been saved successfully.',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: const Color(0xFF2D7A3A),
       colorText: Colors.white,
       duration: const Duration(seconds: 2),

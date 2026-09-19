@@ -6,7 +6,7 @@ import '../../utils/constants/app_colors.dart';
 class AppToasts {
   static Future<void> successToast({
     required String message,
-    ToastGravity toastGravity = ToastGravity.CENTER,
+    ToastGravity toastGravity = ToastGravity.TOP,
   }) async {
     await _cancelExistingToasts();
     await Fluttertoast.showToast(
@@ -25,7 +25,7 @@ class AppToasts {
 
   static Future<void> errorToast({
     required String message,
-    ToastGravity toastGravity = ToastGravity.CENTER,
+    ToastGravity toastGravity = ToastGravity.TOP,
   }) async {
     await _cancelExistingToasts();
     await Fluttertoast.showToast(
@@ -44,7 +44,7 @@ class AppToasts {
 
   static Future<void> warningToast({
     required String message,
-    ToastGravity toastGravity = ToastGravity.CENTER,
+    ToastGravity toastGravity = ToastGravity.TOP,
   }) async {
     await _cancelExistingToasts();
     await Fluttertoast.showToast(
@@ -63,7 +63,7 @@ class AppToasts {
 
   static Future<void> infoToast({
     required String message,
-    ToastGravity toastGravity = ToastGravity.CENTER,
+    ToastGravity toastGravity = ToastGravity.TOP,
   }) async {
     await _cancelExistingToasts();
     await Fluttertoast.showToast(

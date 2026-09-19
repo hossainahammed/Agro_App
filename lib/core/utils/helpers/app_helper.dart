@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../common/widgets/app_snackber.dart';
+
 class AppHelperFunctions {
   AppHelperFunctions._();
   static void showSnackBar(String message) {
-    ScaffoldMessenger.of(
-      Get.context!,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    AppSnackBar.toast(message);
   }
 
   static void showAlert(String title, String message) {

@@ -111,7 +111,7 @@ class _AddPayoutMethodBottomSheetState extends State<AddPayoutMethodBottomSheet>
     Get.snackbar(
       'Success',
       '${newMethod.providerName} added successfully.',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: const Color(0xFF2D7A3A),
       colorText: Colors.white,
       duration: const Duration(seconds: 2),

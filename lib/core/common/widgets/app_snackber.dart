@@ -73,7 +73,7 @@ class AppSnackBar {
       backgroundColor: AppColors.black.withAlpha(200),
       borderRadius: 100,
       margin: EdgeInsets.symmetric(horizontal: 40.h, vertical: 20.w),
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 2),
     );
   }

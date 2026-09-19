@@ -120,7 +120,7 @@ class MyWalletScreen extends StatelessWidget {
                     Get.snackbar(
                       'Copied',
                       'Wallet ID copied to clipboard.',
-                      snackPosition: SnackPosition.BOTTOM,
+                      snackPosition: SnackPosition.TOP,
                       backgroundColor: Colors.black87,
                       colorText: Colors.white,
                       duration: const Duration(seconds: 1),
@@ -286,7 +286,7 @@ class MyWalletScreen extends StatelessWidget {
                     Get.snackbar(
                       'Refreshed',
                       'Wallet balance and transactions updated.',
-                      snackPosition: SnackPosition.BOTTOM,
+                      snackPosition: SnackPosition.TOP,
                       backgroundColor: const Color(0xFF2D7A3A),
                       colorText: Colors.white,
                       duration: const Duration(seconds: 1),

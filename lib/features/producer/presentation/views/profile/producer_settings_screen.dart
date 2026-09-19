@@ -329,7 +329,7 @@ class ProducerSettingsScreen extends StatelessWidget {
             Get.snackbar(
               'System Update',
               'You are running the latest version of AgroConnect.',
-              snackPosition: SnackPosition.BOTTOM,
+              snackPosition: SnackPosition.TOP,
               backgroundColor: const Color(0xFF2D7A3A),
               colorText: Colors.white,
               duration: const Duration(seconds: 2),

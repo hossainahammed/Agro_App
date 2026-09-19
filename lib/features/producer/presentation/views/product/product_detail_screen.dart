@@ -421,7 +421,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Row(
                     children: [
                       GestureDetector(
-                        onTap: () => Get.snackbar("Info", "Share functionality coming soon"),
+                        onTap: () => Get.snackbar("Info", "Share functionality coming soon", snackPosition: SnackPosition.TOP),
                         child: Container(
                           width: 40.h,
                           height: 40.h,
@@ -657,7 +657,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
             ),
             GestureDetector(
-              onTap: () => Get.snackbar("Info", "All reviews page coming soon"),
+              onTap: () => Get.snackbar("Info", "All reviews page coming soon", snackPosition: SnackPosition.TOP),
               child: Row(
                 children: [
                   Text(
@@ -1029,7 +1029,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               title: "Edit Listing",
               onTap: () {
                 Get.back();
-                Get.snackbar("Info", "Edit product functionality coming soon");
+                Get.snackbar("Info", "Edit product functionality coming soon", snackPosition: SnackPosition.TOP);
               },
             ),
             _buildActionItem(
@@ -1043,7 +1043,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Get.snackbar(
                   "Success",
                   "${widget.product.title} marked as ${widget.product.isActive ? 'Out of Stock' : 'Active'}",
-                  snackPosition: SnackPosition.BOTTOM,
+                  snackPosition: SnackPosition.TOP,
                   backgroundColor: AppColors.primary.withAlpha(20),
                   colorText: AppColors.primary,
                 );
@@ -1203,7 +1203,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Get.snackbar(
                         "Success",
                         "${widget.product.title} has been deleted",
-                        snackPosition: SnackPosition.BOTTOM,
+                        snackPosition: SnackPosition.TOP,
                         backgroundColor: AppColors.error.withAlpha(20),
                         colorText: AppColors.error,
                       );

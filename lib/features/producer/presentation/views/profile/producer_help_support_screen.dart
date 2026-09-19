@@ -218,7 +218,7 @@ class _ProducerHelpSupportScreenState extends State<ProducerHelpSupportScreen> {
             Get.snackbar(
               'Support Ticket',
               'Connecting you with our support team...',
-              snackPosition: SnackPosition.BOTTOM,
+              snackPosition: SnackPosition.TOP,
               backgroundColor: const Color(0xFF2D7A3A),
               colorText: Colors.white,
             );

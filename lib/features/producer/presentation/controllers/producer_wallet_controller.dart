@@ -319,7 +319,7 @@ class ProducerWalletController extends GetxController {
     Get.snackbar(
       'Withdrawal Successful',
       '₦${amountToWithdraw.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},')} has been sent to your account.',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: const Color(0xFF2D7A3A),
       colorText: Colors.white,
       duration: const Duration(seconds: 3),

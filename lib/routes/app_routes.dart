@@ -17,6 +17,7 @@ import '../features/producer/presentation/views/profile/producer_settings_screen
 import '../features/producer/presentation/views/profile/producer_change_password_screen.dart';
 import '../features/producer/presentation/views/profile/producer_help_support_screen.dart';
 import '../features/producer/presentation/views/profile/producer_terms_privacy_screen.dart';
+import '../features/producer/presentation/views/orders/producer_delivered_order_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -43,6 +44,7 @@ class AppRoute {
   static String changePassword = "/changePassword";
   static String helpSupport = "/helpSupport";
   static String termsPrivacy = "/termsPrivacy";
+  static String deliveredOrderDetail = "/deliveredOrderDetail";
 
   static List<GetPage> routes = [
     GetPage(name: init, page: () => const SplashScreen()),
@@ -92,6 +94,10 @@ class AppRoute {
     GetPage(
       name: termsPrivacy,
       page: () => const ProducerTermsPrivacyScreen(),
+    ),
+    GetPage(
+      name: deliveredOrderDetail,
+      page: () => const ProducerDeliveredOrderDetailScreen(),
     ),
   ];
 }

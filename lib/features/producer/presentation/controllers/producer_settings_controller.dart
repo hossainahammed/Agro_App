@@ -50,7 +50,7 @@ class ProducerSettingsController extends GetxController {
       Get.snackbar(
         'Validation Error',
         'Please fill in all password fields.',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: const Color(0xFFD32F2F),
         colorText: Colors.white,
         margin: const EdgeInsets.all(16),
@@ -63,7 +63,7 @@ class ProducerSettingsController extends GetxController {
       Get.snackbar(
         'Validation Error',
         'New password and confirm password do not match.',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: const Color(0xFFD32F2F),
         colorText: Colors.white,
         margin: const EdgeInsets.all(16),
@@ -76,7 +76,7 @@ class ProducerSettingsController extends GetxController {
       Get.snackbar(
         'Validation Error',
         'New password must be at least 6 characters.',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         backgroundColor: const Color(0xFFD32F2F),
         colorText: Colors.white,
         margin: const EdgeInsets.all(16),
@@ -94,7 +94,7 @@ class ProducerSettingsController extends GetxController {
     Get.snackbar(
       'Password Changed',
       'Your account password has been updated successfully.',
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       backgroundColor: const Color(0xFF2D7A3A),
       colorText: Colors.white,
       duration: const Duration(seconds: 3),
