@@ -7,13 +7,36 @@ import 'package:project_structure/core/utils/constants/image_path.dart';
 import '../../controllers/available_jobs_controller.dart';
 import '../widgets/delivery_icons.dart';
 
-class AvailableJobsScreen extends StatelessWidget {
+class AvailableJobsScreen extends StatefulWidget {
   const AvailableJobsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = Get.put(AvailableJobsController());
+  State<AvailableJobsScreen> createState() => _AvailableJobsScreenState();
+}
 
+class _AvailableJobsScreenState extends State<AvailableJobsScreen> {
+  late final TextEditingController _searchController;
+  late final AvailableJobsController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = Get.isRegistered<AvailableJobsController>()
+        ? Get.find<AvailableJobsController>()
+        : Get.put(AvailableJobsController());
+    _searchController =
+        TextEditingController(text: _controller.searchQuery.value);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = _controller;
     return Scaffold(
       backgroundColor: const Color(
         0xFFEDF4EE,
@@ -21,7 +44,7 @@ class AvailableJobsScreen extends StatelessWidget {
       body: Column(
         children: [
           // Top Forest Green Header
-          _buildHeader(context, controller),
+          _buildHeader(context, _controller),
 
           // Scrollable Content
           Expanded(
@@ -184,8 +207,8 @@ class AvailableJobsScreen extends StatelessWidget {
               ),
             ),
             child: TextField(
-              controller: controller.searchController,
-              onChanged: controller.onSearchChanged,
+              controller: _searchController,
+              onChanged: _controller.onSearchChanged,
               style: GoogleFonts.inter(fontSize: 13.5.sp, color: Colors.white),
               cursorColor: Colors.white,
               decoration: InputDecoration(

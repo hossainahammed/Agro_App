@@ -338,7 +338,6 @@ class AvailableJobsController extends GetxController {
   @override
   void onClose() {
     _countdownTimer?.cancel();
-    searchController.dispose();
     super.onClose();
   }
 }

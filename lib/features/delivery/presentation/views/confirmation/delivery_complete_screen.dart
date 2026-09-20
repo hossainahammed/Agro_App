@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import '../../controllers/available_jobs_controller.dart';
-import '../jobs/available_jobs_screen.dart';
+import '../../controllers/delivery_navigation_controller.dart';
+import '../delivery_main_screen.dart';
 import '../jobs/job_history_screen.dart';
 
 class DeliveryCompleteScreen extends StatelessWidget {
@@ -26,13 +27,19 @@ class DeliveryCompleteScreen extends StatelessWidget {
         controller.activeMission.value ??
         controller.allMissions.first;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF4F7F4),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // 1. Forest Green Ambient Curved Header with Celebration Badge
-            _buildHeader(context),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        _navigateToMissions(controller);
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF4F7F4),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // 1. Forest Green Ambient Curved Header with Celebration Badge
+              _buildHeader(context, controller),
 
             // 2. Body Details
             Padding(
@@ -101,13 +108,14 @@ class DeliveryCompleteScreen extends StatelessWidget {
           ],
         ),
       ),
+      ),
     );
   }
 
   // ==========================================================
   // TOP CURVED AMBIENT HEADER WITH CELEBRATION BADGE
   // ==========================================================
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, AvailableJobsController controller) {
     return Container(
       width: double.infinity,
       height: 230.h,
@@ -150,7 +158,7 @@ class DeliveryCompleteScreen extends StatelessWidget {
             top: MediaQuery.of(context).padding.top + 8.h,
             left: 16.w,
             child: GestureDetector(
-              onTap: () => Get.back(),
+              onTap: () => _navigateToMissions(controller),
               child: Container(
                 width: 36.h,
                 height: 36.h,
@@ -341,11 +349,7 @@ class DeliveryCompleteScreen extends StatelessWidget {
       width: double.infinity,
       height: 50.h,
       child: OutlinedButton(
-        onPressed: () {
-          // Clear active mission and return to Available Jobs
-          controller.activeMission.value = null;
-          Get.offAll(() => const AvailableJobsScreen());
-        },
+        onPressed: () => _navigateToMissions(controller),
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.white,
           side: const BorderSide(
@@ -366,5 +370,14 @@ class DeliveryCompleteScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _navigateToMissions(AvailableJobsController controller) {
+    // Clear active mission and return to DeliveryMainScreen with Missions tab (index 1)
+    controller.activeMission.value = null;
+    if (Get.isRegistered<DeliveryNavigationController>()) {
+      Get.find<DeliveryNavigationController>().changeIndex(1);
+    }
+    Get.offAll(() => const DeliveryMainScreen(initialIndex: 1));
   }
 }

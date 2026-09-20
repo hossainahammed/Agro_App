@@ -11,11 +11,24 @@ import 'jobs/available_jobs_screen.dart';
 import 'profile/delivery_profile_screen.dart';
 
 class DeliveryMainScreen extends StatelessWidget {
-  const DeliveryMainScreen({super.key});
+  final int? initialIndex;
+
+  const DeliveryMainScreen({super.key, this.initialIndex});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(DeliveryNavigationController());
+    final controller = Get.isRegistered<DeliveryNavigationController>()
+        ? Get.find<DeliveryNavigationController>()
+        : Get.put(DeliveryNavigationController());
+
+    final targetIndex = initialIndex ??
+        (Get.arguments is Map && (Get.arguments as Map).containsKey('index')
+            ? (Get.arguments as Map)['index'] as int
+            : null);
+
+    if (targetIndex != null && controller.currentIndex.value != targetIndex) {
+      controller.currentIndex.value = targetIndex;
+    }
 
     // Ensure ChatController is available for Messages tab
     if (!Get.isRegistered<ChatController>()) {

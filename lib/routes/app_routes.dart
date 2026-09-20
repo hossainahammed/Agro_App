@@ -32,6 +32,9 @@ import '../features/delivery/presentation/views/confirmation/delivery_confirmati
 import '../features/delivery/presentation/views/confirmation/delivery_complete_screen.dart';
 import '../features/delivery/presentation/views/jobs/job_history_screen.dart';
 import '../features/delivery/presentation/views/jobs/delivered_mission_detail_screen.dart';
+import '../features/delivery/presentation/views/earnings/withdraw_earnings_screen.dart';
+import '../features/delivery/presentation/views/earnings/withdrawal_requested_screen.dart';
+import '../features/delivery/presentation/views/earnings/withdrawal_success_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -53,6 +56,9 @@ class AppRoute {
   static String deliveryComplete = "/deliveryComplete";
   static String deliveryHistory = "/deliveryHistory";
   static String deliveredMissionDetail = "/deliveredMissionDetail";
+  static String deliveryWithdraw = "/deliveryWithdraw";
+  static String deliveryWithdrawRequested = "/deliveryWithdrawRequested";
+  static String deliveryWithdrawSuccess = "/deliveryWithdrawSuccess";
 
   static String homeScreen = "/homeScreen";
 
@@ -161,6 +167,18 @@ class AppRoute {
     GetPage(
       name: deliveredMissionDetail,
       page: () => const DeliveredMissionDetailScreen(),
+    ),
+    GetPage(
+      name: deliveryWithdraw,
+      page: () => const WithdrawEarningsScreen(),
+    ),
+    GetPage(
+      name: deliveryWithdrawRequested,
+      page: () => const WithdrawalRequestedScreen(),
+    ),
+    GetPage(
+      name: deliveryWithdrawSuccess,
+      page: () => WithdrawalSuccessScreen(),
     ),
   ];
 }

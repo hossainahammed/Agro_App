@@ -116,33 +116,48 @@ class _DeliveryBoxPainter extends CustomPainter {
     final sx = size.width / 24.0;
     final sy = size.height / 24.0;
 
-    // Outer cube outline
-    // Top face: (12, 2) -> (21, 7) -> (12, 12) -> (3, 7) -> closed
-    final topFace = Path()
-      ..moveTo(12 * sx, 2 * sy)
-      ..lineTo(21 * sx, 7 * sy)
-      ..lineTo(12 * sx, 12 * sy)
-      ..lineTo(3 * sx, 7 * sy)
+    // 1. Outer isometric contour of the box (hexagon)
+    final outerBox = Path()
+      ..moveTo(12 * sx, 3 * sy)
+      ..lineTo(20.5 * sx, 7.5 * sy)
+      ..lineTo(20.5 * sx, 16.5 * sy)
+      ..lineTo(12 * sx, 21 * sy)
+      ..lineTo(3.5 * sx, 16.5 * sy)
+      ..lineTo(3.5 * sx, 7.5 * sy)
       ..close();
-    canvas.drawPath(topFace, paint);
+    canvas.drawPath(outerBox, paint);
 
-    // Vertical edges: (3, 7) -> (3, 17), (21, 7) -> (21, 17), (12, 12) -> (12, 22)
-    canvas.drawLine(Offset(3 * sx, 7 * sy), Offset(3 * sx, 17 * sy), paint);
-    canvas.drawLine(Offset(21 * sx, 7 * sy), Offset(21 * sx, 17 * sy), paint);
-    canvas.drawLine(Offset(12 * sx, 12 * sy), Offset(12 * sx, 22 * sy), paint);
+    // 2. Y-seams dividing front-left, front-right, and top faces
+    // Vertical center seam from (12, 12) down to (12, 21)
+    canvas.drawLine(Offset(12 * sx, 12 * sy), Offset(12 * sx, 21 * sy), paint);
 
-    // Bottom edges: (3, 17) -> (12, 22) -> (21, 17)
-    final bottomEdges = Path()
-      ..moveTo(3 * sx, 17 * sy)
-      ..lineTo(12 * sx, 22 * sy)
-      ..lineTo(21 * sx, 17 * sy);
-    canvas.drawPath(bottomEdges, paint);
-
-    // Tape line down center of top face: (7.5, 4.5) -> (16.5, 9.5)
+    // Left face top seam from (3.5, 7.5) to (12, 12)
     canvas.drawLine(
-      Offset(7.5 * sx, 4.5 * sy),
-      Offset(16.5 * sx, 9.5 * sy),
-      paint..strokeWidth = strokeWidth * 0.8,
+      Offset(3.5 * sx, 7.5 * sy),
+      Offset(12 * sx, 12 * sy),
+      paint,
+    );
+
+    // Right face top seam from (20.5, 7.5) to (12, 12)
+    canvas.drawLine(
+      Offset(20.5 * sx, 7.5 * sy),
+      Offset(12 * sx, 12 * sy),
+      paint,
+    );
+
+    // 3. Packaging tape stripes diagonally across top face
+    // Tape line 1 (from back-left edge to front-right edge):
+    canvas.drawLine(
+      Offset(8.0 * sx, 5.1 * sy),
+      Offset(16.5 * sx, 9.6 * sy),
+      paint,
+    );
+
+    // Tape line 2 (parallel):
+    canvas.drawLine(
+      Offset(10.0 * sx, 4.1 * sy),
+      Offset(18.5 * sx, 8.6 * sy),
+      paint,
     );
   }
 
