@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/features/role_selection/screen/role_selection_screen.dart';
+import '../../../../../routes/app_routes.dart';
 
 class DeliveryProfileScreen extends StatelessWidget {
   const DeliveryProfileScreen({super.key});
@@ -126,7 +127,7 @@ class DeliveryProfileScreen extends StatelessWidget {
                     icon: Icons.notifications_none_rounded,
                     title: "Delivery Notifications",
                     subtitle: "Sound, alerts, and priority dispatch",
-                    onTap: () => AppSnackBar.info("Notification settings"),
+                    onTap: () => Get.toNamed(AppRoute.notification),
                   ),
                   SizedBox(height: 10.h),
                   _buildActionTile(

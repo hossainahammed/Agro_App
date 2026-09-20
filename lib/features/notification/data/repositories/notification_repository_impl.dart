@@ -60,21 +60,26 @@ class NotificationRepositoryImpl implements NotificationRepository {
     switch (category.toLowerCase()) {
       case 'orders':
       case 'order':
-        return all.where((n) => 
-          n.type == NotificationType.orderPlaced || 
-          n.type == NotificationType.orderCancelled ||
-          n.type == NotificationType.reviewReceived
-        ).toList();
+        return all
+            .where((n) =>
+                n.type == NotificationType.orderPlaced ||
+                n.type == NotificationType.orderCancelled)
+            .toList();
       case 'payments':
       case 'payment':
-        return all.where((n) => 
-          n.type == NotificationType.earningCredited
-        ).toList();
+        return all
+            .where((n) =>
+                n.type == NotificationType.earningCredited ||
+                n.title.toLowerCase().contains('payment') ||
+                n.title.toLowerCase().contains('payout') ||
+                n.title.toLowerCase().contains('bonus'))
+            .toList();
       case 'delivery':
-        return all.where((n) => 
-          n.type == NotificationType.orderShipped || 
-          n.type == NotificationType.orderDelivered
-        ).toList();
+        return all
+            .where((n) =>
+                n.type == NotificationType.orderShipped ||
+                n.type == NotificationType.orderDelivered)
+            .toList();
       default:
         return all;
     }

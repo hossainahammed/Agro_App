@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_structure/core/utils/constants/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_structure/core/utils/constants/app_sizer.dart';
 
 class NotificationFilterTabWidget extends StatelessWidget {
   final String selectedFilter;
@@ -13,89 +14,101 @@ class NotificationFilterTabWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List of filters with their corresponding config
     final List<Map<String, dynamic>> filters = [
       {
         'label': 'All',
         'icon': null,
         'unselectedBg': const Color(0xFFF0F4F1),
-        'iconColor': AppColors.textSecondary,
+        'iconColor': const Color(0xFF6B7280),
       },
       {
         'label': 'Orders',
         'icon': Icons.shopping_cart_outlined,
-        'unselectedBg': const Color(0xFFFFF7ED), // very light orange
-        'iconColor': const Color(0xFFEA580C), // orange
+        'unselectedBg': const Color(0xFFFFF4EB),
+        'iconColor': const Color(0xFFEA580C),
       },
       {
         'label': 'Payments',
-        'icon': Icons.attach_money,
-        'unselectedBg': const Color(0xFFF0FDF4), // very light green
-        'iconColor': const Color(0xFF16A34A), // success green
+        'icon': Icons.attach_money_rounded,
+        'unselectedBg': const Color(0xFFEBF7ED),
+        'iconColor': const Color(0xFF16A34A),
       },
       {
         'label': 'Delivery',
         'icon': Icons.local_shipping_outlined,
-        'unselectedBg': const Color(0xFFFAF5FF), // very light purple
-        'iconColor': const Color(0xFF9333EA), // purple
+        'unselectedBg': const Color(0xFFF6F0FD),
+        'iconColor': const Color(0xFF9333EA),
       },
     ];
 
     return Container(
-      height: 40,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: filters.length,
-        itemBuilder: (context, index) {
-          final filter = filters[index];
-          final String label = filter['label'];
-          final IconData? icon = filter['icon'];
-          final Color unselectedBg = filter['unselectedBg'];
-          final Color iconColor = filter['iconColor'];
-          final bool isSelected = label.toLowerCase() == selectedFilter.toLowerCase();
+      margin: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 6.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 7.h),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: const Color(0xFFE5EDE6),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: filters.map((filter) {
+          final String label = filter['label'] as String;
+          final IconData? icon = filter['icon'] as IconData?;
+          final Color unselectedBg = filter['unselectedBg'] as Color;
+          final Color iconColor = filter['iconColor'] as Color;
+          final bool isSelected =
+              label.toLowerCase() == selectedFilter.toLowerCase();
 
-          return Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: GestureDetector(
-              onTap: () => onFilterSelected(label),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  color: isSelected ? AppColors.primary : unselectedBg,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: isSelected ? AppColors.primary : Colors.transparent,
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (icon != null) ...[
-                      Icon(
-                        icon,
-                        size: 16,
-                        color: isSelected ? AppColors.white : iconColor,
-                      ),
-                      const SizedBox(width: 6),
-                    ],
-                    Text(
-                      label,
-                      style: TextStyle(
-                        color: isSelected ? AppColors.white : AppColors.textSecondary,
-                        fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                        fontSize: 13,
-                      ),
+          return GestureDetector(
+            onTap: () => onFilterSelected(label),
+            behavior: HitTestBehavior.opaque,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              padding: EdgeInsets.symmetric(
+                horizontal: icon != null ? 12.w : 15.w,
+                vertical: 6.5.h,
+              ),
+              decoration: BoxDecoration(
+                color: isSelected ? const Color(0xFF236830) : unselectedBg,
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (icon != null) ...[
+                    Icon(
+                      icon,
+                      size: 14.5.sp,
+                      color: isSelected ? Colors.white : iconColor,
                     ),
+                    SizedBox(width: 4.w),
                   ],
-                ),
+                  Text(
+                    label,
+                    style: GoogleFonts.inter(
+                      color: isSelected
+                          ? Colors.white
+                          : const Color(0xFF5A6E60),
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.w600,
+                      fontSize: 12.5.sp,
+                    ),
+                  ),
+                ],
               ),
             ),
           );
-        },
+        }).toList(),
       ),
     );
   }

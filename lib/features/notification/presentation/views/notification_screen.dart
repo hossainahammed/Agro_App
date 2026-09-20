@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/enums/notification_status_enum.dart';
-import '../../../../core/enums/notification_type_enum.dart';
-import '../../../../core/utils/constants/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:project_structure/core/common/widgets/app_snackber.dart';
+import 'package:project_structure/core/enums/notification_status_enum.dart';
+import 'package:project_structure/core/enums/notification_type_enum.dart';
+import 'package:project_structure/core/utils/constants/app_sizer.dart';
+import '../../../delivery/presentation/views/delivery_main_screen.dart';
 import '../../../producer/presentation/views/orders/producer_delivered_order_screen.dart';
 import '../controllers/notification_controller.dart';
 import 'widgets/notification_empty_widget.dart';
@@ -10,413 +13,286 @@ import 'widgets/notification_filter_tab_widget.dart';
 import 'widgets/notification_list_tile_widget.dart';
 import 'widgets/notification_shimmer_widget.dart';
 
-class NotificationScreen extends StatefulWidget {
+class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
-
-  @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
-}
-
-class _NotificationScreenState extends State<NotificationScreen> {
-  final RxBool showHighlightCard = true.obs;
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<NotificationController>();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7FAF7), // soft light background
-      appBar: AppBar(
-        backgroundColor: AppColors.primary,
-        elevation: 0,
-        toolbarHeight: 70,
-        leadingWidth: 56,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.white.withValues(alpha: 0.15),
-            radius: 18,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white, size: 18),
-              onPressed: () => Get.back(),
-              padding: EdgeInsets.zero,
-            ),
-          ),
-        ),
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'AGROCONNECT',
-              style: TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFFB5D9BB), // light matching green
-                letterSpacing: 1.2,
-              ),
-            ),
-            SizedBox(height: 2),
-            Text(
-              'Notifications',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Filter Tabs
-            Obx(
-              () => NotificationFilterTabWidget(
-                selectedFilter: controller.selectedFilter.value,
-                onFilterSelected: controller.changeFilter,
-              ),
-            ),
-            
-            // Notification List Area
-            Expanded(
-              child: Obx(() {
-                if (controller.isLoading.value) {
-                  return const NotificationShimmerWidget();
-                }
-
-                if (controller.notifications.isEmpty) {
-                  return const NotificationEmptyWidget();
-                }
-
-                // Filter notifications locally
-                final today = DateTime.now();
-                final todayNotifications = controller.notifications.where((n) {
-                  return n.createdAt.year == today.year &&
-                      n.createdAt.month == today.month &&
-                      n.createdAt.day == today.day;
-                }).toList();
-
-                final earlierNotifications = controller.notifications.where((n) {
-                  return !(n.createdAt.year == today.year &&
-                      n.createdAt.month == today.month &&
-                      n.createdAt.day == today.day);
-                }).toList();
-
-                final todayUnreadCount = todayNotifications
-                    .where((n) => n.status == NotificationStatus.unread)
-                    .length;
-
-                return RefreshIndicator(
-                  onRefresh: controller.fetchNotifications,
-                  color: AppColors.primary,
-                  child: ListView(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    children: [
-                      // Highlight Delivery Card at top (Dismissible)
-                      Obx(() {
-                        final filter = controller.selectedFilter.value;
-                        if (showHighlightCard.value &&
-                            (filter == 'All' || filter == 'Delivery')) {
-                          return _buildHighlightCard();
-                        }
-                        return const SizedBox.shrink();
-                      }),
-
-                      // TODAY section
-                      if (todayNotifications.isNotEmpty) ...[
-                        _buildSectionHeader('TODAY', todayUnreadCount),
-                        ...todayNotifications.map((notification) {
-                          return NotificationListTileWidget(
-                            notification: notification,
-                            onTap: () {
-                              controller.markNotificationAsRead(notification.id);
-                              if (notification.type == NotificationType.orderDelivered ||
-                                  notification.payload?.referenceId == 'AGC-2830' ||
-                                  notification.payload?.referenceId == 'AGC-2810') {
-                                Get.to(() => ProducerDeliveredOrderDetailScreen(
-                                  orderId: notification.payload?.referenceId != null
-                                      ? "#${notification.payload!.referenceId}"
-                                      : "#AGC-2830",
-                                ));
-                              }
-                            },
-                            onDelete: () {
-                              controller.deleteSingleNotification(notification.id);
-                            },
-                          );
-                        }),
-                      ],
-
-                      // EARLIER section
-                      if (earlierNotifications.isNotEmpty) ...[
-                        const SizedBox(height: 12),
-                        _buildSectionHeader('EARLIER', 0),
-                        ...earlierNotifications.map((notification) {
-                          return NotificationListTileWidget(
-                            notification: notification,
-                            onTap: () {
-                              controller.markNotificationAsRead(notification.id);
-                              if (notification.type == NotificationType.orderDelivered ||
-                                  notification.payload?.referenceId == 'AGC-2830' ||
-                                  notification.payload?.referenceId == 'AGC-2810') {
-                                Get.to(() => ProducerDeliveredOrderDetailScreen(
-                                  orderId: notification.payload?.referenceId != null
-                                      ? "#${notification.payload!.referenceId}"
-                                      : "#AGC-2810",
-                                ));
-                              }
-                            },
-                            onDelete: () {
-                              controller.deleteSingleNotification(notification.id);
-                            },
-                          );
-                        }),
-                      ],
-
-                      // Caught up indicator
-                      _buildCaughtUpWidget(),
-                    ],
-                  ),
-                );
-              }),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionHeader(String title, int unreadCount) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-      child: Row(
+      backgroundColor: const Color(0xFFF7FAF7), // Soft clean background
+      body: Column(
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
-              letterSpacing: 0.8,
+          // 1. Top Forest Green Header with Curved Bottom
+          _buildTopAppBar(context),
+
+          // 2. Filter Tabs Bar (All, Orders, Payments, Delivery)
+          Obx(
+            () => NotificationFilterTabWidget(
+              selectedFilter: controller.selectedFilter.value,
+              onFilterSelected: controller.changeFilter,
             ),
           ),
-          if (unreadCount > 0) ...[
-            const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.all(6),
-              decoration: const BoxDecoration(
-                color: AppColors.primary,
-                shape: BoxShape.circle,
-              ),
-              child: Text(
-                '$unreadCount',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+
+          // 3. Notification List Area
+          Expanded(
+            child: Obx(() {
+              if (controller.isLoading.value) {
+                return const NotificationShimmerWidget();
+              }
+
+              if (controller.notifications.isEmpty) {
+                return const NotificationEmptyWidget();
+              }
+
+              final today = DateTime.now();
+              final todayNotifications = controller.notifications.where((n) {
+                return n.createdAt.year == today.year &&
+                    n.createdAt.month == today.month &&
+                    n.createdAt.day == today.day;
+              }).toList();
+
+              final earlierNotifications = controller.notifications.where((n) {
+                return !(n.createdAt.year == today.year &&
+                    n.createdAt.month == today.month &&
+                    n.createdAt.day == today.day);
+              }).toList();
+
+              final todayUnreadCount = todayNotifications
+                  .where((n) => n.status == NotificationStatus.unread)
+                  .length;
+
+              return RefreshIndicator(
+                onRefresh: controller.fetchNotifications,
+                color: const Color(0xFF236830),
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.only(top: 4.h, bottom: 24.h),
+                  children: [
+                    // TODAY Section
+                    if (todayNotifications.isNotEmpty) ...[
+                      _buildSectionHeader('TODAY', todayUnreadCount),
+                      ...todayNotifications.map((notification) {
+                        return NotificationListTileWidget(
+                          notification: notification,
+                          onTap: () => _handleNotificationTap(notification, controller),
+                          onDelete: () =>
+                              controller.deleteSingleNotification(notification.id),
+                        );
+                      }),
+                    ],
+
+                    // EARLIER Section
+                    if (earlierNotifications.isNotEmpty) ...[
+                      SizedBox(height: 10.h),
+                      _buildSectionHeader('EARLIER', 0),
+                      ...earlierNotifications.map((notification) {
+                        return NotificationListTileWidget(
+                          notification: notification,
+                          onTap: () => _handleNotificationTap(notification, controller),
+                          onDelete: () =>
+                              controller.deleteSingleNotification(notification.id),
+                        );
+                      }),
+                    ],
+
+                    // "You're all caught up" Footer Indicator
+                    _buildCaughtUpWidget(),
+                  ],
                 ),
-              ),
-            ),
-          ],
-          const SizedBox(width: 8),
-          const Expanded(
-            child: Divider(
-              color: Color(0xFFE5E7EB),
-              thickness: 1,
-            ),
+              );
+            }),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildHighlightCard() {
-    return GestureDetector(
-      onTap: () {
-        Get.to(() => const ProducerDeliveredOrderDetailScreen(orderId: "#AGC-2830"));
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFEDF7EE), // soft green
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFFC6E8C7),
-            width: 1,
-          ),
+  // ====================================================================
+  // 1. TOP APP BAR WITH CURVED BOTTOM
+  // ====================================================================
+  Widget _buildTopAppBar(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(
+        16.w,
+        MediaQuery.of(context).padding.top + 8.h,
+        16.w,
+        16.h,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFF236830), // Solid forest green
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(24.r),
+          bottomRight: Radius.circular(24.r),
         ),
-        child: Stack(
-          children: [
-            // Top-left indicator bar
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
-                width: 95,
-                height: 4,
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    bottomRight: Radius.circular(4),
-                  ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          // Circular Translucent Back Navigation Button
+          GestureDetector(
+            onTap: () => Get.back(),
+            behavior: HitTestBehavior.opaque,
+            child: Container(
+              width: 38.h,
+              height: 38.h,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.16),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.22),
+                  width: 1,
                 ),
               ),
-            ),
-            // Content
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Icon leading (rounded rectangle)
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: const Icon(
-                      Icons.inventory_2_outlined, // box icon
-                      color: Colors.white,
-                      size: 22,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  // Text details
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'AGROCONNECT',
-                              style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textSecondary,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Icons.access_time, size: 12, color: AppColors.textSecondary),
-                                const SizedBox(width: 4),
-                                Text(
-                                  'Just now',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textSecondary.withValues(alpha: 0.8),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          'Order Delivered!',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        const Text(
-                          'Your order #AGC-2830 has arrived',
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => const ProducerDeliveredOrderDetailScreen(orderId: "#AGC-2830"));
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'View order',
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                SizedBox(width: 4),
-                                Icon(Icons.chevron_right, size: 16, color: Colors.white),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  // Close button
-                  GestureDetector(
-                    onTap: () => showHighlightCard.value = false,
-                    behavior: HitTestBehavior.opaque,
-                    child: Container(
-                      width: 28,
-                      height: 28,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.withValues(alpha: 0.20),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.close,
-                        size: 14,
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                  ),
-                ],
+              alignment: Alignment.center,
+              child: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+                size: 18,
               ),
             ),
-          ],
-        ),
+          ),
+          SizedBox(width: 14.w),
+
+          // Title & Subtitle Stack
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'AGROCONNECT',
+                style: GoogleFonts.inter(
+                  fontSize: 10.5.sp,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFFB5D9BB),
+                  letterSpacing: 1.2,
+                ),
+              ),
+              SizedBox(height: 1.5.h),
+              Text(
+                'Notifications',
+                style: GoogleFonts.inter(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  letterSpacing: -0.3,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
+  // ====================================================================
+  // 2. SECTION HEADER
+  // ====================================================================
+  Widget _buildSectionHeader(String title, int unreadCount) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.w, 10.h, 18.w, 6.h),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 12.sp,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF1E2D24),
+              letterSpacing: 0.8,
+            ),
+          ),
+          if (unreadCount > 0) ...[
+            SizedBox(width: 6.w),
+            Container(
+              width: 18.h,
+              height: 18.h,
+              decoration: const BoxDecoration(
+                color: Color(0xFF236830),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                '$unreadCount',
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  // ====================================================================
+  // 3. CAUGHT UP FOOTER
+  // ====================================================================
   Widget _buildCaughtUpWidget() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 28.0),
+      padding: EdgeInsets.symmetric(vertical: 24.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.check_circle_outline,
-            color: AppColors.primary.withValues(alpha: 0.5),
-            size: 18,
+            Icons.check_circle_outline_rounded,
+            color: const Color(0xFF7A8C80),
+            size: 16.sp,
           ),
-          const SizedBox(width: 6),
+          SizedBox(width: 6.w),
           Text(
             "You're all caught up",
-            style: TextStyle(
-              color: AppColors.textSecondary.withValues(alpha: 0.7),
-              fontSize: 13,
+            style: GoogleFonts.inter(
+              color: const Color(0xFF7A8C80),
+              fontSize: 12.5.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
         ],
       ),
     );
+  }
+
+  // ====================================================================
+  // 4. ACTION TAP DISPATCHER
+  // ====================================================================
+  void _handleNotificationTap(
+      dynamic notification, NotificationController controller) {
+    controller.markNotificationAsRead(notification.id);
+
+    if (notification.actionLabel == 'View Wallet') {
+      Get.offAll(() => const DeliveryMainScreen(initialIndex: 2));
+      return;
+    }
+
+    if (notification.type == NotificationType.orderDelivered ||
+        notification.payload?.referenceId == 'AGC-2830' ||
+        notification.payload?.referenceId == 'AGC-2810') {
+      Get.to(() => ProducerDeliveredOrderDetailScreen(
+            orderId: notification.payload?.referenceId != null
+                ? "#${notification.payload!.referenceId}"
+                : "#AGC-2830",
+          ));
+      return;
+    }
+
+    if (notification.actionLabel == 'See Review') {
+      AppSnackBar.info("Product review: 'Excellent quality, very fresh!'");
+      return;
+    }
+
+    if (notification.actionLabel == 'View Details') {
+      AppSnackBar.info("Payout #WDR-20240627-8821: ₦62,400 sent to GTB ****4412");
+      return;
+    }
+
+    if (notification.actionLabel == 'Track') {
+      AppSnackBar.info("Tracking active mission #AGC-2830");
+      return;
+    }
   }
 }

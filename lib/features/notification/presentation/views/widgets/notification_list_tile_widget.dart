@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:project_structure/core/enums/notification_status_enum.dart';
 import 'package:project_structure/core/enums/notification_type_enum.dart';
-import 'package:project_structure/core/utils/constants/app_colors.dart';
+import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/features/notification/domain/entities/notification_entity.dart';
 
 class NotificationListTileWidget extends StatelessWidget {
@@ -19,139 +20,158 @@ class NotificationListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isUnread = notification.status == NotificationStatus.unread;
-
-    // Resolve color styling based on notification type
     final iconConfig = _getIconConfigForType(notification.type);
 
     return Dismissible(
       key: Key(notification.id),
       direction: DismissDirection.endToStart,
       background: Container(
-        color: AppColors.error,
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.5.h),
+        decoration: BoxDecoration(
+          color: const Color(0xFFE53935),
+          borderRadius: BorderRadius.circular(14.r),
+        ),
         alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 24.0),
-        child: const Icon(Icons.delete_outline, color: AppColors.white),
+        padding: EdgeInsets.only(right: 20.w),
+        child: const Icon(Icons.delete_outline_rounded, color: Colors.white, size: 22),
       ),
       onDismissed: (_) => onDelete(),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 5.5.h),
         decoration: BoxDecoration(
-          color: isUnread ? const Color(0xFFF4F9F5) : AppColors.white,
-          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14.r),
           border: Border.all(
-            color: isUnread ? AppColors.primary.withValues(alpha: 0.15) : const Color(0xFFE5E7EB),
+            color: isUnread ? const Color(0xFFD6E8DA) : const Color(0xFFE5EDE6),
             width: 1,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(14.r),
           child: IntrinsicHeight(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Unread indicator left bar
+                // Green Indicator Bar on the far left for Unread
                 if (isUnread)
                   Container(
-                    width: 4,
-                    color: AppColors.primary,
+                    width: 3.8.w,
+                    color: const Color(0xFF236830),
                   ),
-                
-                // Content area
+
+                // Main Content
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: EdgeInsets.all(12.h),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Leading circular icon
+                        // Category Icon Rounded Container
                         Container(
-                          width: 40,
-                          height: 40,
+                          width: 40.h,
+                          height: 40.h,
                           decoration: BoxDecoration(
                             color: iconConfig['bgColor'] as Color,
-                            shape: BoxShape.circle,
+                            borderRadius: BorderRadius.circular(11.r),
                           ),
+                          alignment: Alignment.center,
                           child: Icon(
                             iconConfig['icon'] as IconData,
                             color: iconConfig['iconColor'] as Color,
-                            size: 20,
+                            size: 19.sp,
                           ),
                         ),
-                        const SizedBox(width: 12),
-                        
-                        // Text details
+                        SizedBox(width: 11.w),
+
+                        // Details Column
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Title & Time row
+                              // Title & Time Row
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // Green Dot for unread + Title
                                   Expanded(
                                     child: Row(
                                       children: [
                                         if (isUnread) ...[
                                           Container(
-                                            width: 6,
-                                            height: 6,
+                                            width: 5.5.h,
+                                            height: 5.5.h,
                                             decoration: const BoxDecoration(
-                                              color: AppColors.primary,
+                                              color: Color(0xFF236830),
                                               shape: BoxShape.circle,
                                             ),
                                           ),
-                                          const SizedBox(width: 6),
+                                          SizedBox(width: 5.w),
                                         ],
                                         Expanded(
                                           child: Text(
                                             notification.title,
-                                            style: TextStyle(
-                                              fontWeight: isUnread ? FontWeight.bold : FontWeight.w600,
-                                              color: AppColors.textPrimary,
-                                              fontSize: 14,
+                                            style: GoogleFonts.inter(
+                                              fontSize: 13.5.sp,
+                                              fontWeight: isUnread
+                                                  ? FontWeight.bold
+                                                  : FontWeight.w600,
+                                              color: const Color(0xFF1E2D24),
                                             ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                  SizedBox(width: 8.w),
+
+                                  // Time string
                                   Text(
                                     _formatDate(notification.createdAt),
-                                    style: const TextStyle(
-                                      color: AppColors.textSecondary,
-                                      fontSize: 11,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFF7A8C80),
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 6),
-                              
-                              // Body
+                              SizedBox(height: 5.h),
+
+                              // Body text
                               _buildBody(context),
-                              
-                              // Action Button/Link
-                              if (notification.actionLabel != null) ...[
-                                const SizedBox(height: 8),
-                                InkWell(
+
+                              // Action Link (e.g. View Order >)
+                              if (notification.actionLabel != null &&
+                                  notification.actionLabel!.isNotEmpty) ...[
+                                SizedBox(height: 7.h),
+                                GestureDetector(
                                   onTap: onTap,
+                                  behavior: HitTestBehavior.opaque,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
                                         notification.actionLabel!,
-                                        style: const TextStyle(
-                                          color: AppColors.primary,
+                                        style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 13,
+                                          color: const Color(0xFF236830),
                                         ),
                                       ),
-                                      const SizedBox(width: 4),
+                                      SizedBox(width: 3.w),
                                       const Icon(
-                                        Icons.chevron_right,
-                                        size: 14,
-                                        color: AppColors.primary,
+                                        Icons.chevron_right_rounded,
+                                        size: 15,
+                                        color: Color(0xFF236830),
                                       ),
                                     ],
                                   ),
@@ -174,7 +194,6 @@ class NotificationListTileWidget extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     if (notification.type == NotificationType.reviewReceived) {
-      // Split rating and comments if present in body
       final parts = notification.body.split('\n');
       if (parts.length > 1) {
         return Column(
@@ -182,26 +201,36 @@ class NotificationListTileWidget extends StatelessWidget {
           children: [
             Text(
               parts[0],
-              style: const TextStyle(color: AppColors.textSecondary, fontSize: 13, height: 1.3),
+              style: GoogleFonts.inter(
+                fontSize: 12.sp,
+                color: const Color(0xFF5A6E60),
+                height: 1.35,
+              ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 3.h),
             Row(
               children: [
                 Row(
                   children: List.generate(
                     5,
-                    (index) => const Icon(Icons.star, color: Color(0xFFF7A422), size: 14),
+                    (index) => const Icon(
+                      Icons.star_rounded,
+                      color: Color(0xFFFFA000),
+                      size: 13,
+                    ),
                   ),
                 ),
-                const SizedBox(width: 6),
+                SizedBox(width: 6.w),
                 Expanded(
                   child: Text(
-                    parts[1].replaceAll('★★★★★ — ', ''),
-                    style: const TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 13,
+                    parts[1].replaceAll('★★★★★ — ', '').replaceAll('★★★★★ - ', ''),
+                    style: GoogleFonts.inter(
+                      fontSize: 11.5.sp,
+                      color: const Color(0xFF5A6E60),
                       fontStyle: FontStyle.italic,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -213,12 +242,49 @@ class NotificationListTileWidget extends StatelessWidget {
 
     return Text(
       notification.body,
-      style: const TextStyle(
-        color: AppColors.textSecondary,
-        fontSize: 13,
-        height: 1.4,
+      style: GoogleFonts.inter(
+        fontSize: 12.sp,
+        color: const Color(0xFF5A6E60),
+        height: 1.35,
       ),
     );
+  }
+
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final isToday =
+        date.year == now.year && date.month == now.month && date.day == now.day;
+    final isYesterday = date.year == now.year &&
+        date.month == now.month &&
+        date.day == now.day - 1;
+
+    final hour =
+        date.hour > 12 ? date.hour - 12 : (date.hour == 0 ? 12 : date.hour);
+    final period = date.hour >= 12 ? 'PM' : 'AM';
+    final minute = date.minute.toString().padLeft(2, '0');
+    final timeStr = "$hour:$minute $period";
+
+    if (isToday) {
+      return timeStr;
+    } else if (isYesterday) {
+      return "Yesterday · $timeStr";
+    } else {
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec'
+      ];
+      return "${months[date.month - 1]} ${date.day} · $timeStr";
+    }
   }
 
   Map<String, dynamic> _getIconConfigForType(NotificationType type) {
@@ -226,20 +292,20 @@ class NotificationListTileWidget extends StatelessWidget {
       case NotificationType.orderPlaced:
       case NotificationType.orderCancelled:
         return {
-          'bgColor': const Color(0xFFFFF7ED),
+          'bgColor': const Color(0xFFFFF4EB),
           'iconColor': const Color(0xFFEA580C),
           'icon': Icons.shopping_cart_outlined,
         };
       case NotificationType.earningCredited:
         return {
-          'bgColor': const Color(0xFFF0FDF4),
+          'bgColor': const Color(0xFFEBF7ED),
           'iconColor': const Color(0xFF16A34A),
-          'icon': Icons.attach_money,
+          'icon': Icons.attach_money_rounded,
         };
       case NotificationType.orderShipped:
       case NotificationType.orderDelivered:
         return {
-          'bgColor': const Color(0xFFFAF5FF),
+          'bgColor': const Color(0xFFF6F0FD),
           'iconColor': const Color(0xFF9333EA),
           'icon': Icons.local_shipping_outlined,
         };
@@ -247,43 +313,21 @@ class NotificationListTileWidget extends StatelessWidget {
         return {
           'bgColor': const Color(0xFFFFFBEB),
           'iconColor': const Color(0xFFD97706),
-          'icon': Icons.star_outline,
+          'icon': Icons.star_outline_rounded,
         };
+      case NotificationType.lowStock:
+        return {
+          'bgColor': const Color(0xFFFFFBEB),
+          'iconColor': const Color(0xFFD97706),
+          'icon': Icons.warning_amber_rounded,
+        };
+      case NotificationType.system:
       default:
         return {
           'bgColor': const Color(0xFFEFF6FF),
           'iconColor': const Color(0xFF2563EB),
           'icon': Icons.verified_outlined,
         };
-    }
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final difference = now.difference(date);
-
-    if (difference.inMinutes < 60) {
-      if (difference.inMinutes <= 1) return 'Just now';
-      return '${difference.inMinutes}m ago';
-    } else if (date.year == now.year && date.month == now.month && date.day == now.day) {
-      // Format hour and minute
-      final hourStr = date.hour > 12 ? '${date.hour - 12}' : '${date.hour}';
-      final minStr = date.minute.toString().padLeft(2, '0');
-      final period = date.hour >= 12 ? 'PM' : 'AM';
-      return '$hourStr:$minStr $period';
-    } else if (date.year == now.year && date.month == now.month && date.day == now.day - 1) {
-      final hourStr = date.hour > 12 ? '${date.hour - 12}' : '${date.hour}';
-      final minStr = date.minute.toString().padLeft(2, '0');
-      final period = date.hour >= 12 ? 'PM' : 'AM';
-      return 'Yesterday · $hourStr:$minStr $period';
-    } else {
-      // Month names
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      final monthStr = months[date.month - 1];
-      final hourStr = date.hour > 12 ? '${date.hour - 12}' : '${date.hour}';
-      final minStr = date.minute.toString().padLeft(2, '0');
-      final period = date.hour >= 12 ? 'PM' : 'AM';
-      return '$monthStr ${date.day} · $hourStr:$minStr $period';
     }
   }
 }
