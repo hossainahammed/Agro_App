@@ -25,6 +25,8 @@ import '../features/delivery/presentation/views/verification/delivery_vehicle_do
 import '../features/delivery/presentation/views/verification/delivery_verification_pending_screen.dart';
 import '../features/delivery/presentation/views/delivery_main_screen.dart';
 import '../features/delivery/presentation/views/delivery_dashboard_screen.dart';
+import '../features/delivery/presentation/views/jobs/available_jobs_screen.dart';
+import '../features/delivery/presentation/views/jobs/active_job_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -39,6 +41,8 @@ class AppRoute {
   static String deliveryVerificationPending = "/deliveryVerificationPending";
   static String deliveryMain = "/deliveryMain";
   static String deliveryDashboard = "/deliveryDashboard";
+  static String deliveryAvailableJobs = "/deliveryAvailableJobs";
+  static String deliveryActiveJob = "/deliveryActiveJob";
 
   static String homeScreen = "/homeScreen";
 
@@ -119,6 +123,14 @@ class AppRoute {
     GetPage(
       name: deliveryDashboard,
       page: () => const DeliveryDashboardScreen(),
+    ),
+    GetPage(
+      name: deliveryAvailableJobs,
+      page: () => const AvailableJobsScreen(),
+    ),
+    GetPage(
+      name: deliveryActiveJob,
+      page: () => const ActiveJobScreen(),
     ),
   ];
 }

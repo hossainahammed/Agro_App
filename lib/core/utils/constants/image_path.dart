@@ -10,4 +10,9 @@ class ImagePath {
   static const String producerRole = '$_basePath/producer.png';
   static const String buyerRole = '$_basePath/buyer.png';
   static const String deliveryRole = '$_basePath/delivery_boy.png';
+
+  static const String allCategory = '$_basePath/all.png';
+  static const String vegetablesCategory = '$_basePath/vegetables.png';
+  static const String fruitsCategory = '$_basePath/fruits.png';
+  static const String grainsCategory = '$_basePath/grains.png';
 }
