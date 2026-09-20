@@ -558,21 +558,14 @@ class DeliveryAccountCreationScreen extends StatelessWidget {
     DeliveryAccountController controller,
   ) {
     Get.bottomSheet(
-      Container(
-        height: 440.h,
-        padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: Column(
+      Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          height: 440.h,
+          padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
@@ -672,6 +665,7 @@ class DeliveryAccountCreationScreen extends StatelessWidget {
           ],
         ),
       ),
+      ),
       isScrollControlled: true,
     );
   }
@@ -748,20 +742,13 @@ class DeliveryAccountCreationScreen extends StatelessWidget {
     DeliveryAccountController controller,
   ) {
     Get.bottomSheet(
-      Container(
-        padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 28.h),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: Column(
+      Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 28.h),
+          child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -844,6 +831,7 @@ class DeliveryAccountCreationScreen extends StatelessWidget {
           ],
         ),
       ),
+      ),
       isScrollControlled: true,
     );
   }
@@ -905,21 +893,14 @@ class DeliveryAccountCreationScreen extends StatelessWidget {
     DeliveryAccountController controller,
   ) {
     Get.bottomSheet(
-      Container(
-        height: 420.h,
-        padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 20,
-              offset: const Offset(0, -4),
-            ),
-          ],
-        ),
-        child: Column(
+      Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          height: 420.h,
+          padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
@@ -1007,6 +988,7 @@ class DeliveryAccountCreationScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
       isScrollControlled: true,
     );

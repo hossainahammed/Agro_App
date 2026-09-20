@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
-import 'package:project_structure/features/authentication/presentation/screens/login_screen.dart';
+import '../views/verification/delivery_identity_verify_screen.dart';
 
 class DeliveryPhoneVerifyController extends GetxController {
   final String rawPhoneNumber;
@@ -90,10 +90,10 @@ class DeliveryPhoneVerifyController extends GetxController {
     isLoading.value = true;
     Future.delayed(const Duration(milliseconds: 1000), () {
       isLoading.value = false;
-      AppSnackBar.success('Phone verified successfully! Account is active.');
+      AppSnackBar.success('Phone verified successfully! Please upload your documents.');
       
-      Future.delayed(const Duration(milliseconds: 700), () {
-        Get.offAll(() => LoginScreen());
+      Future.delayed(const Duration(milliseconds: 600), () {
+        Get.off(() => const DeliveryIdentityVerifyScreen());
       });
     });
   }

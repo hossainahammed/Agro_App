@@ -20,6 +20,9 @@ import '../features/producer/presentation/views/profile/producer_terms_privacy_s
 import '../features/producer/presentation/views/orders/producer_delivered_order_screen.dart';
 import '../features/delivery/presentation/views/account_creation/delivery_account_creation_screen.dart';
 import '../features/delivery/presentation/views/account_creation/delivery_phone_verify_screen.dart';
+import '../features/delivery/presentation/views/verification/delivery_identity_verify_screen.dart';
+import '../features/delivery/presentation/views/verification/delivery_vehicle_docs_screen.dart';
+import '../features/delivery/presentation/views/verification/delivery_verification_pending_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -29,6 +32,9 @@ class AppRoute {
   static String signUpScreen = "/signUpScreen";
   static String deliveryAccountCreation = "/deliveryAccountCreation";
   static String deliveryPhoneVerify = "/deliveryPhoneVerify";
+  static String deliveryIdentityVerify = "/deliveryIdentityVerify";
+  static String deliveryVehicleDocs = "/deliveryVehicleDocs";
+  static String deliveryVerificationPending = "/deliveryVerificationPending";
 
   static String homeScreen = "/homeScreen";
 
@@ -67,38 +73,17 @@ class AppRoute {
       page: () => const ChatListScreen(),
       binding: ChatBinding(),
     ),
-    GetPage(
-      name: chatDetail,
-      page: () => const ChatDetailScreen(),
-    ),
-    GetPage(
-      name: editProfile,
-      page: () => const ProducerEditProfileScreen(),
-    ),
-    GetPage(
-      name: myWallet,
-      page: () => const MyWalletScreen(),
-    ),
-    GetPage(
-      name: payoutMethods,
-      page: () => const PayoutMethodsScreen(),
-    ),
-    GetPage(
-      name: settings,
-      page: () => const ProducerSettingsScreen(),
-    ),
+    GetPage(name: chatDetail, page: () => const ChatDetailScreen()),
+    GetPage(name: editProfile, page: () => const ProducerEditProfileScreen()),
+    GetPage(name: myWallet, page: () => const MyWalletScreen()),
+    GetPage(name: payoutMethods, page: () => const PayoutMethodsScreen()),
+    GetPage(name: settings, page: () => const ProducerSettingsScreen()),
     GetPage(
       name: changePassword,
       page: () => const ProducerChangePasswordScreen(),
     ),
-    GetPage(
-      name: helpSupport,
-      page: () => const ProducerHelpSupportScreen(),
-    ),
-    GetPage(
-      name: termsPrivacy,
-      page: () => const ProducerTermsPrivacyScreen(),
-    ),
+    GetPage(name: helpSupport, page: () => const ProducerHelpSupportScreen()),
+    GetPage(name: termsPrivacy, page: () => const ProducerTermsPrivacyScreen()),
     GetPage(
       name: deliveredOrderDetail,
       page: () => const ProducerDeliveredOrderDetailScreen(),
@@ -111,6 +96,17 @@ class AppRoute {
       name: deliveryPhoneVerify,
       page: () => const DeliveryPhoneVerifyScreen(),
     ),
+    GetPage(
+      name: deliveryIdentityVerify,
+      page: () => const DeliveryIdentityVerifyScreen(),
+    ),
+    GetPage(
+      name: deliveryVehicleDocs,
+      page: () => const DeliveryVehicleDocsScreen(),
+    ),
+    GetPage(
+      name: deliveryVerificationPending,
+      page: () => const DeliveryVerificationPendingScreen(),
+    ),
   ];
 }
-
