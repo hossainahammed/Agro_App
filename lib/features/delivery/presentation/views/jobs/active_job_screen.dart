@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import '../../controllers/available_jobs_controller.dart';
 import '../widgets/delivery_icons.dart';
+import 'job_detail_screen.dart';
 
 class ActiveJobScreen extends StatelessWidget {
   final MissionModel? mission;
@@ -104,9 +104,10 @@ class ActiveJobScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        AppSnackBar.success(
-                          "Opening turn-by-turn navigation to ${activeMission.pickupName}",
-                        );
+                        Get.to(() => JobDetailScreen(
+                          mission: activeMission,
+                          isAccepted: true,
+                        ));
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF236830),

@@ -27,6 +27,10 @@ import '../features/delivery/presentation/views/delivery_main_screen.dart';
 import '../features/delivery/presentation/views/delivery_dashboard_screen.dart';
 import '../features/delivery/presentation/views/jobs/available_jobs_screen.dart';
 import '../features/delivery/presentation/views/jobs/active_job_screen.dart';
+import '../features/delivery/presentation/views/navigation/delivery_navigation_screen.dart';
+import '../features/delivery/presentation/views/confirmation/delivery_confirmation_screen.dart';
+import '../features/delivery/presentation/views/confirmation/delivery_complete_screen.dart';
+import '../features/delivery/presentation/views/jobs/job_history_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -43,6 +47,10 @@ class AppRoute {
   static String deliveryDashboard = "/deliveryDashboard";
   static String deliveryAvailableJobs = "/deliveryAvailableJobs";
   static String deliveryActiveJob = "/deliveryActiveJob";
+  static String deliveryNavigation = "/deliveryNavigation";
+  static String deliveryConfirmation = "/deliveryConfirmation";
+  static String deliveryComplete = "/deliveryComplete";
+  static String deliveryHistory = "/deliveryHistory";
 
   static String homeScreen = "/homeScreen";
 
@@ -131,6 +139,22 @@ class AppRoute {
     GetPage(
       name: deliveryActiveJob,
       page: () => const ActiveJobScreen(),
+    ),
+    GetPage(
+      name: deliveryNavigation,
+      page: () => const DeliveryNavigationScreen(),
+    ),
+    GetPage(
+      name: deliveryConfirmation,
+      page: () => const DeliveryConfirmationScreen(),
+    ),
+    GetPage(
+      name: deliveryComplete,
+      page: () => const DeliveryCompleteScreen(),
+    ),
+    GetPage(
+      name: deliveryHistory,
+      page: () => const JobHistoryScreen(),
     ),
   ];
 }

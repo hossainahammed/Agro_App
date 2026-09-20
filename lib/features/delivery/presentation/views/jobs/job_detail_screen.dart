@@ -5,13 +5,16 @@ import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import '../../controllers/available_jobs_controller.dart';
 import '../widgets/delivery_icons.dart';
+import '../navigation/delivery_navigation_screen.dart';
 
 class JobDetailScreen extends StatelessWidget {
   final MissionModel mission;
+  final bool isAccepted;
 
   const JobDetailScreen({
     super.key,
     required this.mission,
+    this.isAccepted = false,
   });
 
   @override
@@ -1216,86 +1219,126 @@ class JobDetailScreen extends StatelessWidget {
         ],
       ),
       padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 18.h),
-      child: Row(
-        children: [
-          // Decline Button
-          Expanded(
-            flex: 3,
-            child: OutlinedButton(
-              onPressed: () {
-                controller.declineMission(mission);
-                Get.back();
-              },
-              style: OutlinedButton.styleFrom(
-                backgroundColor: const Color(0xFFF8FAFC),
-                foregroundColor: const Color(0xFF64748B),
-                side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.close_rounded, size: 16, color: Color(0xFF64748B)),
-                  SizedBox(width: 4.w),
-                  Text(
-                    "Decline",
-                    style: GoogleFonts.inter(
-                      fontSize: 13.5.sp,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF64748B),
-                      height: 1.2,
-                    ),
+      child: isAccepted
+          ? SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.to(() => DeliveryNavigationScreen(mission: mission));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF236830),
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  minimumSize: Size(double.infinity, 52.h),
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14.r),
                   ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(width: 12.w),
-
-          // Accept Mission Button
-          Expanded(
-            flex: 5,
-            child: ElevatedButton(
-              onPressed: () {
-                controller.acceptMission(mission);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF236830),
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const NavigationArrowIcon(
-                    size: 16,
-                    color: Colors.white,
-                    strokeWidth: 2.2,
-                  ),
-                  SizedBox(width: 8.w),
-                  Text(
-                    "Accept Mission",
-                    style: GoogleFonts.inter(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const NavigationArrowIcon(
+                      size: 17,
                       color: Colors.white,
-                      height: 1.2,
+                      strokeWidth: 2.2,
+                    ),
+                    SizedBox(width: 8.w),
+                    Text(
+                      "Start Navigation",
+                      style: GoogleFonts.inter(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        height: 1.2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : Row(
+              children: [
+                // Decline Button
+                Expanded(
+                  flex: 3,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      controller.declineMission(mission);
+                      Get.back();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color(0xFFF8FAFC),
+                      foregroundColor: const Color(0xFF64748B),
+                      side: const BorderSide(color: Color(0xFFE2E8F0), width: 1.2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.close_rounded, size: 16, color: Color(0xFF64748B)),
+                        SizedBox(width: 4.w),
+                        Text(
+                          "Decline",
+                          style: GoogleFonts.inter(
+                            fontSize: 13.5.sp,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF64748B),
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(width: 12.w),
+
+                // Accept Mission Button
+                Expanded(
+                  flex: 5,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      controller.acceptMission(mission);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF236830),
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const NavigationArrowIcon(
+                          size: 16,
+                          color: Colors.white,
+                          strokeWidth: 2.2,
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          "Accept Mission",
+                          style: GoogleFonts.inter(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            height: 1.2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }
