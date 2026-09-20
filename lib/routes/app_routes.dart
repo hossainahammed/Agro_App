@@ -31,6 +31,7 @@ import '../features/delivery/presentation/views/navigation/delivery_navigation_s
 import '../features/delivery/presentation/views/confirmation/delivery_confirmation_screen.dart';
 import '../features/delivery/presentation/views/confirmation/delivery_complete_screen.dart';
 import '../features/delivery/presentation/views/jobs/job_history_screen.dart';
+import '../features/delivery/presentation/views/jobs/delivered_mission_detail_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -51,6 +52,7 @@ class AppRoute {
   static String deliveryConfirmation = "/deliveryConfirmation";
   static String deliveryComplete = "/deliveryComplete";
   static String deliveryHistory = "/deliveryHistory";
+  static String deliveredMissionDetail = "/deliveredMissionDetail";
 
   static String homeScreen = "/homeScreen";
 
@@ -155,6 +157,10 @@ class AppRoute {
     GetPage(
       name: deliveryHistory,
       page: () => const JobHistoryScreen(),
+    ),
+    GetPage(
+      name: deliveredMissionDetail,
+      page: () => const DeliveredMissionDetailScreen(),
     ),
   ];
 }

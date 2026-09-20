@@ -80,19 +80,22 @@ class DeliveryMainScreen extends StatelessWidget {
             ),
             _buildNavItem(
               index: 1,
-              iconBuilder: (color) => NavMissionsIcon(color: color, size: 22.sp),
+              iconBuilder: (color) =>
+                  NavMissionsIcon(color: color, size: 22.sp),
               label: "Missions",
               controller: controller,
             ),
             _buildNavItem(
               index: 2,
-              iconBuilder: (color) => NavEarningsIcon(color: color, size: 22.sp),
+              iconBuilder: (color) =>
+                  NavEarningsIcon(color: color, size: 22.sp),
               label: "Earnings",
               controller: controller,
             ),
             _buildNavItem(
               index: 3,
-              iconBuilder: (color) => NavMessagesIcon(color: color, size: 22.sp),
+              iconBuilder: (color) =>
+                  NavMessagesIcon(color: color, size: 22.sp),
               label: "Messages",
               controller: controller,
               badgeCount: controller.unreadMessages.value,
@@ -117,7 +120,9 @@ class DeliveryMainScreen extends StatelessWidget {
     int? badgeCount,
   }) {
     final isSelected = controller.currentIndex.value == index;
-    final itemColor = isSelected ? const Color(0xFF236830) : const Color(0xFF7A8C80);
+    final itemColor = isSelected
+        ? const Color(0xFF236830)
+        : const Color(0xFF7A8C80);
 
     return GestureDetector(
       onTap: () => controller.changeIndex(index),
@@ -137,9 +142,14 @@ class DeliveryMainScreen extends StatelessWidget {
                     top: -4.h,
                     right: -7.w,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 4.w,
+                        vertical: 1.5.h,
+                      ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE53935), // Vibrant red notification badge
+                        color: const Color(
+                          0xFFE53935,
+                        ), // Vibrant red notification badge
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.white, width: 1.5),
                       ),
@@ -181,7 +191,9 @@ class DeliveryMainScreen extends StatelessWidget {
               width: isSelected ? 16.w : 0,
               height: 3.h,
               decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFF236830) : Colors.transparent,
+                color: isSelected
+                    ? const Color(0xFF236830)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(2.r),
               ),
             ),
@@ -369,7 +381,11 @@ class _NavEarningsPainter extends CustomPainter {
     final sy = size.height / 24.0;
 
     // Center vertical stroke
-    canvas.drawLine(Offset(12 * sx, 2.5 * sy), Offset(12 * sx, 21.5 * sy), paint);
+    canvas.drawLine(
+      Offset(12 * sx, 2.5 * sy),
+      Offset(12 * sx, 21.5 * sy),
+      paint,
+    );
 
     // S curve path
     final sPath = Path()
@@ -501,7 +517,14 @@ class _NavProfilePainter extends CustomPainter {
     final shoulderPath = Path()
       ..moveTo(4.5 * sx, 20.5 * sy)
       ..cubicTo(5.5 * sx, 15.5 * sy, 8.5 * sx, 14.5 * sy, 12 * sx, 14.5 * sy)
-      ..cubicTo(15.5 * sx, 14.5 * sy, 18.5 * sx, 15.5 * sy, 19.5 * sx, 20.5 * sy);
+      ..cubicTo(
+        15.5 * sx,
+        14.5 * sy,
+        18.5 * sx,
+        15.5 * sy,
+        19.5 * sx,
+        20.5 * sy,
+      );
 
     canvas.drawPath(shoulderPath, paint);
   }
