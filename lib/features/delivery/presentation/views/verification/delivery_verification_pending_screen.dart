@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
-import 'package:project_structure/features/role_selection/screen/role_selection_screen.dart';
+import '../delivery_main_screen.dart';
 import '../../controllers/delivery_verification_controller.dart';
 
 class DeliveryVerificationPendingScreen extends StatelessWidget {
@@ -138,11 +138,10 @@ class DeliveryVerificationPendingScreen extends StatelessWidget {
                       height: 52.h,
                       child: ElevatedButton(
                         onPressed: () {
-                          AppSnackBar.info(
-                            "Your driver account is currently undergoing verification.",
+                          AppSnackBar.success(
+                            "Welcome to your Driver Dashboard!",
                           );
-                          // Seamless transition back to login or role selection
-                          Get.offAll(() => const RoleSelectionScreen());
+                          Get.offAll(() => const DeliveryMainScreen());
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFE8F3ED),

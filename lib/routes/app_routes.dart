@@ -23,6 +23,8 @@ import '../features/delivery/presentation/views/account_creation/delivery_phone_
 import '../features/delivery/presentation/views/verification/delivery_identity_verify_screen.dart';
 import '../features/delivery/presentation/views/verification/delivery_vehicle_docs_screen.dart';
 import '../features/delivery/presentation/views/verification/delivery_verification_pending_screen.dart';
+import '../features/delivery/presentation/views/delivery_main_screen.dart';
+import '../features/delivery/presentation/views/delivery_dashboard_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -35,6 +37,8 @@ class AppRoute {
   static String deliveryIdentityVerify = "/deliveryIdentityVerify";
   static String deliveryVehicleDocs = "/deliveryVehicleDocs";
   static String deliveryVerificationPending = "/deliveryVerificationPending";
+  static String deliveryMain = "/deliveryMain";
+  static String deliveryDashboard = "/deliveryDashboard";
 
   static String homeScreen = "/homeScreen";
 
@@ -107,6 +111,14 @@ class AppRoute {
     GetPage(
       name: deliveryVerificationPending,
       page: () => const DeliveryVerificationPendingScreen(),
+    ),
+    GetPage(
+      name: deliveryMain,
+      page: () => const DeliveryMainScreen(),
+    ),
+    GetPage(
+      name: deliveryDashboard,
+      page: () => const DeliveryDashboardScreen(),
     ),
   ];
 }
