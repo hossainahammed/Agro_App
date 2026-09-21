@@ -4,16 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:project_structure/core/utils/constants/app_colors.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 
-class ProducerTermsPrivacyScreen extends StatefulWidget {
-  const ProducerTermsPrivacyScreen({super.key});
+class DeliveryTermsPrivacyScreen extends StatefulWidget {
+  const DeliveryTermsPrivacyScreen({super.key});
 
   @override
-  State<ProducerTermsPrivacyScreen> createState() =>
-      _ProducerTermsPrivacyScreenState();
+  State<DeliveryTermsPrivacyScreen> createState() => _DeliveryTermsPrivacyScreenState();
 }
 
-class _ProducerTermsPrivacyScreenState
-    extends State<ProducerTermsPrivacyScreen> {
+class _DeliveryTermsPrivacyScreenState extends State<DeliveryTermsPrivacyScreen> {
   bool _isAgreed = false;
 
   @override
@@ -34,7 +32,7 @@ class _ProducerTermsPrivacyScreenState
                     style: GoogleFonts.inter(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                      color: const Color(0xFF111827),
                     ),
                   ),
                   SizedBox(height: 12.h),
@@ -42,17 +40,11 @@ class _ProducerTermsPrivacyScreenState
                   // White terms box
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 20.h,
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(
-                        color: const Color(0xFFE5ECE8),
-                        width: 1,
-                      ),
+                      border: Border.all(color: const Color(0xFFE5EDE6), width: 1),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,19 +125,19 @@ class _ProducerTermsPrivacyScreenState
                       width: 20.w,
                       height: 20.w,
                       decoration: BoxDecoration(
-                        color: _isAgreed
-                            ? const Color(0xFF236830)
-                            : Colors.white,
+                        color: _isAgreed ? const Color(0xFF236830) : Colors.white,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: _isAgreed
-                              ? const Color(0xFF236830)
-                              : const Color(0xFF9CA3AF),
+                          color: _isAgreed ? const Color(0xFF236830) : const Color(0xFF9CA3AF),
                           width: 1.8,
                         ),
                       ),
                       child: _isAgreed
-                          ? Icon(Icons.check, size: 13.sp, color: Colors.white)
+                          ? Icon(
+                              Icons.check,
+                              size: 13.sp,
+                              color: Colors.white,
+                            )
                           : null,
                     ),
                     SizedBox(width: 10.w),
@@ -154,9 +146,7 @@ class _ProducerTermsPrivacyScreenState
                       style: GoogleFonts.inter(
                         fontSize: 13.5.sp,
                         fontWeight: FontWeight.w600,
-                        color: _isAgreed
-                            ? const Color(0xFF236830)
-                            : const Color(0xFF374151),
+                        color: _isAgreed ? const Color(0xFF236830) : const Color(0xFF374151),
                       ),
                     ),
                   ],
@@ -229,8 +219,8 @@ class _ProducerTermsPrivacyScreenState
             title,
             style: GoogleFonts.inter(
               fontSize: 12.5.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF111827),
             ),
           ),
           SizedBox(height: 6.h),
@@ -238,7 +228,7 @@ class _ProducerTermsPrivacyScreenState
             body,
             style: GoogleFonts.inter(
               fontSize: 11.5.sp,
-              color: AppColors.textSecondary,
+              color: const Color(0xFF4B5563),
               height: 1.45,
             ),
           ),
@@ -255,8 +245,8 @@ class _ProducerTermsPrivacyScreenState
           title,
           style: GoogleFonts.inter(
             fontSize: 12.5.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF111827),
           ),
         ),
         SizedBox(height: 6.h),
@@ -264,7 +254,7 @@ class _ProducerTermsPrivacyScreenState
           text: TextSpan(
             style: GoogleFonts.inter(
               fontSize: 11.5.sp,
-              color: AppColors.textSecondary,
+              color: const Color(0xFF4B5563),
               height: 1.45,
             ),
             children: [

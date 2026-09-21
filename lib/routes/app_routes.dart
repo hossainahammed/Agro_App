@@ -35,6 +35,13 @@ import '../features/delivery/presentation/views/jobs/delivered_mission_detail_sc
 import '../features/delivery/presentation/views/earnings/withdraw_earnings_screen.dart';
 import '../features/delivery/presentation/views/earnings/withdrawal_requested_screen.dart';
 import '../features/delivery/presentation/views/earnings/withdrawal_success_screen.dart';
+import '../features/delivery/presentation/views/profile/delivery_edit_profile_screen.dart';
+import '../features/delivery/presentation/views/profile/delivery_vehicle_screen.dart';
+import '../features/delivery/presentation/views/profile/delivery_documents_screen.dart';
+import '../features/delivery/presentation/views/profile/delivery_settings_screen.dart';
+import '../features/delivery/presentation/views/profile/delivery_change_password_screen.dart';
+import '../features/delivery/presentation/views/profile/delivery_help_support_screen.dart';
+import '../features/delivery/presentation/views/profile/delivery_terms_privacy_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -59,6 +66,13 @@ class AppRoute {
   static String deliveryWithdraw = "/deliveryWithdraw";
   static String deliveryWithdrawRequested = "/deliveryWithdrawRequested";
   static String deliveryWithdrawSuccess = "/deliveryWithdrawSuccess";
+  static String deliveryEditProfile = "/deliveryEditProfile";
+  static String deliveryVehicle = "/deliveryVehicle";
+  static String deliveryDocuments = "/deliveryDocuments";
+  static String deliverySettings = "/deliverySettings";
+  static String deliveryChangePassword = "/deliveryChangePassword";
+  static String deliveryHelpSupport = "/deliveryHelpSupport";
+  static String deliveryTermsPrivacy = "/deliveryTermsPrivacy";
 
   static String homeScreen = "/homeScreen";
 
@@ -179,6 +193,34 @@ class AppRoute {
     GetPage(
       name: deliveryWithdrawSuccess,
       page: () => WithdrawalSuccessScreen(),
+    ),
+    GetPage(
+      name: deliveryEditProfile,
+      page: () => const DeliveryEditProfileScreen(),
+    ),
+    GetPage(
+      name: deliveryVehicle,
+      page: () => const DeliveryVehicleScreen(),
+    ),
+    GetPage(
+      name: deliveryDocuments,
+      page: () => const DeliveryDocumentsScreen(),
+    ),
+    GetPage(
+      name: deliverySettings,
+      page: () => const DeliverySettingsScreen(),
+    ),
+    GetPage(
+      name: deliveryChangePassword,
+      page: () => const DeliveryChangePasswordScreen(),
+    ),
+    GetPage(
+      name: deliveryHelpSupport,
+      page: () => const DeliveryHelpSupportScreen(),
+    ),
+    GetPage(
+      name: deliveryTermsPrivacy,
+      page: () => const DeliveryTermsPrivacyScreen(),
     ),
   ];
 }

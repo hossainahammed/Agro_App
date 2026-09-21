@@ -9,7 +9,9 @@ class DeliveryVehicleDocsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<DeliveryVerificationController>();
+    final controller = Get.isRegistered<DeliveryVerificationController>()
+        ? Get.find<DeliveryVerificationController>()
+        : Get.put(DeliveryVerificationController());
 
     return Scaffold(
       backgroundColor: const Color(0xFFEDF4EE), // Signature soft sage-mint
