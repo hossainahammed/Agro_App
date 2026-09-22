@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:project_structure/core/common/widgets/app_snackber.dart';
-import 'package:project_structure/features/authentication/presentation/screens/login_screen.dart';
+import '../views/buyer_main_screen.dart';
 
 class BuyerPhoneVerifyController extends GetxController {
   final String rawPhoneNumber;
@@ -16,7 +16,7 @@ class BuyerPhoneVerifyController extends GetxController {
   final TextEditingController otpController = TextEditingController();
   final FocusNode focusNode = FocusNode();
 
-  final RxInt remainingSeconds = 30.obs;
+  final RxInt remainingSeconds = 17.obs;
   final RxBool isResendClickable = false.obs;
   final RxBool isLoading = false.obs;
   final RxString currentOtp = ''.obs;
@@ -28,10 +28,10 @@ class BuyerPhoneVerifyController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    startCountdown(30);
+    startCountdown(17);
   }
 
-  void startCountdown([int seconds = 30]) {
+  void startCountdown([int seconds = 17]) {
     _timer?.cancel();
     remainingSeconds.value = seconds;
     isResendClickable.value = false;
@@ -79,7 +79,7 @@ class BuyerPhoneVerifyController extends GetxController {
 
     otpController.clear();
     currentOtp.value = '';
-    startCountdown(30);
+    startCountdown(17);
 
     AppSnackBar.success('A new verification code has been sent!');
   }
@@ -94,13 +94,13 @@ class BuyerPhoneVerifyController extends GetxController {
 
     isLoading.value = true;
 
-    Future.delayed(const Duration(milliseconds: 1200), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       isLoading.value = false;
 
       if (enteredOtp == demoOtp || enteredOtp.length == 6) {
-        AppSnackBar.success('Buyer account verified and created successfully!');
-        Future.delayed(const Duration(milliseconds: 700), () {
-          Get.offAll(() => LoginScreen());
+        AppSnackBar.success('Phone verified! Welcome to AgroConnect.');
+        Future.delayed(const Duration(milliseconds: 500), () {
+          Get.offAll(() => const BuyerMainScreen());
         });
       } else {
         AppSnackBar.error('Invalid code. Please enter the demo code: $demoOtp');

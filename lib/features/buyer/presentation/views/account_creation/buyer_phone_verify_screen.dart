@@ -9,18 +9,14 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
   final String? phoneNumber;
   final String? countryCode;
 
-  const BuyerPhoneVerifyScreen({
-    super.key,
-    this.phoneNumber,
-    this.countryCode,
-  });
+  const BuyerPhoneVerifyScreen({super.key, this.phoneNumber, this.countryCode});
 
   @override
   Widget build(BuildContext context) {
-    final String resolvedPhone = phoneNumber ??
-        (Get.arguments?['phone'] as String? ?? '8000000000');
-    final String resolvedCountryCode = countryCode ??
-        (Get.arguments?['countryCode'] as String? ?? '+234');
+    final String resolvedPhone =
+        phoneNumber ?? (Get.arguments?['phone'] as String? ?? '8000000000');
+    final String resolvedCountryCode =
+        countryCode ?? (Get.arguments?['countryCode'] as String? ?? '+234');
 
     final controller = Get.put(
       BuyerPhoneVerifyController(
@@ -29,6 +25,9 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
       ),
     );
 
+    // ========================================================
+    // PINPUT THEMES (Matching Delivery / Auth Styling)
+    // ========================================================
     final defaultPinTheme = PinTheme(
       width: 46.w,
       height: 52.h,
@@ -40,19 +39,13 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(
-          color: const Color(0xFFD6E3D8),
-          width: 1.2,
-        ),
+        border: Border.all(color: const Color(0xFFD6E3D8), width: 1.2),
       ),
     );
 
     final focusedPinTheme = defaultPinTheme.copyWith(
       decoration: defaultPinTheme.decoration?.copyWith(
-        border: Border.all(
-          color: const Color(0xFF236830),
-          width: 1.6,
-        ),
+        border: Border.all(color: const Color(0xFF236830), width: 1.6),
       ),
     );
 
@@ -64,29 +57,33 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
       ),
       decoration: defaultPinTheme.decoration?.copyWith(
         color: const Color(0xFF236830),
-        border: Border.all(
-          color: const Color(0xFF236830),
-          width: 1.2,
-        ),
+        border: Border.all(color: const Color(0xFF236830), width: 1.2),
       ),
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFF173E20),
+      backgroundColor: const Color(0xFF173E20), // Dark forest green top
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
           child: Column(
             children: [
+              // ========================================================
+              // 1. TOP HEADER (Forest Green Curved with Phone Badge)
+              // ========================================================
               _buildTopHeader(context),
+
+              // ========================================================
+              // 2. BODY CARD CONTAINER (Soft Mint-Sage)
+              // ========================================================
               Container(
                 width: double.infinity,
                 constraints: BoxConstraints(
                   minHeight: MediaQuery.of(context).size.height - 230.h,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEDF4EE),
+                  color: const Color(0xFFEDF4EE), // Signature soft sage-mint
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(28.r),
                     topRight: Radius.circular(28.r),
@@ -97,6 +94,7 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    // Title
                     Text(
                       "Verify Your Phone Number",
                       textAlign: TextAlign.center,
@@ -108,6 +106,8 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8.h),
+
+                    // Subtitle
                     Text(
                       "We sent a 6-digit verification code to",
                       textAlign: TextAlign.center,
@@ -118,6 +118,8 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 4.h),
+
+                    // Phone Number with "Change" Link
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -144,6 +146,8 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 28.h),
+
+                    // 6-Digit Pin Input
                     Center(
                       child: Pinput(
                         length: 6,
@@ -160,6 +164,8 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 24.h),
+
+                    // Countdown Timer / Resend Row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -197,6 +203,8 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 28.h),
+
+                    // Verify Phone Number Button
                     Obx(
                       () => SizedBox(
                         width: double.infinity,
@@ -212,8 +220,9 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(28.r),
                             ),
-                            disabledBackgroundColor:
-                                const Color(0xFF236830).withValues(alpha: 0.6),
+                            disabledBackgroundColor: const Color(
+                              0xFF236830,
+                            ).withValues(alpha: 0.6),
                           ),
                           child: controller.isLoading.value
                               ? SizedBox(
@@ -238,6 +247,8 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16.h),
+
+                    // Disclaimer text
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Text(
@@ -251,7 +262,9 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 40.h),
+                    SizedBox(height: 50.h),
+
+                    // Demo code pill badge (matching DeliveryPhoneVerifyScreen)
                     GestureDetector(
                       onTap: controller.applyDemoCode,
                       child: Container(
@@ -274,20 +287,37 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Container(
-                              width: 8.h,
-                              height: 8.h,
+                              width: 7.h,
+                              height: 7.h,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Color(0xFF4CAF50),
                               ),
                             ),
-                            SizedBox(width: 8.w),
-                            Text(
-                              "Tap to fill demo OTP (${BuyerPhoneVerifyController.demoOtp})",
-                              style: GoogleFonts.inter(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                            SizedBox(width: 7.w),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Demo code: ",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 11.sp,
+                                      color: Colors.white.withValues(
+                                        alpha: 0.8,
+                                      ),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: BuyerPhoneVerifyController.demoOtp,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 11.sp,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -304,9 +334,13 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
     );
   }
 
+  // ========================================================
+  // TOP HEADER WIDGET (With central telephone badge & glowing rings)
+  // ========================================================
   Widget _buildTopHeader(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: 220.h,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -316,9 +350,22 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
       ),
       child: Stack(
         children: [
+          // Decorative Soft Circles
           Positioned(
-            right: -40.w,
-            top: -30.h,
+            left: -30.w,
+            top: 20.h,
+            child: Container(
+              width: 140.h,
+              height: 140.h,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.04),
+              ),
+            ),
+          ),
+          Positioned(
+            right: -30.w,
+            top: -20.h,
             child: Container(
               width: 170.h,
               height: 170.h,
@@ -328,83 +375,65 @@ class BuyerPhoneVerifyScreen extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 24.h),
+
+          // Circular Back Button (Top Left)
+          Positioned(
+            left: 20.w,
+            top: 14.h,
+            child: GestureDetector(
+              onTap: () => Get.back(),
+              child: Container(
+                width: 40.h,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.16),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+
+          // Central Telephone Badge (Glow + Green Circle + Phone Icon)
+          Center(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () => Get.back(),
-                  child: Container(
-                    width: 40.h,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.16),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                      size: 20.sp,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 18.h),
+                SizedBox(height: 14.h),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
-                    vertical: 5.h,
-                  ),
+                  width: 86.h,
+                  height: 86.h,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.14),
-                    borderRadius: BorderRadius.circular(20.r),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.1),
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.08),
+                  ),
+                  child: Center(
+                    child: Container(
+                      width: 64.h,
+                      height: 64.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: const Color(0xFF2E8A49),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.25),
+                            blurRadius: 14,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.phone_outlined,
+                        color: Colors.white,
+                        size: 28.sp,
+                      ),
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        width: 7.h,
-                        height: 7.h,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF4CAF50),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      SizedBox(width: 7.w),
-                      Text(
-                        "Buyer Account",
-                        style: GoogleFonts.inter(
-                          fontSize: 12.sp,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
-                SizedBox(height: 12.h),
-                Text(
-                  "Phone Verification",
-                  style: GoogleFonts.inter(
-                    fontSize: 25.sp,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-                SizedBox(height: 6.h),
-                Text(
-                  "One last step to start buying fresh produce directly",
-                  style: GoogleFonts.inter(
-                    fontSize: 13.sp,
-                    color: Colors.white.withValues(alpha: 0.85),
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(height: 8.h),
               ],
             ),
           ),

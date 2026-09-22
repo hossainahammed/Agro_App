@@ -44,6 +44,8 @@ import '../features/delivery/presentation/views/profile/delivery_help_support_sc
 import '../features/delivery/presentation/views/profile/delivery_terms_privacy_screen.dart';
 import '../features/buyer/presentation/views/account_creation/buyer_account_creation_screen.dart';
 import '../features/buyer/presentation/views/account_creation/buyer_phone_verify_screen.dart';
+import '../features/buyer/presentation/views/buyer_main_screen.dart';
+import '../features/buyer/presentation/views/buyer_dashboard_screen.dart';
 
 class AppRoute {
   // Auth Section
@@ -53,6 +55,8 @@ class AppRoute {
   static String signUpScreen = "/signUpScreen";
   static String buyerAccountCreation = "/buyerAccountCreation";
   static String buyerPhoneVerify = "/buyerPhoneVerify";
+  static String buyerMain = "/buyerMain";
+  static String buyerDashboard = "/buyerDashboard";
   static String deliveryAccountCreation = "/deliveryAccountCreation";
   static String deliveryPhoneVerify = "/deliveryPhoneVerify";
   static String deliveryIdentityVerify = "/deliveryIdentityVerify";
@@ -141,6 +145,14 @@ class AppRoute {
     GetPage(
       name: buyerPhoneVerify,
       page: () => const BuyerPhoneVerifyScreen(),
+    ),
+    GetPage(
+      name: buyerMain,
+      page: () => const BuyerMainScreen(),
+    ),
+    GetPage(
+      name: buyerDashboard,
+      page: () => const BuyerDashboardScreen(),
     ),
     GetPage(
       name: deliveryPhoneVerify,
