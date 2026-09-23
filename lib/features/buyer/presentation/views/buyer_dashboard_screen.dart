@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:project_structure/core/utils/constants/app_sizer.dart';
 import 'package:project_structure/features/notification/presentation/views/notification_screen.dart';
+import 'orders/order_list_screen.dart';
 import '../controllers/buyer_home_controller.dart';
 import '../../data/models/buyer_product_model.dart';
 
@@ -32,11 +33,16 @@ class BuyerDashboardScreen extends StatelessWidget {
 
                 // Scrollable Body
                 Expanded(
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                  child: GestureDetector(
+                    onTap: () => FocusScope.of(context).unfocus(),
+                    behavior: HitTestBehavior.translucent,
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      keyboardDismissBehavior:
+                          ScrollViewKeyboardDismissBehavior.onDrag,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                         // --- Category Chips Carousel (from Image 2) ---
                         _buildCategoryCarousel(controller),
 
@@ -51,8 +57,9 @@ class BuyerDashboardScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
 
             // ========================================================
             // SAVED ADDRESSES DROPDOWN OVERLAY (Matching Attached Mockup)
@@ -181,16 +188,16 @@ class BuyerDashboardScreen extends StatelessWidget {
                 ),
               ),
 
-              // Right Actions: Scanner & Notification Bell
+              // Right Actions: Order Notes & Eco / Tree badge (matching attached mockup)
               Row(
                 children: [
-                  // Receipt / Scanner Icon Button
+                  // Order Notes / Scan Document Icon Button
                   Container(
-                    width: 38.h,
-                    height: 38.h,
+                    width: 36.h,
+                    height: 36.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.14),
-                      borderRadius: BorderRadius.circular(12.r),
+                      borderRadius: BorderRadius.circular(10.r),
                       border: Border.all(
                         color: Colors.white.withValues(alpha: 0.1),
                       ),
@@ -198,57 +205,37 @@ class BuyerDashboardScreen extends StatelessWidget {
                     child: IconButton(
                       padding: EdgeInsets.zero,
                       icon: Icon(
-                        Icons.qr_code_scanner_rounded,
+                        Icons.assignment_outlined,
                         color: Colors.white,
                         size: 19.sp,
                       ),
                       onPressed: () {
-                        Get.snackbar(
-                          "Scan Produce QR",
-                          "Farmer code scanner ready.",
-                          colorText: Colors.white,
-                          backgroundColor: const Color(0xFF236830),
-                        );
+                        Get.to(() => const OrderListScreen());
                       },
                     ),
                   ),
-                  SizedBox(width: 10.w),
+                  SizedBox(width: 8.w),
 
-                  // Notification Bell with Unread Dot
+                  // Eco / Tree Circular Badge
                   GestureDetector(
-                    onTap: () => Get.to(() => const NotificationScreen()),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Container(
-                          width: 38.h,
-                          height: 38.h,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.14),
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.1),
-                            ),
-                          ),
-                          child: Icon(
-                            Icons.notifications_outlined,
-                            color: Colors.white,
-                            size: 20.sp,
-                          ),
+                    onTap: () {
+                      Get.to(() => const NotificationScreen());
+                    },
+                    child: Container(
+                      width: 36.h,
+                      height: 36.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.14),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.1),
                         ),
-                        Positioned(
-                          right: 4.w,
-                          top: 4.h,
-                          child: Container(
-                            width: 8.h,
-                            height: 8.h,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xFF5CD87A),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
+                      child: Icon(
+                        Icons.park_outlined,
+                        color: Colors.white,
+                        size: 20.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -258,71 +245,109 @@ class BuyerDashboardScreen extends StatelessWidget {
 
           SizedBox(height: 14.h),
 
-          // Row 2: Search Bar with Tuning Filter Button
-          Container(
-            height: 48.h,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24.r),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
-                  blurRadius: 10,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 14.w),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.search_rounded,
-                  color: const Color(0xFF7D8F83),
-                  size: 21.sp,
-                ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: TextField(
-                    controller: controller.searchController,
-                    onChanged: controller.onSearchChanged,
-                    style: GoogleFonts.inter(
-                      fontSize: 13.5.sp,
-                      color: const Color(0xFF1E2D24),
-                      fontWeight: FontWeight.w500,
+          // Row 2: Search Bar with Whole-Container Focus & Tuning Filter Button
+          Obx(() {
+            final isFocused = controller.isSearchFocused.value;
+
+            return GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(controller.searchFocusNode);
+              },
+              behavior: HitTestBehavior.opaque,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                height: 48.h,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24.r),
+                  border: Border.all(
+                    color: isFocused
+                        ? const Color(0xFF236830)
+                        : Colors.transparent,
+                    width: 2.0,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: isFocused
+                          ? const Color(0xFF236830).withValues(alpha: 0.25)
+                          : Colors.black.withValues(alpha: 0.08),
+                      blurRadius: isFocused ? 14 : 10,
+                      offset: const Offset(0, 3),
                     ),
-                    decoration: InputDecoration(
-                      hintText: "Search fresh produce, farms...",
-                      hintStyle: GoogleFonts.inter(
-                        fontSize: 13.sp,
-                        color: const Color(0xFF8A9B8F),
-                        fontWeight: FontWeight.w400,
+                  ],
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.search_rounded,
+                      color: isFocused
+                          ? const Color(0xFF236830)
+                          : const Color(0xFF7D8F83),
+                      size: 21.sp,
+                    ),
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: TextField(
+                        controller: controller.searchController,
+                        focusNode: controller.searchFocusNode,
+                        onChanged: controller.onSearchChanged,
+                        style: GoogleFonts.inter(
+                          fontSize: 13.5.sp,
+                          color: const Color(0xFF1E2D24),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: "Search fresh produce, farms...",
+                          hintStyle: GoogleFonts.inter(
+                            fontSize: 13.sp,
+                            color: const Color(0xFF8A9B8F),
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.zero,
+                        ),
                       ),
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.zero,
                     ),
-                  ),
+                    if (controller.searchQuery.value.isNotEmpty)
+                      GestureDetector(
+                        onTap: () {
+                          controller.searchController.clear();
+                          controller.onSearchChanged('');
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 6.w),
+                          child: Icon(
+                            Icons.close_rounded,
+                            color: const Color(0xFF7D8F83),
+                            size: 18.sp,
+                          ),
+                        ),
+                      ),
+                    // Filter tuning button (opens saved addresses / search filter popup)
+                    GestureDetector(
+                      onTap: controller.toggleAddressDropdown,
+                      behavior: HitTestBehavior.opaque,
+                      child: Container(
+                        width: 32.h,
+                        height: 32.h,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFE2EFE4),
+                          borderRadius: BorderRadius.circular(16.r),
+                        ),
+                        child: Icon(
+                          Icons.tune_rounded,
+                          color: const Color(0xFF236830),
+                          size: 17.sp,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                // Filter tuning button
-                GestureDetector(
-                  onTap: () => _showFilterBottomSheet(context, controller),
-                  child: Container(
-                    width: 32.h,
-                    height: 32.h,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFE2EFE4),
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: Icon(
-                      Icons.tune_rounded,
-                      color: const Color(0xFF236830),
-                      size: 17.sp,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          }),
         ],
       ),
     );
@@ -414,7 +439,7 @@ class BuyerDashboardScreen extends StatelessWidget {
                         ),
                         if (isSelected)
                           Icon(
-                            Icons.check_circle_outline_rounded,
+                            Icons.my_location_rounded,
                             color: const Color(0xFF236830),
                             size: 18.sp,
                           ),

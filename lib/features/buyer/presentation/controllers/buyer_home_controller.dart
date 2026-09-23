@@ -10,13 +10,15 @@ class BuyerHomeController extends GetxController {
 
   final RxList<String> savedAddresses = <String>[
     '14 Bello Road, Kano',
-    '12 Marina St., Lagos',
+    '12 Marina St, Lagos',
     'Plot 5, Abuja',
   ].obs;
 
   // Search
   final searchController = TextEditingController();
+  final FocusNode searchFocusNode = FocusNode();
   final RxString searchQuery = ''.obs;
+  final RxBool isSearchFocused = false.obs;
 
   // Categories exactly as attached by user
   static const List<Map<String, String>> categories = [
@@ -121,12 +123,12 @@ class BuyerHomeController extends GetxController {
     BuyerProductModel(
       id: 'prod_6',
       title: 'Cassava Flour',
-      farmName: 'Adaeze Mills',
+      farmName: 'Abacos Mills',
       isFarmVerified: true,
       price: 3100,
       unit: 'bag',
       rating: 4.7,
-      ratingCount: 44,
+      ratingCount: 64,
       category: 'Tubers',
       imageUrl:
           'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500',
@@ -137,10 +139,10 @@ class BuyerHomeController extends GetxController {
       title: 'Ripe Plantain',
       farmName: 'Delta Harvest',
       isFarmVerified: false,
-      price: 1250,
+      price: 1200,
       unit: 'bunch',
       rating: 4.4,
-      ratingCount: 28,
+      ratingCount: 78,
       category: 'Fruits',
       badges: ['ORGANIC'],
       imageUrl:
@@ -155,7 +157,7 @@ class BuyerHomeController extends GetxController {
       price: 3500,
       unit: 'kg',
       rating: 4.8,
-      ratingCount: 71,
+      ratingCount: 91,
       category: 'Spices',
       badges: ['HOT', 'ORGANIC'],
       imageUrl:
@@ -170,6 +172,9 @@ class BuyerHomeController extends GetxController {
   void onInit() {
     super.onInit();
     filteredProducts.assignAll(allProducts);
+    searchFocusNode.addListener(() {
+      isSearchFocused.value = searchFocusNode.hasFocus;
+    });
   }
 
   void toggleAddressDropdown() {
@@ -289,6 +294,7 @@ class BuyerHomeController extends GetxController {
   @override
   void onClose() {
     searchController.dispose();
+    searchFocusNode.dispose();
     super.onClose();
   }
 }
